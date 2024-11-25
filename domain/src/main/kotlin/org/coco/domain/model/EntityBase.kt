@@ -4,6 +4,7 @@ import jakarta.persistence.Column
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.Id
 import jakarta.persistence.MappedSuperclass
+import org.coco.domain.utils.currentClock
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -13,8 +14,8 @@ import java.time.LocalDateTime
 @EntityListeners(AuditingEntityListener::class)
 abstract class EntityBase(
     id: BinaryId,
-    createdAt: LocalDateTime,
-    updatedAt: LocalDateTime,
+    createdAt: LocalDateTime = LocalDateTime.now(currentClock()),
+    updatedAt: LocalDateTime = LocalDateTime.now(currentClock()),
 ) {
     @Id
     @Column(name = "id", columnDefinition = "BINARY(16)", unique = true, nullable = false, updatable = false)

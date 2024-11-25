@@ -8,3 +8,4 @@ include("domain")
 include("infra")
 include("infra:infra-jpa")
 findProject(":infra:infra-jpa")?.name = "infra-jpa"
+include("sample-project")
