@@ -47,6 +47,7 @@ spring-boot-devtools = { group = "org.springframework.boot", name = "spring-boot
 spring-mockk = { group = "com.ninja-squad", name = "springmockk", version = "4.0.2" }
 spring-boot-data-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa", version.ref = "spring-boot" }
 spring-data-core = { module = "org.springframework.data:spring-data-commons", version.ref = "spring-boot" }
+spring-data-envers = { module = "org.springframework.data:spring-data-envers", version.ref = "spring-boot" }
 bouncycastle-crypto = { group = "org.bouncycastle", name = "bcpkix-jdk15on", version = "1.70" }
 
 # Persistence
