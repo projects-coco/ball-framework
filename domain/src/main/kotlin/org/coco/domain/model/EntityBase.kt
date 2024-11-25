@@ -5,6 +5,7 @@ import jakarta.persistence.EntityListeners
 import jakarta.persistence.Id
 import jakarta.persistence.MappedSuperclass
 import org.coco.domain.utils.currentClock
+import org.hibernate.envers.RevisionNumber
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -16,18 +17,23 @@ abstract class EntityBase(
     id: BinaryId,
     createdAt: LocalDateTime = LocalDateTime.now(currentClock()),
     updatedAt: LocalDateTime = LocalDateTime.now(currentClock()),
+    version: Long = 1,
 ) {
     @Id
     @Column(name = "id", columnDefinition = "BINARY(16)", unique = true, nullable = false, updatable = false)
-    var id: BinaryId = id
+    open var id: BinaryId = id
         protected set
 
     @CreatedDate
-    var createdAt: LocalDateTime? = createdAt
+    open var createdAt: LocalDateTime? = createdAt
         protected set
 
     @LastModifiedDate
-    var updatedAt: LocalDateTime? = updatedAt
+    open var updatedAt: LocalDateTime? = updatedAt
+        protected set
+
+    @RevisionNumber
+    open var version: Long = version
         protected set
 
     override fun equals(other: Any?): Boolean {

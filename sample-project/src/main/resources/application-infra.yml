@@ -5,4 +5,5 @@ spring:
     password: ${DATASOURCE_PASSWORD}
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
-    generate-ddl: true
+    hibernate:
+      ddl-auto: create

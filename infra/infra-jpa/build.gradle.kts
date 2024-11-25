@@ -6,5 +6,6 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":domain"))
     api(libs.spring.boot.data.jpa)
 }
