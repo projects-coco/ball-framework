@@ -1,6 +1,7 @@
 package org.coco.example.presentation
 
 import arrow.core.raise.fold
+import arrow.core.raise.get
 import org.coco.domain.utils.logger
 import org.coco.example.application.UserService
 import org.coco.infra.jpa.EnableJpaConfig
@@ -50,5 +51,8 @@ class SampleCommandLineRunner(
             }, {
                 logger.info("Update user success")
             })
+        userService.findUser("coco").get().also {
+            logger.info("Find user ${it.username} success")
+        }
     }
 }
