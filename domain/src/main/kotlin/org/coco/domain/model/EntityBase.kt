@@ -5,7 +5,6 @@ import jakarta.persistence.EntityListeners
 import jakarta.persistence.Id
 import jakarta.persistence.MappedSuperclass
 import org.coco.domain.utils.currentClock
-import org.hibernate.envers.RevisionNumber
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -30,10 +29,6 @@ abstract class EntityBase(
 
     @LastModifiedDate
     open var updatedAt: LocalDateTime? = updatedAt
-        protected set
-
-    @RevisionNumber
-    open var version: Long = version
         protected set
 
     override fun equals(other: Any?): Boolean {
