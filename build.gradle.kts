@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlinter)
@@ -54,6 +56,12 @@ allprojects {
         }
         test {
             useJUnitPlatform()
+        }
+        compileKotlin {
+            compilerOptions {
+                freeCompilerArgs = listOf("-Xjsr305=strict", "-Xcontext-receivers")
+                jvmTarget.set(JvmTarget.JVM_21)
+            }
         }
     }
 }

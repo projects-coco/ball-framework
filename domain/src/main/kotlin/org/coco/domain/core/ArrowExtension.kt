@@ -1,9 +1,17 @@
 package org.coco.domain.core
 
-import arrow.core.Either
 import arrow.core.Option
-import arrow.core.identity
-import arrow.core.left
+import arrow.core.raise.Raise
+import arrow.core.raise.mapError
+import kotlin.experimental.ExperimentalTypeInference
 
+typealias Logic<E, A> = Raise<E>.() -> A
+
+@OptIn(ExperimentalTypeInference::class)
+fun <E, A> logic(@BuilderInference block: Logic<E, A>): Logic<E, A> = block
+
+context(Raise<E2>)
+fun <E1, E2, A> Logic<E1, A>.bindOrRaise(transform: (E1) -> (E2)): A = mapError { transform(it) }.bind()
+
+@Suppress("UnusedReceiverParameter")
 fun <T> Nothing?.toOption(): Option<T> = Option.fromNullable(null)
-inline fun <E1, E2, A> Either<E1, A>.bindOrRaise(transform: (E1) -> E2) = fold({ (transform(it)).left() }, ::identity)
