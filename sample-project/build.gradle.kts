@@ -13,10 +13,8 @@ allOpen {
 }
 
 dependencies {
+    implementation(project(":presentation:presentation-mvc"))
     implementation(project(":domain"))
     implementation(project(":infra:infra-jpa"))
-
-    implementation(libs.spring.boot.mvc)
-    runtimeOnly(libs.spring.boot.actuator)
     runtimeOnly(libs.mariadb)
 }
