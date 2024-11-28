@@ -8,6 +8,9 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":domain"))
     api(libs.spring.boot.mvc)
+    api(libs.spring.aspects)
     runtimeOnly(libs.spring.boot.actuator)
+    developmentOnly(libs.spring.boot.devtools)
 }
