@@ -14,6 +14,7 @@ allOpen {
 
 dependencies {
     implementation(project(":presentation:presentation-mvc"))
+    implementation(project(":application"))
     implementation(project(":domain"))
     implementation(project(":infra:infra-jpa"))
     runtimeOnly(libs.mariadb)
