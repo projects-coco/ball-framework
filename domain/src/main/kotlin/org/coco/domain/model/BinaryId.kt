@@ -1,5 +1,6 @@
 package org.coco.domain.model
 
+import org.coco.domain.core.LogicError
 import ulid.ULID
 
 @JvmInline
@@ -10,7 +11,7 @@ value class BinaryId private constructor(private val value: ByteArray) : Compara
 
     init {
         runCatching { ULID.fromBytes(value).toBytes() }.getOrNull()
-            ?: throw IllegalArgumentException("Invalid ULID payload")
+            ?: throw LogicError("Invalid ULID payload")
     }
 
     override fun compareTo(other: BinaryId): Int = compareValuesBy(this, other)

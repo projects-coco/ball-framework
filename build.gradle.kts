@@ -37,10 +37,6 @@ allprojects {
     }
 
     dependencies {
-        implementation(deps.kotlin.reflect)
-        implementation(deps.kotlinx.coroutines.core)
-        implementation(deps.kotlinx.coroutines.reactor)
-        implementation(deps.arrow.core)
         testImplementation(deps.bundles.kotest)
         testImplementation(deps.mockk)
         testImplementation(kotlin("test"))
