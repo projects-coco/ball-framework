@@ -2,4 +2,17 @@ package org.coco.domain.core
 
 typealias Reason = String
 
-data class LogicError(val reason: Reason) : RuntimeException(reason)
+enum class ErrorType {
+    BAD_REQUEST,
+    UNAUTHORIZED,
+    FORBIDDEN,
+    NOT_FOUND,
+    CONFLICT,
+    INTERNAL_SERVER_ERROR,
+    ;
+}
+
+data class LogicError(
+    val reason: Reason,
+    val errorType: ErrorType = ErrorType.INTERNAL_SERVER_ERROR,
+) : RuntimeException(reason)

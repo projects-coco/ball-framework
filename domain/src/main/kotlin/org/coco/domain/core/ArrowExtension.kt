@@ -19,8 +19,7 @@ inline fun <E, A> suspendLogic(@BuilderInference noinline block: SuspendLogic<E,
 context(Raise<E2>)
 fun <E1, E2, A> Logic<E1, A>.bindOrRaise(transform: (E1) -> (E2)): A = mapError { transform(it) }.bind()
 
-context(Raise<Nothing>)
-fun <E1, A> Logic<E1, A>.bindOrThrow(transform: (E1) -> (LogicError)): A = mapError { throw transform(it) }.bind()
+fun <E1, A> Logic<E1, A>.bindOrThrow(transform: (E1) -> (LogicError)): A = mapError { throw transform(it) }.get()
 
 context(Raise<E2>)
 suspend fun <E1, E2, A> SuspendLogic<E1, A>.bindOrRaise(transform: (E1) -> E2): A =

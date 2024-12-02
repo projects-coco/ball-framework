@@ -3,10 +3,14 @@ package org.coco.presentation.mvc.core
 import arrow.core.Either
 import arrow.core.Option
 import arrow.core.raise.Raise
+import arrow.core.raise.fold
 import arrow.core.toOption
+import org.coco.domain.core.Logic
 import org.coco.domain.core.Reason
+import org.coco.domain.core.SuspendLogic
 import org.coco.domain.core.ValidType
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import kotlin.reflect.KProperty0
 
 sealed class ApiError(
@@ -69,3 +73,23 @@ fun raiseForbidden(error: Reason): Nothing = raise(ApiError.Forbidden(error))
 
 context(Raise<ApiError>)
 fun raiseInternalServerError(error: Reason): Nothing = raise(ApiError.InternalServerError(error))
+
+fun <A> handle(
+    successCode: HttpStatus = HttpStatus.OK,
+    handler: Logic<ApiError, A>,
+): ResponseEntity<A> {
+    return handler.fold(
+        { throw ApiError.ApiException(it) },
+        { ResponseEntity.status(successCode).body(it) }
+    )
+}
+
+suspend fun <A> suspendHandle(
+    successCode: HttpStatus = HttpStatus.OK,
+    handler: SuspendLogic<ApiError, A>,
+): ResponseEntity<A> {
+    return handler.fold(
+        { throw ApiError.ApiException(it) },
+        { ResponseEntity.status(successCode).body(it) }
+    )
+}

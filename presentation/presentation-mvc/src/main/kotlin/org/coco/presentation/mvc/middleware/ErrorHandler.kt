@@ -1,6 +1,8 @@
 package org.coco.presentation.mvc.middleware
 
 import jakarta.servlet.http.HttpServletRequest
+import org.coco.domain.core.ErrorType
+import org.coco.domain.core.LogicError
 import org.coco.presentation.mvc.core.ApiError
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -9,6 +11,28 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class ErrorHandler {
+    private fun ErrorType.toHttpStatus(): HttpStatus = when (this) {
+        ErrorType.BAD_REQUEST -> HttpStatus.BAD_REQUEST
+        ErrorType.UNAUTHORIZED -> HttpStatus.UNAUTHORIZED
+        ErrorType.FORBIDDEN -> HttpStatus.FORBIDDEN
+        ErrorType.NOT_FOUND -> HttpStatus.NOT_FOUND
+        ErrorType.CONFLICT -> HttpStatus.CONFLICT
+        ErrorType.INTERNAL_SERVER_ERROR -> HttpStatus.INTERNAL_SERVER_ERROR
+    }
+
+    @ExceptionHandler
+    fun handle(exception: LogicError): ResponseEntity<ApiError.Body> =
+        exception.let {
+            ResponseEntity
+                .status(it.errorType.toHttpStatus())
+                .body(
+                    ApiError.Body(
+                        error = it.reason,
+                        exception = it
+                    )
+                )
+        }
+
     @ExceptionHandler
     fun handle(exception: ApiError.ApiException): ResponseEntity<ApiError.Body> =
         exception.error.let {
