@@ -2,8 +2,8 @@ package org.coco.example.infra.jpa
 
 import org.coco.example.domain.model.history.RentalHistory
 import org.coco.example.domain.model.history.RentalHistoryRepository
-import org.coco.example.infra.jpa.history.RentalHistoryDataModel
-import org.coco.example.infra.jpa.history.RentalHistoryJpaRepository
+import org.coco.example.infra.jpa.model.history.RentalHistoryDataModel
+import org.coco.example.infra.jpa.model.history.RentalHistoryJpaRepository
 import org.coco.infra.jpa.JpaRepositoryHelper
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional

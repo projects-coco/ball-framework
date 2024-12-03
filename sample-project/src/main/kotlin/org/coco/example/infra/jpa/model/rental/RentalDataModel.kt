@@ -1,4 +1,4 @@
-package org.coco.example.infra.jpa.rental
+package org.coco.example.infra.jpa.model.rental
 
 import jakarta.persistence.*
 import org.coco.domain.model.BinaryId
@@ -9,6 +9,7 @@ import org.hibernate.envers.Audited
 import java.time.LocalDate
 
 @Entity
+@Table(name = "rentals")
 @Audited
 class RentalDataModel(
     id: BinaryId,

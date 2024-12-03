@@ -1,15 +1,13 @@
 package org.coco.infra.jpa
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import org.hibernate.envers.RevisionEntity
 import org.hibernate.envers.RevisionNumber
 import org.hibernate.envers.RevisionTimestamp
 import java.io.Serializable
 
 @Entity
+@Table(name = "_revision_info")
 @RevisionEntity
 class CustomRevisionEntity(
     rev: Long,
