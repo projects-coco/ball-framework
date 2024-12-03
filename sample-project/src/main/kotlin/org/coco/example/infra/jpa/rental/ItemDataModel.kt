@@ -12,7 +12,7 @@ import org.hibernate.envers.Audited
 class ItemDataModel(
     id: BinaryId = BinaryId.new(),
     name: String,
-) : DataModel<Item>(id) {
+) : DataModel<Item>(id.value) {
     @Column(nullable = false, columnDefinition = "varchar(255)", length = 255)
     var name: String = name
         protected set

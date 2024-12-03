@@ -17,7 +17,7 @@ class RentalHistoryDataModel(
     id: BinaryId = BinaryId.new(),
     user: UserDataModel,
     rental: RentalDataModel,
-) : DataModel<RentalHistory>(id) {
+) : DataModel<RentalHistory>(id.value) {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     var user: UserDataModel = user

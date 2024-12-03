@@ -1,6 +1,5 @@
 package org.coco.example.presentation
 
-import org.coco.application.TxAdvice
 import org.coco.example.application.UserService
 import org.coco.infra.jpa.EnableJpaConfig
 import org.coco.presentation.mvc.core.EnableBallApplication
@@ -27,13 +26,10 @@ fun main(args: Array<String>) {
 @Component
 class SampleCommandLineRunner(
     private val userService: UserService,
-    private val txAdvice: TxAdvice
-): CommandLineRunner {
+) : CommandLineRunner {
     override fun run(vararg args: String?) {
-        txAdvice.run {
-            userService.createUser("coco")
-            userService.createUser("coco2")
-            userService.updateUsername("coco", "ball")
-        }
+        userService.createUser("coco")
+        userService.createUser("coco2")
+        userService.updateUsername("coco", "ball")
     }
 }

@@ -12,12 +12,12 @@ import org.hibernate.envers.Audited
 class UserDataModel(
     id: BinaryId,
     username: String,
-) : DataModel<User>(id) {
+) : DataModel<User>(id.value) {
     @Column(unique = true)
     var username: String = username
         protected set
 
-    override fun toEntity(): User = User(id, username, createdAt, updatedAt)
+    override fun toEntity(): User = User(BinaryId(id), username, createdAt, updatedAt)
 
     override fun update(entity: User) {
         if (entity.username != username) {

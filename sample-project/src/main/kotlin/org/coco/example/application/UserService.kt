@@ -1,6 +1,5 @@
 package org.coco.example.application
 
-import arrow.core.toOption
 import org.coco.domain.core.ErrorType
 import org.coco.domain.core.LogicError
 import org.coco.example.domain.model.user.User
@@ -29,7 +28,7 @@ class UserService(
             .orElseThrow { LogicError("$previous not found", ErrorType.NOT_FOUND) }
         runCatching {
             userRepository.update(user.id) {
-                user.update(username = newUsername.toOption())
+                it.username = newUsername
             }
         }.onFailure {
             throw it

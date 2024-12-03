@@ -1,7 +1,5 @@
 package org.coco.example.domain.model.user
 
-import arrow.core.Option
-import org.coco.domain.core.toOption
 import org.coco.domain.model.BinaryId
 import org.coco.domain.model.EntityBase
 import org.coco.domain.utils.currentClock
@@ -14,11 +12,4 @@ class User(
     updatedAt: LocalDateTime = LocalDateTime.now(currentClock()),
 ) : EntityBase(id, createdAt, updatedAt) {
     var username: String = username
-        private set
-
-    fun update(
-        username: Option<String> = null.toOption(),
-    ) {
-        username.onSome { this.username = it }
-    }
 }

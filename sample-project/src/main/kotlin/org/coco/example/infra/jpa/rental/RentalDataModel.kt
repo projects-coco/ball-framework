@@ -15,7 +15,7 @@ class RentalDataModel(
     item: ItemDataModel,
     beginAt: LocalDate = LocalDate.now(currentClock()),
     endAt: LocalDate = beginAt.plusDays(7),
-) : DataModel<Rental>(id) {
+) : DataModel<Rental>(id.value) {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     var item: ItemDataModel = item
