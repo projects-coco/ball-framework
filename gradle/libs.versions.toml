@@ -49,6 +49,8 @@ spring-boot-data-jpa = { group = "org.springframework.boot", name = "spring-boot
 spring-data-core = { module = "org.springframework.data:spring-data-commons", version.ref = "spring-boot" }
 spring-data-envers = { module = "org.springframework.data:spring-data-envers", version.ref = "spring-boot" }
 spring-aspects = { group = "org.springframework", name = "spring-aspects" }
+spring-tx  = { group = "org.springframework", name = "spring-tx" }
+
 bouncycastle-crypto = { group = "org.bouncycastle", name = "bcpkix-jdk15on", version = "1.70" }
 
 # Persistence

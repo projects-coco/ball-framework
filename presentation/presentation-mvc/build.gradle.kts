@@ -8,6 +8,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":application"))
     implementation(project(":domain"))
     api(libs.spring.boot.mvc)
     api(libs.spring.aspects)
