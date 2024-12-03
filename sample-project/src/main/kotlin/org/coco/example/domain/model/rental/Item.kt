@@ -1,18 +1,16 @@
 package org.coco.example.domain.model.rental
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
 import org.coco.domain.model.BinaryId
 import org.coco.domain.model.EntityBase
-import org.hibernate.envers.Audited
+import org.coco.domain.utils.currentClock
+import java.time.LocalDateTime
 
-@Entity
-@Audited
 class Item(
     id: BinaryId = BinaryId.new(),
     name: String,
-) : EntityBase(id) {
-    @Column(nullable = false, columnDefinition = "varchar(255)", length = 255)
+    createdAt: LocalDateTime = LocalDateTime.now(currentClock()),
+    updatedAt: LocalDateTime = LocalDateTime.now(currentClock()),
+) : EntityBase(id, createdAt, updatedAt) {
     var name: String = name
-        protected set
+        private set
 }

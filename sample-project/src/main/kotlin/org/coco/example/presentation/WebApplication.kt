@@ -1,16 +1,20 @@
 package org.coco.example.presentation
 
+import org.coco.application.TxAdvice
+import org.coco.example.application.UserService
 import org.coco.infra.jpa.EnableJpaConfig
 import org.coco.presentation.mvc.core.EnableBallApplication
+import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.stereotype.Component
 
 @SpringBootApplication(
     scanBasePackages = ["org.coco.example"]
 )
 @EnableBallApplication
 @EnableJpaConfig(
-    entityBasePackages = [EnableJpaConfig.BALL_INFRA_ENTITY_PACKAGE, "org.coco.example.domain.model.*"],
+    entityBasePackages = [EnableJpaConfig.BALL_INFRA_ENTITY_PACKAGE, "org.coco.example.infra.jpa.*"],
     repositoryBasePackages = ["org.coco.example.infra.jpa"]
 )
 class WebApplication
@@ -18,4 +22,18 @@ class WebApplication
 fun main(args: Array<String>) {
     val application = SpringApplication(WebApplication::class.java)
     application.run(*args)
+}
+
+@Component
+class SampleCommandLineRunner(
+    private val userService: UserService,
+    private val txAdvice: TxAdvice
+): CommandLineRunner {
+    override fun run(vararg args: String?) {
+        txAdvice.run {
+            userService.createUser("coco")
+            userService.createUser("coco2")
+            userService.updateUsername("coco", "ball")
+        }
+    }
 }
