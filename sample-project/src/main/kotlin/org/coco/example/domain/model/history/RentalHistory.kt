@@ -1,29 +1,22 @@
 package org.coco.example.domain.model.history
 
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
 import org.coco.domain.model.BinaryId
 import org.coco.domain.model.EntityBase
+import org.coco.domain.utils.currentClock
 import org.coco.example.domain.model.rental.Rental
 import org.coco.example.domain.model.user.User
-import org.hibernate.envers.Audited
+import java.time.LocalDateTime
 
-@Entity
-@Audited
 class RentalHistory(
     id: BinaryId = BinaryId.new(),
     user: User,
     rental: Rental,
-) : EntityBase(id) {
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(nullable = false)
+    createdAt: LocalDateTime = LocalDateTime.now(currentClock()),
+    updatedAt: LocalDateTime = LocalDateTime.now(currentClock()),
+) : EntityBase(id, createdAt, updatedAt) {
     var user: User = user
-        protected set
+        private set
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(nullable = false)
     var rental: Rental = rental
-        protected set
+        private set
 }

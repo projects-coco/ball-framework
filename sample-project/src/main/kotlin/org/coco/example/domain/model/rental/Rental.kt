@@ -1,30 +1,25 @@
 package org.coco.example.domain.model.rental
 
-import jakarta.persistence.*
 import org.coco.domain.model.BinaryId
 import org.coco.domain.model.EntityBase
 import org.coco.domain.utils.currentClock
-import org.hibernate.envers.Audited
 import java.time.LocalDate
+import java.time.LocalDateTime
 
-@Entity
-@Audited
 class Rental(
     id: BinaryId = BinaryId.new(),
     item: Item,
     beginAt: LocalDate = LocalDate.now(currentClock()),
     endAt: LocalDate = beginAt.plusDays(7),
-): EntityBase(id) {
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(nullable = false)
+    createdAt: LocalDateTime = LocalDateTime.now(currentClock()),
+    updatedAt: LocalDateTime = LocalDateTime.now(currentClock()),
+): EntityBase(id, createdAt, updatedAt) {
     var item: Item = item
-        protected set
+        private set
 
-    @Column(nullable = false)
     var beginAt: LocalDate = beginAt
-        protected set
+        private set
 
-    @Column(nullable = false)
     var endAt: LocalDate = endAt
-        protected set
+        private set
 }

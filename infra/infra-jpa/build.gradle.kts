@@ -13,4 +13,5 @@ allOpen {
 dependencies {
     implementation(project(":domain"))
     api(libs.spring.boot.data.jpa)
+    api(libs.spring.data.envers)
 }

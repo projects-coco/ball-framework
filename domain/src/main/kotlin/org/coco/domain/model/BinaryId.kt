@@ -4,7 +4,7 @@ import org.coco.domain.core.LogicError
 import ulid.ULID
 
 @JvmInline
-value class BinaryId private constructor(private val value: ByteArray) : Comparable<BinaryId> {
+value class BinaryId(val value: ByteArray) : Comparable<BinaryId> {
     companion object {
         fun new(): BinaryId = BinaryId(ULID.nextULID().toBytes())
     }
