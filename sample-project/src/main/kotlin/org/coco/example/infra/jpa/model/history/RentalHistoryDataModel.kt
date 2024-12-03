@@ -1,17 +1,15 @@
-package org.coco.example.infra.jpa.history
+package org.coco.example.infra.jpa.model.history
 
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.*
 import org.coco.domain.model.BinaryId
 import org.coco.example.domain.model.history.RentalHistory
-import org.coco.example.infra.jpa.rental.RentalDataModel
-import org.coco.example.infra.jpa.user.UserDataModel
+import org.coco.example.infra.jpa.model.rental.RentalDataModel
+import org.coco.example.infra.jpa.model.user.UserDataModel
 import org.coco.infra.jpa.model.DataModel
 import org.hibernate.envers.Audited
 
 @Entity
+@Table(name = "rental_histories")
 @Audited
 class RentalHistoryDataModel(
     id: BinaryId = BinaryId.new(),

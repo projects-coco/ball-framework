@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component
 )
 @EnableBallApplication
 @EnableJpaConfig(
-    entityBasePackages = [EnableJpaConfig.BALL_INFRA_ENTITY_PACKAGE, "org.coco.example.infra.jpa.*"],
-    repositoryBasePackages = ["org.coco.example.infra.jpa"]
+    entityBasePackages = [EnableJpaConfig.BALL_INFRA_ENTITY_PACKAGE, "org.coco.example.infra.jpa.model.*"],
+    repositoryBasePackages = ["org.coco.example.infra.jpa.model"]
 )
 class WebApplication
 

@@ -1,13 +1,15 @@
-package org.coco.example.infra.jpa.user
+package org.coco.example.infra.jpa.model.user
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.Table
 import org.coco.domain.model.BinaryId
 import org.coco.example.domain.model.user.User
 import org.coco.infra.jpa.model.DataModel
 import org.hibernate.envers.Audited
 
 @Entity
+@Table(name = "users")
 @Audited
 class UserDataModel(
     id: BinaryId,
