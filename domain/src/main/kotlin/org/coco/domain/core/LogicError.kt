@@ -12,7 +12,7 @@ enum class ErrorType {
     ;
 }
 
-data class LogicError(
+open class LogicError(
     val reason: Reason,
     val errorType: ErrorType = ErrorType.INTERNAL_SERVER_ERROR,
 ) : RuntimeException(reason)
