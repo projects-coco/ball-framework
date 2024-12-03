@@ -13,27 +13,28 @@ import java.util.*
 import kotlin.reflect.KClass
 
 abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
-    private val jpaRepository: JpaRepository<D, BinaryId>,
+    private val jpaRepository: JpaRepository<D, ByteArray>,
     private val kClass: KClass<E>
 ) : RepositoryBase<E> {
-    override fun findById(id: BinaryId): Optional<E> = jpaRepository.findById(id).map { it.toEntity() }
+    override fun findById(id: BinaryId): Optional<E> = jpaRepository.findById(id.value).map { it.toEntity() }
 
     override fun findAll(): List<E> = jpaRepository.findAll().map { it.toEntity() }
 
-    override fun findAll(ids: List<BinaryId>): List<E> = jpaRepository.findAllById(ids).map { it.toEntity() }
+    override fun findAll(ids: List<BinaryId>): List<E> =
+        jpaRepository.findAllById(ids.map { it.value }).map { it.toEntity() }
 
     override fun findAll(pageable: Pageable): Page<E> = jpaRepository.findAll(pageable).map { it.toEntity() }
 
     @Transactional
-    override fun update(id: BinaryId, modifier: (E) -> Unit) {
-        val dataModel = jpaRepository.findById(id).orElseThrow { EntityNotFoundError(kClass, id) }
+    override fun update(id: BinaryId, modifier: (E)->Unit) {
+        val dataModel = jpaRepository.findById(id.value).orElseThrow { EntityNotFoundError(kClass, id) }
         val entity = dataModel.toEntity()
-        modifier(entity)
+        modifier.invoke(entity)
         dataModel.update(entity)
     }
 
     @Transactional
     override fun delete(id: BinaryId) {
-        jpaRepository.deleteById(id)
+        jpaRepository.deleteById(id.value)
     }
 }
