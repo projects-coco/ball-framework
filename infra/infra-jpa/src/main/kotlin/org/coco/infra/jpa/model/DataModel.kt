@@ -25,11 +25,11 @@ abstract class DataModel<T : EntityBase>(
         protected set
 
     @CreatedDate
-    open var createdAt: LocalDateTime? = createdAt
+    open var createdAt: LocalDateTime = createdAt
         protected set
 
     @LastModifiedDate
-    open var updatedAt: LocalDateTime? = updatedAt
+    open var updatedAt: LocalDateTime = updatedAt
         protected set
 
     abstract fun toEntity(): T

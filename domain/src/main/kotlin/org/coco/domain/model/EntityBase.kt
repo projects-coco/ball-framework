@@ -1,12 +1,11 @@
 package org.coco.domain.model
 
-import org.coco.domain.utils.currentClock
 import java.time.LocalDateTime
 
 abstract class EntityBase(
     id: BinaryId,
-    createdAt: LocalDateTime = LocalDateTime.now(currentClock()),
-    updatedAt: LocalDateTime = LocalDateTime.now(currentClock()),
+    createdAt: LocalDateTime,
+    updatedAt: LocalDateTime,
 ) {
     open var id: BinaryId = id
         protected set
