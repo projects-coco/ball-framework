@@ -12,8 +12,8 @@ open class BasicUser(
     name: Name,
     phoneNumber: PhoneNumber,
     passwordHash: PasswordHash,
-    agreementOfTerms: Agreement? = null,
-    agreementOfPrivacy: Agreement? = null,
+    agreementOfTerms: Agreement = Agreement.disagree(),
+    agreementOfPrivacy: Agreement = Agreement.disagree(),
     createdAt: LocalDateTime = LocalDateTime.now(currentClock()),
     updatedAt: LocalDateTime = LocalDateTime.now(currentClock()),
 ) : EntityBase(id, createdAt, updatedAt) {
@@ -32,10 +32,10 @@ open class BasicUser(
     var passwordHash: PasswordHash = passwordHash
         protected set
 
-    var agreementOfTerms: Agreement? = agreementOfTerms
+    var agreementOfTerms: Agreement = agreementOfTerms
         protected set
 
-    var agreementOfPrivacy: Agreement? = agreementOfPrivacy
+    var agreementOfPrivacy: Agreement = agreementOfPrivacy
         protected set
 
     @JvmInline
@@ -63,9 +63,9 @@ open class BasicUser(
         val value: String,
     ) {
         init {
-            val passwordComplexityRegex =
-                Regex("^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@%^&*-]).{8,15}\$")
-            require(passwordComplexityRegex.matches(value)) { "최소 하나 이상의 영문자, 숫자, 특수문자(#?!@%^&*-)를 포함해 8자 이상 15자 이하의 패스워드를 입력해주세요." }
+            val minLength = 2
+            // val passwordComplexityRegex = Regex("^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@%^&*-]).{8,15}\$")
+            require(value.length >= minLength) { "최소 ${minLength}자 이상의 패스워드를 입력해주세요." }
         }
     }
 
@@ -74,13 +74,10 @@ open class BasicUser(
         val value: String,
     )
 
-    data class Agreement(
-        val status: Boolean,
-        val agreeAt: LocalDateTime,
-    )
+
 
     @JvmInline
-    value class PhoneNumber private constructor(
+    value class PhoneNumber(
         val value: String,
     ) {
         init {

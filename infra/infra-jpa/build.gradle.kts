@@ -8,6 +8,7 @@ plugins {
 
 allOpen {
     annotation("jakarta.persistence.Entity")
+    annotations("jakarta.persistence.MappedSuperclass")
 }
 
 dependencies {

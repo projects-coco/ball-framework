@@ -6,6 +6,8 @@ plugins {
 
 dependencies {
     implementation(project(":domain"))
-    implementation(libs.spring.security.crypto)
+    implementation(libs.spring.security.crypto) {
+        implementation(libs.bouncycastle.crypto)
+    }
     implementation(libs.jwt)
 }

@@ -1,9 +1,8 @@
 package org.coco.infra.jpa.model.user
 
-import jakarta.persistence.Column
-import jakarta.persistence.Embedded
-import jakarta.persistence.MappedSuperclass
+import jakarta.persistence.*
 import org.coco.domain.model.BinaryId
+import org.coco.domain.model.user.Agreement
 import org.coco.domain.model.user.BasicUser
 import org.coco.domain.model.user.BasicUser.*
 import org.coco.infra.jpa.model.DataModel
@@ -39,10 +38,18 @@ abstract class BasicUserDataModel<T : BasicUser>(
     var passwordHash: String = passwordHash.value
 
     @Embedded
+    @AttributeOverrides(
+        AttributeOverride(name = "status", column = Column(name = "agreement_of_terms_status")),
+        AttributeOverride(name = "agreeAt", column = Column(name = "agreement_of_terms_agree_at")),
+    )
     var agreementOfTerms: Agreement = agreementOfTerms
         protected set
 
     @Embedded
+    @AttributeOverrides(
+        AttributeOverride(name = "status", column = Column(name = "agreement_of_privacy_status")),
+        AttributeOverride(name = "agreeAt", column = Column(name = "agreement_of_privacy_agree_at")),
+    )
     var agreementOfPrivacy: Agreement = agreementOfPrivacy
         protected set
 }

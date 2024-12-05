@@ -1,10 +1,13 @@
 package org.coco.domain.service.auth
 
-interface PasswordHashProvider<T, H> {
-    fun hash(password: T): H
+import org.coco.domain.model.user.BasicUser.Password
+import org.coco.domain.model.user.BasicUser.PasswordHash
+
+interface PasswordHashProvider {
+    fun hash(password: Password): PasswordHash
 
     fun verify(
-        password: T,
-        passwordHash: H,
+        password: Password,
+        passwordHash: PasswordHash,
     ): Boolean
 }

@@ -10,10 +10,10 @@ abstract class EntityBase(
     open var id: BinaryId = id
         protected set
 
-    open var createdAt: LocalDateTime? = createdAt
+    open var createdAt: LocalDateTime = createdAt
         protected set
 
-    open var updatedAt: LocalDateTime? = updatedAt
+    open var updatedAt: LocalDateTime = updatedAt
         protected set
 
     override fun equals(other: Any?): Boolean {
