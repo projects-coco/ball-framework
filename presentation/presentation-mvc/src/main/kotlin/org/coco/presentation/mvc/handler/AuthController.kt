@@ -2,6 +2,7 @@ package org.coco.presentation.mvc.handler
 
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.coco.core.utils.logger
 import org.coco.domain.model.user.BasicUser
 import org.coco.domain.service.auth.AuthService
 import org.coco.presentation.mvc.core.getRemoteIp
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController
 class AuthController(
     private val authService: AuthService,
 ) {
+    private val logger = logger()
+
     data class LoginRequest(
         val username: String,
         val password: String,
