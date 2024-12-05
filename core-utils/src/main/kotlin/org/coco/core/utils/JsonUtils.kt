@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import java.io.Reader
 
@@ -23,6 +24,10 @@ object JsonUtils {
 
     fun <T> deserialize(reader: Reader, clazz: Class<T>): T {
         return objectMapper.readValue(reader, clazz)
+    }
+
+    fun deserialize(jsonString: String): Map<String, Any> {
+        return objectMapper.readValue(jsonString)
     }
 
     fun <T> deserialize(jsonString: String, clazz: Class<T>): T {
