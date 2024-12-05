@@ -10,6 +10,7 @@ plugins {
 dependencies {
     implementation(project(":application"))
     implementation(project(":domain"))
+    implementation(project(":infra:infra-spring-security"))
     api(libs.spring.boot.mvc)
     api(libs.spring.aspects)
     api(libs.spring.boot.security)
