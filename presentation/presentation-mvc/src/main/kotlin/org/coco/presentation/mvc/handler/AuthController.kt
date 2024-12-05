@@ -19,7 +19,9 @@ class AuthController(
 ) {
     data class AuthResponse(
         val id: String,
-        val roles: Set<String>
+        val roles: Set<String>,
+        val username: String,
+        val name: String,
     )
 
     @GetMapping
@@ -30,7 +32,9 @@ class AuthController(
             .body(
                 AuthResponse(
                     id = ballAuthentication.userPrincipal.id.toString(),
-                    roles = ballAuthentication.userPrincipal.roles.map { it.toString() }.toSet()
+                    roles = ballAuthentication.userPrincipal.roles.map { it.toString() }.toSet(),
+                    username = ballAuthentication.userPrincipal.username.value,
+                    name = ballAuthentication.userPrincipal.actualName.value,
                 )
             )
     }

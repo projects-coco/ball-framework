@@ -21,6 +21,8 @@ class JwtTokenProviderTest : FunSpec({
                     BasicUser.Role.valueOf(it as String)
                 }
                 .toSet(),
+            username = BasicUser.Username(this.key("username")),
+            actualName = BasicUser.Name(this.key("actualName"))
         )
     }
     val tokenProvider =
@@ -33,13 +35,24 @@ class JwtTokenProviderTest : FunSpec({
 
     test("DecodedJWT::payload(key: String)") {
         val id = BinaryId.new()
-        val authToken = tokenProvider.generateToken(UserPrincipal(id = id, roles = setOf(BasicUser.Role.USER)))
+        val username = BasicUser.Username("username")
+        val actualName = BasicUser.Name("actualName")
+        val authToken = tokenProvider.generateToken(
+            UserPrincipal(
+                id = id,
+                roles = setOf(BasicUser.Role.USER),
+                username = username,
+                actualName = actualName
+            )
+        )
         val jwtString = authToken.value
 
         val decoded = JWT.decode(jwtString)
         val principal = decoded.toPrincipal()
 
         principal.id.value shouldBe id.value
+        principal.username shouldBe username
+        principal.actualName shouldBe actualName
         principal.roles shouldBe setOf(BasicUser.Role.USER)
     }
 })
