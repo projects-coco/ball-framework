@@ -1,4 +1,4 @@
-package org.coco.application
+package org.coco.infra.jpa
 
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Component

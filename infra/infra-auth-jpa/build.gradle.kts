@@ -1,4 +1,4 @@
-group = "org.coco.infra.jpa"
+group = "org.coco.infra.auth.jpa"
 
 plugins {
     alias(libs.plugins.kotlin.jpa)
@@ -11,8 +11,7 @@ allOpen {
 }
 
 dependencies {
-    api(project(":domain"))
-    api(libs.spring.boot.data.jpa)
-    api(libs.spring.data.envers)
-    api(libs.hypersistence.utils)
+    implementation(project(":domain"))
+    implementation(project(":infra:infra-jpa"))
+    api(project(":infra:infra-spring-security"))
 }

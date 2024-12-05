@@ -1,4 +1,4 @@
-group = "org.coco.infra.spring.security"
+group = "org.coco.infra.auth.security"
 
 plugins {
     alias(libs.plugins.kotlin.spring)
