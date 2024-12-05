@@ -1,8 +1,8 @@
 package org.coco.domain.model.user
 
+import org.coco.core.utils.currentClock
 import org.coco.domain.model.BinaryId
 import org.coco.domain.model.EntityBase
-import org.coco.domain.utils.currentClock
 import java.time.LocalDateTime
 
 open class BasicUser(

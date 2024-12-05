@@ -2,7 +2,7 @@ package org.coco.example.domain.model.history
 
 import org.coco.domain.model.BinaryId
 import org.coco.domain.model.EntityBase
-import org.coco.domain.utils.currentClock
+import org.coco.core.utils.currentClock
 import org.coco.example.domain.model.rental.Rental
 import org.coco.example.domain.model.user.User
 import java.time.LocalDateTime

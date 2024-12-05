@@ -1,4 +1,4 @@
-package org.coco.domain.utils
+package org.coco.core.utils
 
 import java.time.Clock
 

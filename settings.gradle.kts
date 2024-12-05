@@ -16,3 +16,6 @@ include("sample-project")
 include("presentation:presentation-mvc")
 findProject(":presentation:presentation-mvc")?.name = "presentation-mvc"
 include("application")
+include("infra:infra-spring-security")
+findProject(":infra:infra-spring-security")?.name = "infra-spring-security"
+include("core-utils")
