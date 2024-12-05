@@ -23,14 +23,18 @@ class RefreshTokenHandler(
         return refreshTokenRepository.save(refreshToken)
     }
 
-    fun consume(payload: Token.Payload): UserPrincipal {
-        val userPrincipal = refreshTokenProvider.verify(payload)
-        val refreshToken = refreshTokenRepository.findByPayload(payload).orElseThrow {
-            LogicError("유효한 인증 정보가 없습니다.", ErrorType.NOT_FOUND)
-        }
-        refreshTokenRepository.update(refreshToken.id) {
-            it.consume()
-        }
-        return userPrincipal
-    }
+    fun consume(payload: Token.Payload): UserPrincipal = refreshTokenProvider
+        .verify(payload)
+        .fold(
+            { throw LogicError("유효한 인증 정보가 없습니다.", ErrorType.NOT_FOUND) },
+            {
+                val refreshTokenId = refreshTokenRepository.findByPayload(payload).orElseThrow {
+                    LogicError("유효한 인증 정보가 없습니다.", ErrorType.NOT_FOUND)
+                }.id
+                refreshTokenRepository.update(refreshTokenId) { refreshToken ->
+                    refreshToken.consume()
+                }
+                it
+            })
+
 }
