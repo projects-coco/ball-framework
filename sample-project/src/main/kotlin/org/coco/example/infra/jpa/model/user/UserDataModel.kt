@@ -1,37 +1,99 @@
 package org.coco.example.infra.jpa.model.user
 
+import io.hypersistence.utils.hibernate.type.json.JsonType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
 import org.coco.domain.model.BinaryId
+import org.coco.domain.model.user.Agreement
+import org.coco.domain.model.user.BasicUser.*
 import org.coco.example.domain.model.user.User
-import org.coco.infra.jpa.model.DataModel
+import org.coco.infra.jpa.model.user.BasicUserDataModel
+import org.hibernate.annotations.Type
 import org.hibernate.envers.Audited
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "users")
 @Audited
 class UserDataModel(
     id: BinaryId,
-    username: String,
-) : DataModel<User>(id.value) {
-    @Column(unique = true)
-    var username: String = username
-        protected set
+    username: Username,
+    roles: Set<User.Role>,
+    name: Name,
+    phoneNumber: PhoneNumber,
+    passwordHash: PasswordHash,
+    agreementOfTerms: Agreement,
+    agreementOfPrivacy: Agreement,
+    active: Boolean,
+    lastLoginAt: LocalDateTime?,
+    loginCount: Long,
+    createdAt: LocalDateTime,
+    updatedAt: LocalDateTime,
+) : BasicUserDataModel<User>(
+    id,
+    username,
+    roles,
+    name,
+    phoneNumber,
+    passwordHash,
+    agreementOfTerms,
+    agreementOfPrivacy,
+    active,
+    lastLoginAt,
+    loginCount,
+    createdAt,
+    updatedAt
+) {
+    @Type(JsonType::class)
+    @Column(columnDefinition = "json")
+    override var roles: Set<String> = roles.map { it.name }.toSet()
 
-    override fun toEntity(): User = User(BinaryId(id), username, createdAt, updatedAt)
+    override fun toEntity(): User {
+        return User(
+            id = BinaryId(id),
+            username = Username(username),
+            roles = roles.map { User.Role.valueOf(it) }.toSet(),
+            name = Name(name),
+            phoneNumber = PhoneNumber(phoneNumber),
+            passwordHash = PasswordHash(passwordHash),
+            agreementOfTerms = agreementOfTerms,
+            agreementOfPrivacy = agreementOfPrivacy,
+            active = active,
+            lastLoginAt = lastLoginAt,
+            loginCount = loginCount,
+            createdAt = createdAt,
+            updatedAt = updatedAt
+        )
+    }
 
     override fun update(entity: User) {
-        if (entity.username != username) {
-            username = entity.username
-        }
+        this.username = entity.username.value
+        this.roles = entity.roles.map { it.toString() }.toSet()
+        this.name = entity.name.value
+        this.phoneNumber = entity.phoneNumber.value
+        this.passwordHash = entity.passwordHash.value
+        this.agreementOfTerms = entity.agreementOfTerms
+        this.agreementOfPrivacy = entity.agreementOfPrivacy
     }
 
     companion object {
-        fun of(user: User): UserDataModel {
+        fun of(entity: User): UserDataModel {
+            @Suppress("UNCHECKED_CAST")
             return UserDataModel(
-                id = user.id,
-                username = user.username
+                id = entity.id,
+                username = entity.username,
+                roles = entity.roles as Set<User.Role>,
+                name = entity.name,
+                phoneNumber = entity.phoneNumber,
+                passwordHash = entity.passwordHash,
+                agreementOfTerms = entity.agreementOfTerms,
+                agreementOfPrivacy = entity.agreementOfPrivacy,
+                active = entity.active,
+                lastLoginAt = entity.lastLoginAt,
+                loginCount = entity.loginCount,
+                createdAt = entity.createdAt,
+                updatedAt = entity.updatedAt,
             )
         }
     }

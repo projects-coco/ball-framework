@@ -8,10 +8,12 @@ plugins {
 
 allOpen {
     annotation("jakarta.persistence.Entity")
+    annotations("jakarta.persistence.MappedSuperclass")
 }
 
 dependencies {
-    implementation(project(":domain"))
+    api(project(":domain"))
     api(libs.spring.boot.data.jpa)
     api(libs.spring.data.envers)
+    api(libs.hypersistence.utils)
 }

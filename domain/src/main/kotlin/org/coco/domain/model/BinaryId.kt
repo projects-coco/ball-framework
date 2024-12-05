@@ -7,6 +7,8 @@ import ulid.ULID
 value class BinaryId(val value: ByteArray) : Comparable<BinaryId> {
     companion object {
         fun new(): BinaryId = BinaryId(ULID.nextULID().toBytes())
+
+        fun fromString(value: String): BinaryId = BinaryId(ULID.parseULID(value).toBytes())
     }
 
     init {
@@ -16,7 +18,9 @@ value class BinaryId(val value: ByteArray) : Comparable<BinaryId> {
 
     override fun compareTo(other: BinaryId): Int = compareValuesBy(this, other)
 
-    override fun toString(): String = value.toString()
+    override fun toString(): String {
+        return ULID.fromBytes(value).toString()
+    }
 
     fun toHexString(): String =
         "0x${this.value.joinToString(separator = "") { eachByte -> "%02x".format(eachByte) }}"

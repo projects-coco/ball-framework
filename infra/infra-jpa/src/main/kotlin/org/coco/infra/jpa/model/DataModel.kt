@@ -4,8 +4,8 @@ import jakarta.persistence.Column
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.Id
 import jakarta.persistence.MappedSuperclass
+import org.coco.core.utils.currentClock
 import org.coco.domain.model.EntityBase
-import org.coco.domain.utils.currentClock
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener

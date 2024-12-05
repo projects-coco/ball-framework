@@ -7,7 +7,5 @@ plugins {
 
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":infra:infra-jpa"))
     implementation(libs.spring.boot.core)
-    implementation(libs.spring.tx)
 }

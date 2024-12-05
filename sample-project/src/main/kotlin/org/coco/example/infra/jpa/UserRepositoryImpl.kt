@@ -19,7 +19,7 @@ class UserRepositoryImpl(
         jpaRepository.findByUsername(username).map { it.toEntity() }
 
     override fun save(entity: User): User {
-        val dataModel = UserDataModel(id = entity.id, username = entity.username)
+        val dataModel = UserDataModel.of(entity)
         return jpaRepository.save(dataModel).toEntity()
     }
 }

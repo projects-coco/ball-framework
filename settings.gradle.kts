@@ -4,15 +4,30 @@ plugins {
 rootProject.name = "ball-framework"
 // PRESENTATION
 include("presentation")
+include("presentation:presentation-mvc")
+findProject(":presentation:presentation-mvc")?.name = "presentation-mvc"
+
+// application
+include("application")
 
 // DOMAIN
 include("domain")
 
 // INFRA
 include("infra")
+
 include("infra:infra-jpa")
 findProject(":infra:infra-jpa")?.name = "infra-jpa"
+
+include("infra:infra-spring-security")
+findProject(":infra:infra-spring-security")?.name = "infra-spring-security"
+
+include("infra:infra-auth-jpa")
+findProject(":infra:infra-auth-jpa")?.name = "infra-auth-jpa"
+
+// CORE
+include("core-utils")
+
+// ETC
 include("sample-project")
-include("presentation:presentation-mvc")
-findProject(":presentation:presentation-mvc")?.name = "presentation-mvc"
-include("application")
+
