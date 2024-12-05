@@ -3,6 +3,7 @@ package org.coco.presentation.mvc.middleware
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.coco.core.utils.ToStringBuilder
 import org.coco.domain.model.auth.Token
 import org.coco.domain.model.auth.UserPrincipal
 import org.coco.domain.service.auth.RefreshTokenHandler
@@ -18,6 +19,24 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 
+data class BallAuthentication(
+    val token: Token.Payload,
+    val userPrincipal: UserPrincipal,
+) : AbstractAuthenticationToken(emptyList()) {
+    init {
+        isAuthenticated = true
+    }
+
+    override fun getCredentials(): Any = token
+
+    override fun getPrincipal(): Any = userPrincipal
+
+    override fun toString(): String = ToStringBuilder(this)
+        .append("token", token)
+        .append("userPrincipal", userPrincipal)
+        .toString()
+}
+
 @Component
 @Import(
     JwtConfig::class,
@@ -30,21 +49,6 @@ class JwtAuthenticationFilter(
     companion object {
         const val ACCESS_TOKEN_PREFIX = "Bearer "
         const val REFRESH_TOKEN_COOKIE_KEY = "refresh-token"
-
-        data class JwtAuthentication(
-            val token: Token.Payload,
-            val principal: UserPrincipal,
-        ) : AbstractAuthenticationToken(emptyList()) {
-            init {
-                isAuthenticated = true
-            }
-
-            override fun getCredentials(): Any = token
-
-            override fun getPrincipal(): Any = principal
-
-            override fun toString(): String = "JwtAuthentication(principal=$principal)"
-        }
     }
 
     override fun doFilterInternal(
@@ -77,11 +81,11 @@ class JwtAuthenticationFilter(
                     val newRefreshToken = refreshTokenHandler.issue(userPrincipal)
                     response.sendAccessToken(newAccessToken)
                     response.sendRefreshToken(newRefreshToken.payload)
-                    SecurityContextHolder.getContext().authentication = JwtAuthentication(newAccessToken, userPrincipal)
+                    SecurityContextHolder.getContext().authentication = BallAuthentication(newAccessToken, userPrincipal)
                 }
             }
         }, { userPrincipal ->
-            SecurityContextHolder.getContext().authentication = JwtAuthentication(accessToken.get(), userPrincipal)
+            SecurityContextHolder.getContext().authentication = BallAuthentication(accessToken.get(), userPrincipal)
         })
         filterChain.doFilter(request, response)
     }

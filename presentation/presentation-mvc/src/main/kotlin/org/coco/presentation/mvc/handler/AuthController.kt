@@ -2,18 +2,14 @@ package org.coco.presentation.mvc.handler
 
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.coco.core.utils.logger
 import org.coco.domain.model.user.BasicUser
 import org.coco.domain.service.auth.AuthService
-import org.coco.presentation.mvc.core.getRemoteIp
-import org.coco.presentation.mvc.core.sendAccessToken
-import org.coco.presentation.mvc.core.sendRefreshToken
+import org.coco.presentation.mvc.core.*
+import org.coco.presentation.mvc.middleware.BallAuthentication
 import org.springframework.context.annotation.Import
-import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -21,7 +17,23 @@ import org.springframework.web.bind.annotation.RestController
 class AuthController(
     private val authService: AuthService,
 ) {
-    private val logger = logger()
+    data class AuthResponse(
+        val id: String,
+        val roles: Set<String>
+    )
+
+    @GetMapping
+    @IsAuthorized
+    fun auth(ballAuthentication: BallAuthentication): ResponseEntity<AuthResponse> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(
+                AuthResponse(
+                    id = ballAuthentication.userPrincipal.id.toString(),
+                    roles = ballAuthentication.userPrincipal.roles.map { it.toString() }.toSet()
+                )
+            )
+    }
 
     data class LoginRequest(
         val username: String,
@@ -29,8 +41,12 @@ class AuthController(
     )
 
     @PostMapping("/login")
-    @PreAuthorize("isAnonymous()")
-    fun login(@RequestBody request: LoginRequest, servletRequest: HttpServletRequest, servletResponse: HttpServletResponse) {
+    @IsAnonymous
+    fun login(
+        @RequestBody request: LoginRequest,
+        servletRequest: HttpServletRequest,
+        servletResponse: HttpServletResponse
+    ) {
         val tokenPair = authService.login(
             command = AuthService.LoginCommand(
                 username = BasicUser.Username(request.username),
