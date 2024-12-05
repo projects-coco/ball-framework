@@ -9,4 +9,13 @@ data class UserPrincipal(
     val roles: Set<BasicUser.IRole>,
 ) : Principal {
     override fun getName(): String = id.toString()
+
+    companion object {
+        fun of(user: BasicUser): UserPrincipal {
+            return UserPrincipal(
+                id = user.id,
+                roles = user.roles,
+            )
+        }
+    }
 }

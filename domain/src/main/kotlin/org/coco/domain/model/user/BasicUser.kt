@@ -14,6 +14,9 @@ open class BasicUser(
     passwordHash: PasswordHash,
     agreementOfTerms: Agreement = Agreement.disagree(),
     agreementOfPrivacy: Agreement = Agreement.disagree(),
+    active: Boolean = true,
+    lastLoginAt: LocalDateTime? = null,
+    loginCount: Long = 0,
     createdAt: LocalDateTime = LocalDateTime.now(currentClock()),
     updatedAt: LocalDateTime = LocalDateTime.now(currentClock()),
 ) : EntityBase(id, createdAt, updatedAt) {
@@ -37,6 +40,20 @@ open class BasicUser(
 
     var agreementOfPrivacy: Agreement = agreementOfPrivacy
         protected set
+
+    var active: Boolean = active
+        protected set
+
+    var lastLoginAt: LocalDateTime? = lastLoginAt
+        protected set
+
+    var loginCount: Long = loginCount
+        protected set
+
+    fun loggingLogin() {
+        this.lastLoginAt = LocalDateTime.now(currentClock())
+        this.loginCount += 1
+    }
 
     @JvmInline
     value class Username(val value: String) {
@@ -73,7 +90,6 @@ open class BasicUser(
     value class PasswordHash(
         val value: String,
     )
-
 
 
     @JvmInline

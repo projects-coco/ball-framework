@@ -18,6 +18,9 @@ abstract class BasicUserDataModel<T : BasicUser>(
     passwordHash: PasswordHash,
     agreementOfTerms: Agreement,
     agreementOfPrivacy: Agreement,
+    active: Boolean,
+    lastLoginAt: LocalDateTime?,
+    loginCount: Long,
     createdAt: LocalDateTime,
     updatedAt: LocalDateTime,
 ) : DataModel<T>(id.value, createdAt, updatedAt) {
@@ -51,5 +54,15 @@ abstract class BasicUserDataModel<T : BasicUser>(
         AttributeOverride(name = "agreeAt", column = Column(name = "agreement_of_privacy_agree_at")),
     )
     var agreementOfPrivacy: Agreement = agreementOfPrivacy
+        protected set
+
+    @Column(columnDefinition = "boolean default true")
+    var active: Boolean = active
+        protected set
+
+    var lastLoginAt: LocalDateTime? = lastLoginAt
+        protected set
+
+    var loginCount: Long = loginCount
         protected set
 }

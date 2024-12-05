@@ -1,6 +1,8 @@
 package org.coco.domain.model.auth
 
 import org.coco.core.utils.currentClock
+import org.coco.domain.core.ErrorType
+import org.coco.domain.core.LogicError
 import org.coco.domain.model.BinaryId
 import org.coco.domain.model.EntityBase
 import java.time.LocalDateTime
@@ -25,4 +27,11 @@ class RefreshToken(
 
     var expiredAt: LocalDateTime = expiredAt
         private set
+
+    fun consume() {
+        if (used || expiredAt.isAfter(LocalDateTime.now(currentClock()))) {
+            throw LogicError("이미 만료된 인증정보입니다.", ErrorType.BAD_REQUEST)
+        }
+        used = true
+    }
 }
