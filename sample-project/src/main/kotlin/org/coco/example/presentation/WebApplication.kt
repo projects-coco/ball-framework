@@ -1,6 +1,7 @@
 package org.coco.example.presentation
 
 import org.coco.example.application.UserService
+import org.coco.infra.auth.jpa.EnableBallAuthJpaInfra
 import org.coco.infra.jpa.EnableJpaConfig
 import org.coco.presentation.mvc.core.EnableBallApplication
 import org.springframework.boot.CommandLineRunner
@@ -13,9 +14,17 @@ import org.springframework.stereotype.Component
 )
 @EnableBallApplication
 @EnableJpaConfig(
-    entityBasePackages = [EnableJpaConfig.BALL_INFRA_ENTITY_PACKAGE, "org.coco.example.infra.jpa.model.*"],
-    repositoryBasePackages = ["org.coco.example.infra.jpa.model"]
+    entityBasePackages = [
+        EnableJpaConfig.BALL_INFRA_ENTITY_PACKAGE,
+        EnableBallAuthJpaInfra.BALL_AUTH_JPA_ENTITY_PACKAGE,
+        "org.coco.example.infra.jpa.model.*"
+    ],
+    repositoryBasePackages = [
+        EnableBallAuthJpaInfra.BALL_AUTH_JPA_REPOSITORY_PACKAGE,
+        "org.coco.example.infra.jpa.model"
+    ]
 )
+@EnableBallAuthJpaInfra
 class WebApplication
 
 fun main(args: Array<String>) {

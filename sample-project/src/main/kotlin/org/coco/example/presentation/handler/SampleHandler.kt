@@ -2,6 +2,7 @@ package org.coco.example.presentation.handler
 
 import org.coco.domain.core.LogicError
 import org.coco.example.application.SampleService
+import org.coco.presentation.mvc.core.IsAuthorized
 import org.coco.presentation.mvc.core.handle
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -17,6 +18,7 @@ class SampleHandler(
     }
 
     @GetMapping("/hello/{name}")
+    @IsAuthorized
     fun hello(@PathVariable name: String): ResponseEntity<String> = handle {
         sampleService.sayHello(name)
     }

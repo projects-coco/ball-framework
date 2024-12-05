@@ -17,5 +17,6 @@ dependencies {
     implementation(project(":application"))
     implementation(project(":domain"))
     implementation(project(":infra:infra-jpa"))
+    implementation(project(":infra:infra-auth-jpa"))
     runtimeOnly(libs.mariadb)
 }

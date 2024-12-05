@@ -1,0 +1,5 @@
+app:
+  auth:
+    issuer: ${ACCESS_TOKEN_ISSUER:project-coco}
+    access-token-secret: ${ACCESS_TOKEN_SECRET:access-token-secret}
+    refresh-token-secret: ${REFRESH_TOKEN_SECRET:refresh-token-secret}
