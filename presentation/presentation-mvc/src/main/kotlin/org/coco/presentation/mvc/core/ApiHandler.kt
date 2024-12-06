@@ -23,7 +23,7 @@ sealed class ApiError(
 
     data class Body(
         var error: Reason? = null,
-        var exception: Exception? = null,
+        var message: String? = null,
     )
 
     data class ValidationFailed(
