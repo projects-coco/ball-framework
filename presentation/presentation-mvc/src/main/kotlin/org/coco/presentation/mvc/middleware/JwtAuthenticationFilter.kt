@@ -4,7 +4,6 @@ import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.coco.core.utils.ToStringBuilder
-import org.coco.domain.model.auth.Token
 import org.coco.domain.model.auth.UserPrincipal
 import org.coco.domain.service.auth.RefreshTokenHandler
 import org.coco.domain.service.auth.TokenProvider
@@ -20,20 +19,18 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 
-data class BallAuthentication(
-    val token: Token.Payload,
+data class BallAuthenticationToken(
     val userPrincipal: UserPrincipal,
 ) : AbstractAuthenticationToken(userPrincipal.roles.map { SimpleGrantedAuthority(it.toString()) }) {
     init {
         isAuthenticated = true
     }
 
-    override fun getCredentials(): Any = token
+    override fun getCredentials(): Any = userPrincipal.username
 
     override fun getPrincipal(): Any = userPrincipal
 
     override fun toString(): String = ToStringBuilder(this)
-        .append("token", token)
         .append("userPrincipal", userPrincipal)
         .toString()
 }
@@ -83,14 +80,12 @@ class JwtAuthenticationFilter(
                     response.sendAccessToken(newAccessToken)
                     response.sendRefreshToken(newRefreshToken.payload)
                     SecurityContextHolder.getContext().authentication =
-                        BallAuthentication(newAccessToken, userPrincipal)
+                        BallAuthenticationToken(userPrincipal)
                 }
             }
         }, { userPrincipal ->
-            SecurityContextHolder.getContext().authentication = BallAuthentication(accessToken.get(), userPrincipal)
+            SecurityContextHolder.getContext().authentication = BallAuthenticationToken(userPrincipal)
         })
         filterChain.doFilter(request, response)
     }
-
-
 }
