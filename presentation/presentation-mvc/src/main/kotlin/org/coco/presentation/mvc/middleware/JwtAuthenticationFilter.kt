@@ -15,6 +15,7 @@ import org.coco.presentation.mvc.core.sendAccessToken
 import org.coco.presentation.mvc.core.sendRefreshToken
 import org.springframework.context.annotation.Import
 import org.springframework.security.authentication.AbstractAuthenticationToken
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
@@ -22,7 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 data class BallAuthentication(
     val token: Token.Payload,
     val userPrincipal: UserPrincipal,
-) : AbstractAuthenticationToken(emptyList()) {
+) : AbstractAuthenticationToken(userPrincipal.roles.map { SimpleGrantedAuthority(it.toString()) }) {
     init {
         isAuthenticated = true
     }
@@ -81,7 +82,8 @@ class JwtAuthenticationFilter(
                     val newRefreshToken = refreshTokenHandler.issue(userPrincipal)
                     response.sendAccessToken(newAccessToken)
                     response.sendRefreshToken(newRefreshToken.payload)
-                    SecurityContextHolder.getContext().authentication = BallAuthentication(newAccessToken, userPrincipal)
+                    SecurityContextHolder.getContext().authentication =
+                        BallAuthentication(newAccessToken, userPrincipal)
                 }
             }
         }, { userPrincipal ->
