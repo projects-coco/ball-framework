@@ -24,7 +24,6 @@ class PrincipalConfig {
                     }
                     .toSet(),
                 username = BasicUser.Username(this.key("username")),
-                actualName = BasicUser.Name(this.key("actualName"))
             )
         }
     }

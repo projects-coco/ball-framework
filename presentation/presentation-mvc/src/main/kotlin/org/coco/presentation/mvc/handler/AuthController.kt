@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse
 import org.coco.domain.model.user.BasicUser
 import org.coco.domain.service.auth.AuthService
 import org.coco.presentation.mvc.core.*
-import org.coco.presentation.mvc.middleware.BallAuthentication
+import org.coco.presentation.mvc.middleware.BallAuthenticationToken
 import org.springframework.context.annotation.Import
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -21,20 +21,18 @@ class AuthController(
         val id: String,
         val roles: Set<String>,
         val username: String,
-        val name: String,
     )
 
     @GetMapping
     @IsAuthorized
-    fun auth(ballAuthentication: BallAuthentication): ResponseEntity<AuthResponse> {
+    fun auth(ballAuthenticationToken: BallAuthenticationToken): ResponseEntity<AuthResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(
                 AuthResponse(
-                    id = ballAuthentication.userPrincipal.id.toString(),
-                    roles = ballAuthentication.userPrincipal.roles.map { it.toString() }.toSet(),
-                    username = ballAuthentication.userPrincipal.username.value,
-                    name = ballAuthentication.userPrincipal.actualName.value,
+                    id = ballAuthenticationToken.userPrincipal.id.toString(),
+                    roles = ballAuthenticationToken.userPrincipal.roles.map { it.toString() }.toSet(),
+                    username = ballAuthenticationToken.userPrincipal.username.value,
                 )
             )
     }

@@ -48,7 +48,6 @@ class JwtTokenProvider(
                     mapOf(
                         "roles" to JsonUtils.serialize(payload.roles),
                         "username" to payload.username.value,
-                        "actualName" to payload.actualName.value,
                     ),
                 ).withClaim(CLAIM_ID, payload.name)
                 .sign(algorithm)
