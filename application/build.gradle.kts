@@ -8,4 +8,5 @@ plugins {
 dependencies {
     implementation(project(":domain"))
     implementation(libs.spring.boot.core)
+    implementation(libs.spring.tx)
 }

@@ -60,7 +60,6 @@ class JwtAuthenticationFilter(
             filterChain.doFilter(request, response)
             return
         }
-
         accessTokenProvider.verify(accessToken.get()).fold({
             when (it) {
                 TokenProvider.VerifyError.InvalidToken -> {
@@ -74,13 +73,15 @@ class JwtAuthenticationFilter(
                         filterChain.doFilter(request, response)
                         return
                     }
-                    val userPrincipal = refreshTokenHandler.consume(refreshToken.get())
-                    val newAccessToken = accessTokenProvider.generateToken(userPrincipal)
-                    val newRefreshToken = refreshTokenHandler.issue(userPrincipal)
-                    response.sendAccessToken(newAccessToken)
-                    response.sendRefreshToken(newRefreshToken.payload)
-                    SecurityContextHolder.getContext().authentication =
-                        BallAuthenticationToken(userPrincipal)
+                    runCatching {
+                        val userPrincipal = refreshTokenHandler.consume(refreshToken.get())
+                        val newAccessToken = accessTokenProvider.generateToken(userPrincipal)
+                        val newRefreshToken = refreshTokenHandler.issue(userPrincipal)
+                        response.sendAccessToken(newAccessToken)
+                        response.sendRefreshToken(newRefreshToken.payload)
+                        SecurityContextHolder.getContext().authentication =
+                            BallAuthenticationToken(userPrincipal)
+                    }
                 }
             }
         }, { userPrincipal ->

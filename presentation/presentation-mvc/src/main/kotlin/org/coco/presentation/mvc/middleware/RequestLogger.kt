@@ -5,12 +5,15 @@ import jakarta.servlet.http.HttpServletResponse
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
+import org.coco.core.utils.currentClock
 import org.coco.core.utils.logger
 import org.coco.presentation.mvc.core.getRemoteIp
 import org.springframework.context.annotation.EnableAspectJAutoProxy
 import org.springframework.stereotype.Component
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
+import java.time.Duration
+import java.time.LocalDateTime
 import java.util.*
 
 @Component
@@ -29,29 +32,34 @@ class RequestLogger {
 
         val controller = joinPoint.target.javaClass.simpleName
 
+        val startAt = LocalDateTime.now(currentClock())
         return runCatching {
             joinPoint.proceed()
         }.onFailure {
+            val endAt = LocalDateTime.now(currentClock())
             log.error(
-                "# REQUEST | REQ_ID = {} | CONTROLLER = {} | METHOD = {} | PATH = {} | REMOTE_ADDR = {} | IN_PARAMS = {} | Exception:",
+                "# REQUEST | REQ_ID = {} | CONTROLLER = {} | METHOD = {} | PATH = {} | IN_PARAMS = {} | DURATION: {} | REMOTE_ADDR = {} | Exception:",
                 request.requestId,
                 controller,
                 request.method,
                 request.requestURI,
-                request.getRemoteIp(),
                 args,
+                Duration.between(startAt, endAt).toMillis(),
+                request.getRemoteIp(),
                 it,
             )
             throw it
         }.onSuccess {
+            val endAt = LocalDateTime.now(currentClock())
             log.info(
-                "# REQUEST | REQ_ID = {} | CONTROLLER = {} | METHOD = {} | PATH = {} | REMOTE_ADDR = {} | IN_PARAMS = {}",
+                "# REQUEST | REQ_ID = {} | CONTROLLER = {} | METHOD = {} | PATH = {} | IN_PARAMS = {} | DURATION: {} | REMOTE_ADDR = {}",
                 request.requestId,
                 controller,
                 request.method,
                 request.requestURI,
-                request.getRemoteIp(),
                 args,
+                Duration.between(startAt, endAt).toMillis(),
+                request.getRemoteIp(),
             )
         }.getOrNull()
     }
