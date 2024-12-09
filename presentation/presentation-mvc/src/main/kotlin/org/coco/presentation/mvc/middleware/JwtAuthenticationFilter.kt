@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.coco.core.utils.ToStringBuilder
 import org.coco.domain.model.auth.UserPrincipal
+import org.coco.domain.model.auth.UserPrincipalContextHolder
 import org.coco.domain.service.auth.RefreshTokenHandler
 import org.coco.domain.service.auth.TokenProvider
 import org.coco.presentation.mvc.config.JwtConfig
@@ -79,14 +80,18 @@ class JwtAuthenticationFilter(
                         val newRefreshToken = refreshTokenHandler.issue(userPrincipal)
                         response.sendAccessToken(newAccessToken)
                         response.sendRefreshToken(newRefreshToken.payload)
-                        SecurityContextHolder.getContext().authentication =
-                            BallAuthenticationToken(userPrincipal)
+                        setSecurityContext(userPrincipal)
                     }
                 }
             }
         }, { userPrincipal ->
-            SecurityContextHolder.getContext().authentication = BallAuthenticationToken(userPrincipal)
+            setSecurityContext(userPrincipal)
         })
         filterChain.doFilter(request, response)
+    }
+
+    private fun setSecurityContext(userPrincipal: UserPrincipal) {
+        SecurityContextHolder.getContext().authentication = BallAuthenticationToken(userPrincipal)
+        UserPrincipalContextHolder.set(userPrincipal)
     }
 }
