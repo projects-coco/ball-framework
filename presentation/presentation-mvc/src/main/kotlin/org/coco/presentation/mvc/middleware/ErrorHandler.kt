@@ -5,6 +5,7 @@ import org.coco.core.utils.logger
 import org.coco.domain.core.BallRequestContext
 import org.coco.domain.core.ErrorType
 import org.coco.domain.core.LogicError
+import org.coco.domain.model.auth.UserPrincipalContextHolder
 import org.coco.presentation.mvc.core.ErrorResponse
 import org.coco.presentation.mvc.core.getRemoteIp
 import org.springframework.http.HttpStatus
@@ -98,10 +99,11 @@ class ErrorHandler {
 
     private fun logRequest(request: HttpServletRequest) {
         logger.warn(
-            "# ERROR | REQ_ID = {} | METHOD = {} | PATH = {} | REMOTE_ADDR = {}",
+            "# WARNING | REQ_ID = {} | METHOD = {} | PATH = {} | USERNAME = {} | REMOTE_ADDR = {}",
             BallRequestContext.requestId,
             request.method,
             request.requestURI,
+            UserPrincipalContextHolder.userPrincipal?.username?.value ?: "<anonymous>",
             request.getRemoteIp(),
         )
     }
