@@ -2,6 +2,7 @@ package org.coco.presentation.mvc.middleware
 
 import jakarta.servlet.http.HttpServletRequest
 import org.coco.core.utils.logger
+import org.coco.domain.core.BallRequestContext
 import org.coco.domain.core.ErrorType
 import org.coco.domain.core.LogicError
 import org.coco.presentation.mvc.core.ErrorResponse
@@ -78,7 +79,11 @@ class ErrorHandler {
         request: HttpServletRequest,
         exception: Exception,
     ): ResponseEntity<ErrorResponse> {
-        logger.debug("# DEBUG | REQ_ID = ${request.requestId} | HANDLER = ErrorHandler | Exception:", exception)
+        logger.debug(
+            "# DEBUG | REQ_ID = {} | HANDLER = ErrorHandler | Exception:",
+            BallRequestContext.requestId,
+            exception
+        )
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(
@@ -94,7 +99,7 @@ class ErrorHandler {
     private fun logRequest(request: HttpServletRequest) {
         logger.warn(
             "# ERROR | REQ_ID = {} | METHOD = {} | PATH = {} | REMOTE_ADDR = {}",
-            request.requestId,
+            BallRequestContext.requestId,
             request.method,
             request.requestURI,
             request.getRemoteIp(),
