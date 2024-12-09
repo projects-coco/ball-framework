@@ -1,5 +1,6 @@
 package org.coco.example.presentation.handler
 
+import org.coco.domain.core.ErrorType
 import org.coco.domain.core.LogicError
 import org.coco.example.application.SampleService
 import org.coco.example.presentation.core.IsAdmin
@@ -25,7 +26,7 @@ class SampleHandler(
 
     @GetMapping("/error")
     fun error(): ResponseEntity<String> {
-        throw LogicError("Hello Error")
+        throw LogicError("You're unlucky.", errorType = ErrorType.BAD_REQUEST)
     }
 
     @PostMapping
