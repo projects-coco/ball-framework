@@ -4,7 +4,6 @@ import org.coco.domain.core.ErrorType
 import org.coco.domain.core.LogicError
 import org.coco.example.application.SampleService
 import org.coco.example.presentation.core.IsAdmin
-import org.coco.presentation.mvc.core.handle
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -20,8 +19,8 @@ class SampleHandler(
 
     @GetMapping("/hello/{name}")
     @IsAdmin
-    fun hello(@PathVariable name: String): ResponseEntity<String> = handle {
-        sampleService.sayHello(name)
+    fun hello(@PathVariable name: String): ResponseEntity<String> {
+        return ResponseEntity.ok(sampleService.sayHello(name))
     }
 
     @GetMapping("/error")
