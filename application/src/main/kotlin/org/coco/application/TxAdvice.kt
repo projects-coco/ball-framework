@@ -1,7 +1,7 @@
-package org.coco.infra.jpa
+package org.coco.application
 
-import jakarta.transaction.Transactional
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
 class TxAdvice {
