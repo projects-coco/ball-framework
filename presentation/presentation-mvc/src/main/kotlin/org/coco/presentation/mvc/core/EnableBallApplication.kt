@@ -1,5 +1,6 @@
 package org.coco.presentation.mvc.core
 
+import org.coco.application.TxAdvice
 import org.coco.presentation.mvc.config.SecurityConfig
 import org.coco.presentation.mvc.handler.AuthController
 import org.coco.presentation.mvc.middleware.BallRequestFilter
@@ -13,5 +14,6 @@ import org.springframework.context.annotation.Import
     RequestLogger::class,
     SecurityConfig::class,
     AuthController::class,
+    TxAdvice::class,
 )
 annotation class EnableBallApplication
