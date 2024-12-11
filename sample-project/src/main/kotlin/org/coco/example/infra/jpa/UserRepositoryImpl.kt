@@ -3,7 +3,8 @@ package org.coco.example.infra.jpa
 import com.linecorp.kotlinjdsl.dsl.jpql.Jpql
 import com.linecorp.kotlinjdsl.dsl.jpql.select.SelectQueryWhereStep
 import com.linecorp.kotlinjdsl.querymodel.jpql.predicate.Predicatable
-import com.linecorp.kotlinjdsl.support.spring.data.jpa.repository.KotlinJdslJpqlExecutor
+import com.linecorp.kotlinjdsl.render.jpql.JpqlRenderContext
+import jakarta.persistence.EntityManager
 import org.coco.domain.core.bindOrNull
 import org.coco.domain.model.user.BasicUserSearchDto
 import org.coco.example.domain.model.user.User
@@ -19,12 +20,14 @@ import java.util.*
 @Transactional
 class UserRepositoryImpl(
     private val jpaRepository: UserJpaRepository,
-    kotlinJdslJpqlExecutor: KotlinJdslJpqlExecutor,
+    jpqlRenderContext: JpqlRenderContext,
+    entityManager: EntityManager,
 ) : UserRepository,
     JpaSearchRepositoryHelper<User, UserDataModel, BasicUserSearchDto>(
         jpaRepository,
         User::class,
-        kotlinJdslJpqlExecutor
+        entityManager,
+        jpqlRenderContext
     ) {
     override fun findByUsername(username: String): Optional<User> =
         jpaRepository.findByUsername(username).map { it.toEntity() }
@@ -34,8 +37,14 @@ class UserRepositoryImpl(
         return jpaRepository.save(dataModel).toEntity()
     }
 
+
     override fun Jpql.selectFrom(): SelectQueryWhereStep<UserDataModel> {
         return select(entity(UserDataModel::class))
+            .from(entity(UserDataModel::class))
+    }
+
+    override fun Jpql.selectCount(): SelectQueryWhereStep<Long> {
+        return select(count(UserDataModel::id))
             .from(entity(UserDataModel::class))
     }
 
