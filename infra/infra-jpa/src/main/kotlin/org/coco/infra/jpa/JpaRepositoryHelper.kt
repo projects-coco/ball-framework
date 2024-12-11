@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.*
 import kotlin.reflect.KClass
 
+@Transactional
 abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
     private val jpaRepository: JpaRepository<D, ByteArray>,
     private val entityClass: KClass<E>
@@ -25,15 +26,13 @@ abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
 
     override fun findAll(pageable: Pageable): Page<E> = jpaRepository.findAll(pageable).map { it.toEntity() }
 
-    @Transactional
-    override fun update(id: BinaryId, modifier: (E)->Unit) {
+    override fun update(id: BinaryId, modifier: (E) -> Unit) {
         val dataModel = jpaRepository.findById(id.value).orElseThrow { EntityNotFoundError(entityClass, id) }
         val entity = dataModel.toEntity()
         modifier.invoke(entity)
         dataModel.update(entity)
     }
 
-    @Transactional
     override fun delete(id: BinaryId) {
         jpaRepository.deleteById(id.value)
     }
