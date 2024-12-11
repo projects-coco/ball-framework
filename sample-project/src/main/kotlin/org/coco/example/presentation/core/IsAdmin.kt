@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize
     AnnotationTarget.FUNCTION,
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
-    AnnotationTarget.CLASS
+    AnnotationTarget.CLASS,
 )
 @PreAuthorize("hasRole('ROLE_ADMIN')")
-annotation class IsAdmin 
+annotation class IsAdmin

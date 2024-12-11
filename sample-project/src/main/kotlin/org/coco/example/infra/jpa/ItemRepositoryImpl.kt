@@ -11,8 +11,9 @@ import org.springframework.transaction.annotation.Transactional
 @Repository
 @Transactional
 class ItemRepositoryImpl(
-    private val jpaRepository: ItemJpaRepository
-): ItemRepository, JpaRepositoryHelper<Item, ItemDataModel>(jpaRepository, Item::class) {
+    private val jpaRepository: ItemJpaRepository,
+) : JpaRepositoryHelper<Item, ItemDataModel>(jpaRepository, Item::class),
+    ItemRepository {
     override fun save(entity: Item): Item {
         val dataModel = ItemDataModel.of(entity)
         return jpaRepository.save(dataModel).toEntity()

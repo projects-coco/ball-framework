@@ -24,30 +24,37 @@ abstract class JpaSearchRepositoryHelper<E : EntityBase, D : DataModel<E>, S : S
     private val jpqlRenderContext: JpqlRenderContext,
 ) : JpaRepositoryHelper<E, D>(jpaRepository, entityClass), SearchRepository<E, S> {
     override fun search(searchDto: S): List<E> {
-        val query = jpql {
-            selectFrom()
-                .whereAnd(*where(searchDto))
-        }
+        val query =
+            jpql {
+                selectFrom()
+                    .whereAnd(*where(searchDto))
+            }
         val jpaQuery = entityManager.createQuery(query, jpqlRenderContext)
         return jpaQuery.resultList.map { it.toEntity() }
     }
 
-    override fun search(searchDto: S, pageable: Pageable): Page<E> {
-        val contentQuery = jpql {
-            selectFrom()
-                .whereAnd(*where(searchDto))
-        }
-        val countQuery = jpql {
-            selectCount()
-                .whereAnd(*where(searchDto))
-        }
-        val content = entityManager
-            .createQuery(contentQuery, jpqlRenderContext)
-            .apply {
-                firstResult = pageable.offset.toInt()
-                setMaxResults(pageable.pageSize)
+    override fun search(
+        searchDto: S,
+        pageable: Pageable,
+    ): Page<E> {
+        val contentQuery =
+            jpql {
+                selectFrom()
+                    .whereAnd(*where(searchDto))
             }
-            .resultList.map { it.toEntity() }
+        val countQuery =
+            jpql {
+                selectCount()
+                    .whereAnd(*where(searchDto))
+            }
+        val content =
+            entityManager
+                .createQuery(contentQuery, jpqlRenderContext)
+                .apply {
+                    firstResult = pageable.offset.toInt()
+                    setMaxResults(pageable.pageSize)
+                }.resultList
+                .map { it.toEntity() }
         val count = entityManager.createQuery(countQuery, jpqlRenderContext).singleResult as Long
         return PageImpl(content, pageable, count)
     }

@@ -18,11 +18,12 @@ class PrincipalConfig {
         return {
             UserPrincipal(
                 id = BinaryId.fromString(getClaim(CLAIM_ID).asString()),
-                roles = JsonUtils.deserialize(this.key("roles"), Set::class.java)
-                    .map {
-                        User.Role.valueOf(it as String)
-                    }
-                    .toSet(),
+                roles =
+                    JsonUtils
+                        .deserialize(this.key("roles"), Set::class.java)
+                        .map {
+                            User.Role.valueOf(it as String)
+                        }.toSet(),
                 username = BasicUser.Username(this.key("username")),
             )
         }

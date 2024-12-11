@@ -16,7 +16,7 @@ import java.time.Instant
 @RevisionEntity(BallAuditRevisionListener::class)
 class BallRevisionEntity(
     rev: Long,
-    timestamp: Long
+    timestamp: Long,
 ) : Serializable, BallRevisionMetadata {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

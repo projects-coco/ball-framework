@@ -19,9 +19,15 @@ interface RepositoryBase<T : EntityBase> {
 
     fun save(entity: T): T
 
-    fun update(id: BinaryId, modifier: (T) -> Unit)
+    fun update(
+        id: BinaryId,
+        modifier: (T) -> Unit,
+    )
 
-    fun update(entity: T, modifier: (T) -> Unit) {
+    fun update(
+        entity: T,
+        modifier: (T) -> Unit,
+    ) {
         update(entity.id, modifier)
     }
 
@@ -29,7 +35,13 @@ interface RepositoryBase<T : EntityBase> {
 
     fun findRevisions(id: BinaryId): List<Revision<Long, T>>
 
-    fun findRevisions(id: BinaryId, pageable: Pageable): Page<Revision<Long, T>>
+    fun findRevisions(
+        id: BinaryId,
+        pageable: Pageable,
+    ): Page<Revision<Long, T>>
 
-    fun findRevision(id: BinaryId, revisionNumber: Long): Optional<Revision<Long, T>>
+    fun findRevision(
+        id: BinaryId,
+        revisionNumber: Long,
+    ): Optional<Revision<Long, T>>
 }

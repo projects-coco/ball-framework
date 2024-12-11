@@ -19,14 +19,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class ErrorHandler {
     private val logger = logger()
 
-    private fun ErrorType.toHttpStatus(): HttpStatus = when (this) {
-        ErrorType.BAD_REQUEST -> HttpStatus.BAD_REQUEST
-        ErrorType.UNAUTHORIZED -> HttpStatus.UNAUTHORIZED
-        ErrorType.FORBIDDEN -> HttpStatus.FORBIDDEN
-        ErrorType.NOT_FOUND -> HttpStatus.NOT_FOUND
-        ErrorType.CONFLICT -> HttpStatus.CONFLICT
-        ErrorType.INTERNAL_SERVER_ERROR -> HttpStatus.INTERNAL_SERVER_ERROR
-    }
+    private fun ErrorType.toHttpStatus(): HttpStatus =
+        when (this) {
+            ErrorType.BAD_REQUEST -> HttpStatus.BAD_REQUEST
+            ErrorType.UNAUTHORIZED -> HttpStatus.UNAUTHORIZED
+            ErrorType.FORBIDDEN -> HttpStatus.FORBIDDEN
+            ErrorType.NOT_FOUND -> HttpStatus.NOT_FOUND
+            ErrorType.CONFLICT -> HttpStatus.CONFLICT
+            ErrorType.INTERNAL_SERVER_ERROR -> HttpStatus.INTERNAL_SERVER_ERROR
+        }
 
     @ExceptionHandler(LogicError::class)
     fun handle(exception: LogicError): ResponseEntity<ErrorResponse> =
@@ -36,15 +37,15 @@ class ErrorHandler {
                 .body(
                     ErrorResponse(
                         error = it.reason,
-                        message = it.message
-                    )
+                        message = it.message,
+                    ),
                 )
         }
 
     @ExceptionHandler(AuthorizationServiceException::class)
     fun handle(
         request: HttpServletRequest,
-        exception: AuthorizationServiceException
+        exception: AuthorizationServiceException,
     ): ResponseEntity<ErrorResponse> {
         logRequest(request)
         return ResponseEntity
@@ -53,7 +54,7 @@ class ErrorHandler {
                 ErrorResponse(
                     error =
                         "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.\n" +
-                                "문제가 지속되면 관리자에게 문의해주세요.",
+                            "문제가 지속되면 관리자에게 문의해주세요.",
                 ),
             )
     }
@@ -61,7 +62,7 @@ class ErrorHandler {
     @ExceptionHandler(AccessDeniedException::class)
     fun handle(
         request: HttpServletRequest,
-        exception: AccessDeniedException
+        exception: AccessDeniedException,
     ): ResponseEntity<ErrorResponse> {
         logRequest(request)
         return ResponseEntity
@@ -70,7 +71,7 @@ class ErrorHandler {
                 ErrorResponse(
                     error =
                         "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.\n" +
-                                "문제가 지속되면 관리자에게 문의해주세요.",
+                            "문제가 지속되면 관리자에게 문의해주세요.",
                 ),
             )
     }
@@ -83,7 +84,7 @@ class ErrorHandler {
         logger.debug(
             "# DEBUG | REQ_ID = {} | HANDLER = ErrorHandler | Exception:",
             BallRequestContext.requestId,
-            exception
+            exception,
         )
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -91,8 +92,8 @@ class ErrorHandler {
                 ErrorResponse(
                     error =
                         "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.\n" +
-                                "문제가 지속되면 관리자에게 문의해주세요.",
-                    message = exception.message
+                            "문제가 지속되면 관리자에게 문의해주세요.",
+                    message = exception.message,
                 ),
             )
     }

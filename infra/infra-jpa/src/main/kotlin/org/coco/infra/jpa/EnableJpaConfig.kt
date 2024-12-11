@@ -22,15 +22,16 @@ import kotlin.reflect.KClass
 )
 annotation class EnableJpaConfig(
     @get:AliasFor(
-        annotation = EntityScan::class, attribute = "basePackages"
+        annotation = EntityScan::class,
+        attribute = "basePackages",
     ) val entityBasePackages: Array<String> = [BALL_INFRA_ENTITY_PACKAGE],
-
     @get:AliasFor(
-        annotation = EnableJpaRepositories::class, attribute = "basePackages"
+        annotation = EnableJpaRepositories::class,
+        attribute = "basePackages",
     ) val repositoryBasePackages: Array<String> = [],
-
     @get:AliasFor(
-        annotation = EnableJpaRepositories::class, attribute = "repositoryFactoryBeanClass"
+        annotation = EnableJpaRepositories::class,
+        attribute = "repositoryFactoryBeanClass",
     ) val repositoryFactoryBeanClass: KClass<*> = EnversRevisionRepositoryFactoryBean::class,
 ) {
     companion object {

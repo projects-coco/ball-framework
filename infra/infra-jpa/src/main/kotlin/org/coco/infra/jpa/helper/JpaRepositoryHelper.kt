@@ -17,7 +17,7 @@ import kotlin.reflect.KClass
 @Transactional
 abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
     private val jpaRepository: JpaRepository<D, ByteArray>,
-    private val entityClass: KClass<E>
+    private val entityClass: KClass<E>,
 ) : RepositoryBase<E> {
     companion object {
         val RevisionNotImplementedError = LogicError("Revision 을 찾을 수 없습니다.")
@@ -27,12 +27,14 @@ abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
 
     override fun findAll(): List<E> = jpaRepository.findAll().map { it.toEntity() }
 
-    override fun findAll(ids: List<BinaryId>): List<E> =
-        jpaRepository.findAllById(ids.map { it.value }).map { it.toEntity() }
+    override fun findAll(ids: List<BinaryId>): List<E> = jpaRepository.findAllById(ids.map { it.value }).map { it.toEntity() }
 
     override fun findAll(pageable: Pageable): Page<E> = jpaRepository.findAll(pageable).map { it.toEntity() }
 
-    override fun update(id: BinaryId, modifier: (E) -> Unit) {
+    override fun update(
+        id: BinaryId,
+        modifier: (E) -> Unit,
+    ) {
         val dataModel = jpaRepository.findById(id.value).orElseThrow { EntityNotFoundError(entityClass, id) }
         val entity = dataModel.toEntity()
         modifier.invoke(entity)
@@ -56,7 +58,10 @@ abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
         }
     }
 
-    override fun findRevisions(id: BinaryId, pageable: Pageable): Page<Revision<Long, E>> {
+    override fun findRevisions(
+        id: BinaryId,
+        pageable: Pageable,
+    ): Page<Revision<Long, E>> {
         if (jpaRepository is JpaRevisionRepository<D>) {
             val revisions = jpaRepository.findRevisions(id.value, pageable)
             return revisions.map {
@@ -67,7 +72,10 @@ abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
         }
     }
 
-    override fun findRevision(id: BinaryId, revisionNumber: Long): Optional<Revision<Long, E>> {
+    override fun findRevision(
+        id: BinaryId,
+        revisionNumber: Long,
+    ): Optional<Revision<Long, E>> {
         if (jpaRepository is JpaRevisionRepository<D>) {
             val revision = jpaRepository.findRevision(id.value, revisionNumber)
             return revision.map {

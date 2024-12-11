@@ -33,7 +33,7 @@ class AuthController(
                     id = ballAuthenticationToken.userPrincipal.id.toString(),
                     roles = ballAuthenticationToken.userPrincipal.roles.map { it.toString() }.toSet(),
                     username = ballAuthenticationToken.userPrincipal.username.value,
-                )
+                ),
             )
     }
 
@@ -47,15 +47,17 @@ class AuthController(
     fun login(
         @RequestBody request: LoginRequest,
         servletRequest: HttpServletRequest,
-        servletResponse: HttpServletResponse
+        servletResponse: HttpServletResponse,
     ) {
-        val tokenPair = authService.login(
-            command = AuthService.LoginCommand(
-                username = BasicUser.Username(request.username),
-                password = BasicUser.Password(request.password),
-                remoteIp = servletRequest.getRemoteIp(),
+        val tokenPair =
+            authService.login(
+                command =
+                    AuthService.LoginCommand(
+                        username = BasicUser.Username(request.username),
+                        password = BasicUser.Password(request.password),
+                        remoteIp = servletRequest.getRemoteIp(),
+                    ),
             )
-        )
         servletResponse.sendAccessToken(tokenPair.first)
         servletResponse.sendRefreshToken(tokenPair.second)
     }

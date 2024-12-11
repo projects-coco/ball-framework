@@ -21,23 +21,23 @@ class User(
     createdAt: LocalDateTime = LocalDateTime.now(currentClock()),
     updatedAt: LocalDateTime = LocalDateTime.now(currentClock()),
 ) : BasicUser(
-    id,
-    username,
-    roles,
-    name,
-    phoneNumber,
-    passwordHash,
-    agreementOfTerms,
-    agreementOfPrivacy,
-    active,
-    lastLoginAt,
-    loginCount,
-    createdAt,
-    updatedAt
-) {
+        id,
+        username,
+        roles,
+        name,
+        phoneNumber,
+        passwordHash,
+        agreementOfTerms,
+        agreementOfPrivacy,
+        active,
+        lastLoginAt,
+        loginCount,
+        createdAt,
+        updatedAt,
+    ) {
     enum class Role : IRole {
         ROLE_ADMIN,
-        ROLE_USER
+        ROLE_USER,
     }
 
     fun updateName(name: Name) {
