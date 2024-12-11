@@ -10,11 +10,12 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories
 annotation class EnableMongodbConfig(
     @get:AliasFor(
-        annotation = EntityScan::class, attribute = "basePackages"
+        annotation = EntityScan::class,
+        attribute = "basePackages",
     ) val entityBasePackages: Array<String> = [BALL_INFRA_PACKAGE],
-
     @get:AliasFor(
-        annotation = EnableMongoRepositories::class, attribute = "basePackages"
+        annotation = EnableMongoRepositories::class,
+        attribute = "basePackages",
     )
     val repositoryBasePackages: Array<String> = [],
 ) {

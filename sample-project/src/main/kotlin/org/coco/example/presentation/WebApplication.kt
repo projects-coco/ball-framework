@@ -13,19 +13,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.stereotype.Component
 
 @SpringBootApplication(
-    scanBasePackages = ["org.coco.example"]
+    scanBasePackages = ["org.coco.example"],
 )
 @EnableBallApplication
 @EnableJpaConfig(
     entityBasePackages = [
         EnableJpaConfig.BALL_INFRA_ENTITY_PACKAGE,
         EnableBallAuthJpaInfra.BALL_AUTH_JPA_ENTITY_PACKAGE,
-        "org.coco.example.infra.jpa.model.*"
+        "org.coco.example.infra.jpa.model.*",
     ],
     repositoryBasePackages = [
         EnableBallAuthJpaInfra.BALL_AUTH_JPA_REPOSITORY_PACKAGE,
-        "org.coco.example.infra.jpa.model"
-    ]
+        "org.coco.example.infra.jpa.model",
+    ],
 )
 @EnableBallAuthJpaInfra
 class WebApplication
@@ -41,7 +41,7 @@ class SampleCommandLineRunner(
     private val userRepository: UserRepository,
 ) : CommandLineRunner {
     override fun run(vararg args: String?) {
-        userService.createUser("coco",  "coco-password!")
+        userService.createUser("coco", "coco-password!")
         val createdUser = userService.findUser(BasicUser.Username("coco"))
         userRepository.findRevisions(createdUser.id).forEach {
             println(BallRevisionDto.of(it))

@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/user")
 class UserHandler(
-    private val userService: UserService
+    private val userService: UserService,
 ) {
     @PatchMapping("/name/{name}")
     @IsAuthorized
-    fun patchName(ballAuthenticationToken: BallAuthenticationToken, @PathVariable name: BasicUser.Name): ResponseEntity<User> {
-        val user =  userService.findUser(ballAuthenticationToken.userPrincipal.username)
+    fun patchName(
+        ballAuthenticationToken: BallAuthenticationToken,
+        @PathVariable name: BasicUser.Name,
+    ): ResponseEntity<User> {
+        val user = userService.findUser(ballAuthenticationToken.userPrincipal.username)
         userService.updateName(user, name)
-        val updatedUser =  userService.findUser(ballAuthenticationToken.userPrincipal.username)
+        val updatedUser = userService.findUser(ballAuthenticationToken.userPrincipal.username)
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(updatedUser)

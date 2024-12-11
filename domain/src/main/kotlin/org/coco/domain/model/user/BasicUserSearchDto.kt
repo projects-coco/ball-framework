@@ -12,4 +12,4 @@ open class BasicUserSearchDto(
     val phoneNumber: Option<String> = null.toOption(),
     val active: Option<Boolean> = null.toOption(),
     val loginCount: Option<Long> = null.toOption(),
-): SearchDto
+) : SearchDto

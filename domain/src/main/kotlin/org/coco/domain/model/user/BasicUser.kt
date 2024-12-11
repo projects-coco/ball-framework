@@ -66,7 +66,8 @@ open class BasicUser(
     interface IRole
 
     enum class Role : IRole {
-        USER, ADMIN
+        USER,
+        ADMIN,
     }
 
     @JvmInline
@@ -91,7 +92,6 @@ open class BasicUser(
         val value: String,
     )
 
-
     @JvmInline
     value class PhoneNumber(
         val value: String,
@@ -102,9 +102,10 @@ open class BasicUser(
         }
     }
 
-    override fun toString(): String = ToStringBuilder(this)
-        .append("id", id.toString())
-        .append("username", username.value)
-        .append("roles", roles)
-        .toString()
+    override fun toString(): String =
+        ToStringBuilder(this)
+            .append("id", id.toString())
+            .append("username", username.value)
+            .append("roles", roles)
+            .toString()
 }

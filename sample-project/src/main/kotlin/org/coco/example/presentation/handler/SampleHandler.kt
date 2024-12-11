@@ -19,9 +19,9 @@ class SampleHandler(
 
     @GetMapping("/hello/{name}")
     @IsAdmin
-    fun hello(@PathVariable name: String): ResponseEntity<String> {
-        return ResponseEntity.ok(sampleService.sayHello(name))
-    }
+    fun hello(
+        @PathVariable name: String,
+    ): ResponseEntity<String> = ResponseEntity.ok(sampleService.sayHello(name))
 
     @GetMapping("/error")
     fun error(): ResponseEntity<String> {

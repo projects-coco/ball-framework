@@ -43,7 +43,7 @@ class RefreshTokenDataModel(
             used = used,
             expiredAt = expiredAt,
             createdAt = createdAt,
-            updatedAt = updatedAt
+            updatedAt = updatedAt,
         )
     }
 

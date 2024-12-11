@@ -14,7 +14,6 @@ class RentalHistoryRepositoryImpl(
     private val jpaRepository: RentalHistoryJpaRepository,
 ) : RentalHistoryRepository,
     JpaRepositoryHelper<RentalHistory, RentalHistoryDataModel>(jpaRepository, RentalHistory::class) {
-
     override fun save(entity: RentalHistory): RentalHistory {
         val dataModel = RentalHistoryDataModel.of(entity)
         return jpaRepository.save(dataModel).toEntity()

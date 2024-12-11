@@ -49,17 +49,19 @@ open class AuthService(
 
     fun logout(command: LogoutCommand) {
         val (payload) = command
-        val refreshToken = refreshTokenRepository.findByPayload(payload).orElseThrow {
-            LogoutFailError
-        }
+        val refreshToken =
+            refreshTokenRepository.findByPayload(payload).orElseThrow {
+                LogoutFailError
+            }
         refreshTokenRepository.delete(refreshToken.id)
     }
 
     protected open fun authenticate(command: LoginCommand): BasicUser {
         val (username, password) = command
-        val user = userRepository.findByUsername(username.value).orElseThrow {
-            LoginFailError
-        }
+        val user =
+            userRepository.findByUsername(username.value).orElseThrow {
+                LoginFailError
+            }
         val passwordVerification = passwordHashProvider.verify(password, user.passwordHash)
         if (!passwordVerification) {
             throw LoginFailError

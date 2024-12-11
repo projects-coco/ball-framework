@@ -15,7 +15,7 @@ class SampleService {
             when (it) {
                 ErrorOnConsider.Unlucky -> throw LogicError(
                     reason = "You're unlucky... $name",
-                    errorType = ErrorType.INTERNAL_SERVER_ERROR
+                    errorType = ErrorType.INTERNAL_SERVER_ERROR,
                 )
             }
         }
@@ -25,7 +25,8 @@ class SampleService {
         data object Unlucky : ErrorOnConsider
     }
 
-    private fun considerToResponse(name: String): Logic<ErrorOnConsider, String> = logic {
-        Random.nextInt(10).takeIf { it > 5 }?.let { "Hello, $name!" } ?: raise(ErrorOnConsider.Unlucky)
-    }
+    private fun considerToResponse(name: String): Logic<ErrorOnConsider, String> =
+        logic {
+            Random.nextInt(10).takeIf { it > 5 }?.let { "Hello, $name!" } ?: raise(ErrorOnConsider.Unlucky)
+        }
 }

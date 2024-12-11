@@ -23,13 +23,16 @@ import java.util.*
 class RequestLogger {
     val log = logger()
 
-    @Around("execution(@(@org.springframework.web.bind.annotation.RequestMapping *) * *(..)) || execution(@(@org.springframework.web.bind.annotation.GetMapping *) * *(..)) || execution(@(@org.springframework.web.bind.annotation.PostMapping *) * *(..)) || execution(@(@org.springframework.web.bind.annotation.PatchMapping *) * *(..)) || execution(@(@org.springframework.web.bind.annotation.PutMapping *) * *(..)) || execution(@(@org.springframework.web.bind.annotation.DeleteMapping *) * *(..))")
+    @Around(
+        "execution(@(@org.springframework.web.bind.annotation.RequestMapping *) * *(..)) || execution(@(@org.springframework.web.bind.annotation.GetMapping *) * *(..)) || execution(@(@org.springframework.web.bind.annotation.PostMapping *) * *(..)) || execution(@(@org.springframework.web.bind.annotation.PatchMapping *) * *(..)) || execution(@(@org.springframework.web.bind.annotation.PutMapping *) * *(..)) || execution(@(@org.springframework.web.bind.annotation.DeleteMapping *) * *(..))",
+    )
     fun log(joinPoint: ProceedingJoinPoint): Any? {
         val request = (RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes).request
-        val args = joinPoint.args
-            .filter { obj: Any? -> Objects.nonNull(obj) }
-            .filter { arg: Any? -> arg !is HttpServletRequest && arg !is HttpServletResponse }
-            .toList()
+        val args =
+            joinPoint.args
+                .filter { obj: Any? -> Objects.nonNull(obj) }
+                .filter { arg: Any? -> arg !is HttpServletRequest && arg !is HttpServletResponse }
+                .toList()
 
         val controller = joinPoint.target.javaClass.simpleName
 

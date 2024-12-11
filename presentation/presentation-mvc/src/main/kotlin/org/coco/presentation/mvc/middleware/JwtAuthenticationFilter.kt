@@ -31,15 +31,16 @@ data class BallAuthenticationToken(
 
     override fun getPrincipal(): Any = userPrincipal
 
-    override fun toString(): String = ToStringBuilder(this)
-        .append("userPrincipal", userPrincipal)
-        .toString()
+    override fun toString(): String =
+        ToStringBuilder(this)
+            .append("userPrincipal", userPrincipal)
+            .toString()
 }
 
 @Component
 @Import(
     JwtConfig::class,
-    RefreshTokenHandler::class
+    RefreshTokenHandler::class,
 )
 class JwtAuthenticationFilter(
     private val accessTokenProvider: TokenProvider,
@@ -53,7 +54,7 @@ class JwtAuthenticationFilter(
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        filterChain: FilterChain
+        filterChain: FilterChain,
     ) {
         val accessToken = request.getAccessToken()
 

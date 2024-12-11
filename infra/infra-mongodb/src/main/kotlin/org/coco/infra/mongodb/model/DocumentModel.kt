@@ -8,7 +8,6 @@ import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.mongodb.core.query.Update
 import java.time.LocalDateTime
 
-
 abstract class DocumentModel<T : EntityBase>(
     id: ByteArray,
     createdAt: LocalDateTime,

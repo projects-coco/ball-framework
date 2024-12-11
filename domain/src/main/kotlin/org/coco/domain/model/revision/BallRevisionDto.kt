@@ -14,20 +14,21 @@ data class BallRevisionDto<T>(
             val revisionNumber: Long,
             val revisionDate: Instant,
             val author: String?,
-            val authorId: String?
+            val authorId: String?,
         )
 
         fun <T> of(revision: Revision<Long, T>): BallRevisionDto<T> {
             val ballRevisionMetadata = revision.metadata.getDelegate<BallRevisionMetadata>()
             return BallRevisionDto(
-                metadata = Metadata(
-                    revisionType = revision.metadata.revisionType,
-                    revisionNumber = ballRevisionMetadata.getRevisionNumber(),
-                    revisionDate = ballRevisionMetadata.getRevisionInstant(),
-                    author = ballRevisionMetadata.getAuthor()?.value,
-                    authorId = ballRevisionMetadata.getAuthorId()?.toString(),
-                ),
-                body = revision.entity
+                metadata =
+                    Metadata(
+                        revisionType = revision.metadata.revisionType,
+                        revisionNumber = ballRevisionMetadata.getRevisionNumber(),
+                        revisionDate = ballRevisionMetadata.getRevisionInstant(),
+                        author = ballRevisionMetadata.getAuthor()?.value,
+                        authorId = ballRevisionMetadata.getAuthorId()?.toString(),
+                    ),
+                body = revision.entity,
             )
         }
     }

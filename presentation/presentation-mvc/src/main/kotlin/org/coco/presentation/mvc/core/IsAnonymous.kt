@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize
     AnnotationTarget.CLASS,
     AnnotationTarget.FUNCTION,
     AnnotationTarget.PROPERTY_GETTER,
-    AnnotationTarget.PROPERTY_SETTER
+    AnnotationTarget.PROPERTY_SETTER,
 )
 @PreAuthorize("isAnonymous()")
-annotation class IsAnonymous 
+annotation class IsAnonymous

@@ -11,7 +11,7 @@ open class Agreement(
     @Suppress("unused")
     constructor() : this(
         false,
-        LocalDateTime.now(currentClock())
+        LocalDateTime.now(currentClock()),
     )
 
     open var status: Boolean = status
@@ -22,6 +22,7 @@ open class Agreement(
 
     companion object {
         fun agree() = Agreement(true, LocalDateTime.now(currentClock()))
+
         fun disagree() = Agreement(false, LocalDateTime.now(currentClock()))
     }
 

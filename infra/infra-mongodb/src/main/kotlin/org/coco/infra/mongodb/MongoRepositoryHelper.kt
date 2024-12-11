@@ -26,20 +26,21 @@ abstract class MongoRepositoryHelper<E : EntityBase, D : DocumentModel<E>>(
 
     override fun findAll(): List<E> = mongoRepository.findAll().map { it.toEntity() }
 
-    override fun findAll(ids: List<BinaryId>): List<E> =
-        mongoRepository.findAllById(ids.map { it.value }).map { it.toEntity() }
+    override fun findAll(ids: List<BinaryId>): List<E> = mongoRepository.findAllById(ids.map { it.value }).map { it.toEntity() }
 
-    override fun findAll(pageable: Pageable): Page<E> =
-        mongoRepository.findAll(pageable).map { it.toEntity() }
+    override fun findAll(pageable: Pageable): Page<E> = mongoRepository.findAll(pageable).map { it.toEntity() }
 
-    override fun update(id: BinaryId, modifier: (E) -> Unit) {
+    override fun update(
+        id: BinaryId,
+        modifier: (E) -> Unit,
+    ) {
         val documentModel = mongoRepository.findById(id.value).orElseThrow { EntityNotFoundError(entityClass, id) }
         val entity = documentModel.toEntity()
         modifier.invoke(entity)
         mongoTemplate.updateFirst(
             Query(Criteria.where("entityId").`is`(id.value)),
             documentModel.update(entity),
-            documentModelClass.java
+            documentModelClass.java,
         )
     }
 

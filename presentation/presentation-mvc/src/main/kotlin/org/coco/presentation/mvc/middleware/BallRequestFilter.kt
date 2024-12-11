@@ -10,8 +10,12 @@ import org.springframework.stereotype.Component
 
 @Component
 @Order(1)
-class BallRequestFilter: Filter {
-    override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
+class BallRequestFilter : Filter {
+    override fun doFilter(
+        request: ServletRequest,
+        response: ServletResponse,
+        chain: FilterChain,
+    ) {
         BallRequestContext.allocateRequestId()
         try {
             chain.doFilter(request, response)

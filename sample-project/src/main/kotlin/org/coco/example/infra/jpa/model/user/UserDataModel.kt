@@ -31,20 +31,20 @@ class UserDataModel(
     createdAt: LocalDateTime,
     updatedAt: LocalDateTime,
 ) : BasicUserDataModel<User>(
-    id,
-    username,
-    roles,
-    name,
-    phoneNumber,
-    passwordHash,
-    agreementOfTerms,
-    agreementOfPrivacy,
-    active,
-    lastLoginAt,
-    loginCount,
-    createdAt,
-    updatedAt
-) {
+        id,
+        username,
+        roles,
+        name,
+        phoneNumber,
+        passwordHash,
+        agreementOfTerms,
+        agreementOfPrivacy,
+        active,
+        lastLoginAt,
+        loginCount,
+        createdAt,
+        updatedAt,
+    ) {
     @Type(JsonType::class)
     @Column(columnDefinition = "json")
     override var roles: Set<String> = roles.map { it.name }.toSet()
@@ -63,7 +63,7 @@ class UserDataModel(
             lastLoginAt = lastLoginAt,
             loginCount = loginCount,
             createdAt = createdAt,
-            updatedAt = updatedAt
+            updatedAt = updatedAt,
         )
     }
 

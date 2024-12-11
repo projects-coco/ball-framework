@@ -50,7 +50,7 @@ class JwtTokenProvider(
                         "username" to payload.username.value,
                     ),
                 ).withClaim(CLAIM_ID, payload.name)
-                .sign(algorithm)
+                .sign(algorithm),
         )
     }
 

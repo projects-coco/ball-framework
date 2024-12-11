@@ -4,7 +4,7 @@ import java.io.FileInputStream
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlinter)
+    alias(libs.plugins.ktlint)
 }
 
 group = "org.coco"
@@ -25,11 +25,6 @@ allprojects {
         plugin("java")
         plugin(
             deps.plugins.kotlin.jvm
-                .get()
-                .pluginId,
-        )
-        plugin(
-            deps.plugins.kotlinter
                 .get()
                 .pluginId,
         )
@@ -73,13 +68,6 @@ allprojects {
     }
 
     tasks {
-        formatKotlinMain {
-            exclude { it.file.path.contains("generated") }
-        }
-        lintKotlinMain {
-            dependsOn("formatKotlinMain")
-            exclude { it.file.path.contains("generated") }
-        }
         test {
             useJUnitPlatform()
         }

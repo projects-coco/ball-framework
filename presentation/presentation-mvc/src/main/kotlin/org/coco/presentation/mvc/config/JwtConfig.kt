@@ -28,7 +28,7 @@ class JwtConfig(
             secret = authProperties.accessTokenSecret,
             issuer = authProperties.issuer,
             expiry = Duration.ofMinutes(30),
-            toPrincipal = principalBuilder
+            toPrincipal = principalBuilder,
         )
 
     @Bean("refreshTokenProvider")
@@ -37,6 +37,6 @@ class JwtConfig(
             secret = authProperties.refreshTokenSecret,
             issuer = authProperties.issuer,
             expiry = Duration.ofDays(14),
-            toPrincipal = principalBuilder
+            toPrincipal = principalBuilder,
         )
 }

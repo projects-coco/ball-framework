@@ -13,7 +13,7 @@ class Rental(
     endAt: LocalDate = beginAt.plusDays(7),
     createdAt: LocalDateTime = LocalDateTime.now(currentClock()),
     updatedAt: LocalDateTime = LocalDateTime.now(currentClock()),
-): EntityBase(id, createdAt, updatedAt) {
+) : EntityBase(id, createdAt, updatedAt) {
     var item: Item = item
         private set
 

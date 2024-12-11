@@ -20,10 +20,11 @@ fun HttpServletRequest.getAccessToken(): Optional<Token.Payload> {
 
 fun HttpServletRequest.getRefreshToken(): Optional<Token.Payload> {
     return Optional
-        .ofNullable(this.cookies?.let { cookies ->
-            cookies.find { it.name == REFRESH_TOKEN_COOKIE_KEY }
-        })
-        .map { Token.Payload(it.value) }
+        .ofNullable(
+            this.cookies?.let { cookies ->
+                cookies.find { it.name == REFRESH_TOKEN_COOKIE_KEY }
+            },
+        ).map { Token.Payload(it.value) }
 }
 
 fun HttpServletResponse.sendAccessToken(payload: Token.Payload) {
@@ -37,6 +38,6 @@ fun HttpServletResponse.sendRefreshToken(payload: Token.Payload) {
     refreshTokenCookie.isHttpOnly = true
     refreshTokenCookie.secure = true
     this.addCookie(
-        Cookie(REFRESH_TOKEN_COOKIE_KEY, payload.value)
+        Cookie(REFRESH_TOKEN_COOKIE_KEY, payload.value),
     )
 }

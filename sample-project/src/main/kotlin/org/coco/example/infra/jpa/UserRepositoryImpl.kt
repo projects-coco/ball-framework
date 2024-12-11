@@ -29,10 +29,9 @@ class UserRepositoryImpl(
         jpaRepository,
         User::class,
         entityManager,
-        jpqlRenderContext
+        jpqlRenderContext,
     ) {
-    override fun findByUsername(username: String): Optional<User> =
-        jpaRepository.findByUsername(username).map { it.toEntity() }
+    override fun findByUsername(username: String): Optional<User> = jpaRepository.findByUsername(username).map { it.toEntity() }
 
     override fun save(entity: User): User {
         val dataModel = UserDataModel.of(entity)
@@ -43,14 +42,15 @@ class UserRepositoryImpl(
 
     override fun Jpql.selectCount(): SelectQueryWhereStep<Long> = selectCount(UserDataModel::class)
 
-    override fun Jpql.where(searchDto: BasicUserSearchDto): Array<out Predicatable?> = searchDto.run {
-        arrayOf(
-            id.bindOrNull { path(UserDataModel::id).eq(it.value) },
-            username.bindOrNull { path(UserDataModel::username).like("%$it%") },
-            name.bindOrNull { path(UserDataModel::name).like("%$it%") },
-            phoneNumber.bindOrNull { path(UserDataModel::phoneNumber).like("%$it%") },
-            active.bindOrNull { path(UserDataModel::active).eq(it) },
-            loginCount.bindOrNull { path(UserDataModel::loginCount).eq(it) },
-        )
-    }
+    override fun Jpql.where(searchDto: BasicUserSearchDto): Array<out Predicatable?> =
+        searchDto.run {
+            arrayOf(
+                id.bindOrNull { path(UserDataModel::id).eq(it.value) },
+                username.bindOrNull { path(UserDataModel::username).like("%$it%") },
+                name.bindOrNull { path(UserDataModel::name).like("%$it%") },
+                phoneNumber.bindOrNull { path(UserDataModel::phoneNumber).like("%$it%") },
+                active.bindOrNull { path(UserDataModel::active).eq(it) },
+                loginCount.bindOrNull { path(UserDataModel::loginCount).eq(it) },
+            )
+        }
 }
