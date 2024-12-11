@@ -1,8 +1,8 @@
 package org.coco.infra.mongodb
 
-import org.coco.domain.model.BinaryId
+import org.coco.core.type.BinaryId
+import org.coco.domain.exception.EntityNotFoundError
 import org.coco.domain.model.EntityBase
-import org.coco.domain.model.EntityNotFoundError
 import org.coco.domain.model.RepositoryBase
 import org.coco.infra.mongodb.model.DocumentModel
 import org.springframework.data.domain.Page

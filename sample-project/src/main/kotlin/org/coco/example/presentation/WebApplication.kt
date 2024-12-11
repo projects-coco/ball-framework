@@ -1,6 +1,6 @@
 package org.coco.example.presentation
 
-import org.coco.domain.model.BallRevisionDto
+import org.coco.domain.model.revision.BallRevisionDto
 import org.coco.domain.model.user.BasicUser
 import org.coco.example.application.UserService
 import org.coco.example.domain.model.user.UserRepository

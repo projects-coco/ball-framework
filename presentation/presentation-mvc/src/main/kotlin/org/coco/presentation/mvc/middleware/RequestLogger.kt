@@ -5,9 +5,9 @@ import jakarta.servlet.http.HttpServletResponse
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
+import org.coco.core.type.BallRequestContext
 import org.coco.core.utils.currentClock
 import org.coco.core.utils.logger
-import org.coco.domain.core.BallRequestContext
 import org.coco.presentation.mvc.core.getRemoteIp
 import org.springframework.context.annotation.EnableAspectJAutoProxy
 import org.springframework.stereotype.Component

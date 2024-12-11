@@ -1,8 +1,8 @@
 package org.coco.domain.service.auth
 
+import org.coco.core.type.ErrorType
+import org.coco.core.type.LogicError
 import org.coco.core.utils.logger
-import org.coco.domain.core.ErrorType
-import org.coco.domain.core.LogicError
 import org.coco.domain.model.auth.RefreshTokenRepository
 import org.coco.domain.model.auth.Token
 import org.coco.domain.model.auth.UserPrincipal

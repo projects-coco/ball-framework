@@ -1,4 +1,4 @@
-package org.coco.domain.core
+package org.coco.core.type
 
 import arrow.core.Either
 

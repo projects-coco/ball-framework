@@ -1,7 +1,7 @@
 package org.coco.example.domain.model.rental
 
+import org.coco.core.type.BinaryId
 import org.coco.core.utils.currentClock
-import org.coco.domain.model.BinaryId
 import org.coco.domain.model.EntityBase
 import java.time.LocalDate
 import java.time.LocalDateTime

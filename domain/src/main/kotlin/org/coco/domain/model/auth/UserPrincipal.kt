@@ -1,6 +1,6 @@
 package org.coco.domain.model.auth
 
-import org.coco.domain.model.BinaryId
+import org.coco.core.type.BinaryId
 import org.coco.domain.model.user.BasicUser
 import java.security.Principal
 

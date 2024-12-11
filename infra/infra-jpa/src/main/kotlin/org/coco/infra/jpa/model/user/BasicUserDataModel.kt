@@ -1,7 +1,7 @@
 package org.coco.infra.jpa.model.user
 
 import jakarta.persistence.*
-import org.coco.domain.model.BinaryId
+import org.coco.core.type.BinaryId
 import org.coco.domain.model.user.Agreement
 import org.coco.domain.model.user.BasicUser
 import org.coco.domain.model.user.BasicUser.*

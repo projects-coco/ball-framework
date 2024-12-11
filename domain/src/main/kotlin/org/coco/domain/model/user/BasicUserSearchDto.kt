@@ -1,8 +1,8 @@
 package org.coco.domain.model.user
 
 import arrow.core.Option
-import org.coco.domain.core.toOption
-import org.coco.domain.model.BinaryId
+import org.coco.core.extension.toOption
+import org.coco.core.type.BinaryId
 import org.coco.domain.model.SearchDto
 
 open class BasicUserSearchDto(

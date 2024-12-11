@@ -1,7 +1,7 @@
 package org.coco.example.presentation
 
+import org.coco.core.type.BinaryId
 import org.coco.core.utils.JsonUtils
-import org.coco.domain.model.BinaryId
 import org.coco.domain.model.auth.UserPrincipal
 import org.coco.domain.model.user.BasicUser
 import org.coco.example.domain.model.user.User
