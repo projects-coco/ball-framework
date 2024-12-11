@@ -21,6 +21,5 @@ value class BinaryId(val value: ByteArray) : Comparable<BinaryId> {
         return ULID.fromBytes(value).toString()
     }
 
-    fun toHexString(): String =
-        "0x${this.value.joinToString(separator = "") { eachByte -> "%02x".format(eachByte) }}"
+    fun toHexString(): String = "0x${this.value.joinToString(separator = "") { eachByte -> "%02x".format(eachByte) }}"
 }

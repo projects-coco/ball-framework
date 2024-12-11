@@ -9,7 +9,6 @@ enum class ErrorType {
     NOT_FOUND,
     CONFLICT,
     INTERNAL_SERVER_ERROR,
-    ;
 }
 
 open class LogicError(
