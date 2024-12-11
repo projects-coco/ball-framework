@@ -1,12 +1,12 @@
 package org.coco.example.presentation
 
+import org.coco.domain.model.BallRevisionDto
 import org.coco.domain.model.user.BasicUser
 import org.coco.example.application.UserService
 import org.coco.example.domain.model.user.UserRepository
 import org.coco.infra.auth.jpa.EnableBallAuthJpaInfra
 import org.coco.infra.jpa.EnableJpaConfig
 import org.coco.presentation.mvc.core.EnableBallApplication
-import org.coco.presentation.mvc.dto.RevisionDto
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -44,7 +44,7 @@ class SampleCommandLineRunner(
         userService.createUser("coco",  "coco-password!")
         val createdUser = userService.findUser(BasicUser.Username("coco"))
         userRepository.findRevisions(createdUser.id).forEach {
-            println(RevisionDto.of(it))
+            println(BallRevisionDto.of(it))
         }
     }
 }
