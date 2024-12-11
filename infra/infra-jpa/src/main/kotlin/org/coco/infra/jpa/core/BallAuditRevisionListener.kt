@@ -10,8 +10,8 @@ class BallAuditRevisionListener : RevisionListener {
     override fun newRevision(revisionEntity: Any) {
         val ballRevisionEntity: BallRevisionEntity = revisionEntity as BallRevisionEntity
         UserPrincipalContextHolder.userPrincipal?.let {
-            ballRevisionEntity.userId = it.id.value
-            ballRevisionEntity.username = it.username.value
+            ballRevisionEntity.authorId = it.id.value
+            ballRevisionEntity.author = it.username.value
         }
     }
 }

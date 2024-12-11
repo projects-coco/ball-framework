@@ -1,6 +1,9 @@
 package org.coco.infra.jpa.model
 
 import jakarta.persistence.*
+import org.coco.domain.model.BallRevision
+import org.coco.domain.model.BinaryId
+import org.coco.domain.model.user.BasicUser
 import org.coco.infra.jpa.core.BallAuditRevisionListener
 import org.hibernate.envers.RevisionEntity
 import org.hibernate.envers.RevisionNumber
@@ -13,7 +16,7 @@ import java.io.Serializable
 class BallRevisionEntity(
     rev: Long,
     timestamp: Long
-) : Serializable {
+) : Serializable, BallRevision {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @RevisionNumber
@@ -24,9 +27,17 @@ class BallRevisionEntity(
     var timestamp: Long = timestamp
         protected set
 
-    var userId: ByteArray? = null
+    var authorId: ByteArray? = null
         internal set
 
-    var username: String? = null
+    var author: String? = null
         internal set
+
+    override fun getAuthorId(): BinaryId? {
+        return authorId?.let { BinaryId(it) }
+    }
+
+    override fun getAuthor(): BasicUser.Username? {
+        return author?.let { BasicUser.Username(it) }
+    }
 }

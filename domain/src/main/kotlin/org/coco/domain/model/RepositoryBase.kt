@@ -2,6 +2,7 @@ package org.coco.domain.model
 
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.history.Revision
 import org.springframework.data.repository.NoRepositoryBean
 import java.util.*
 
@@ -24,4 +25,10 @@ interface RepositoryBase<T : EntityBase> {
     }
 
     fun delete(id: BinaryId)
+
+    fun findRevisions(id: BinaryId): List<Revision<Long, T>>
+
+    fun findRevisions(id: BinaryId, pageable: Pageable): Page<Revision<Long, T>>
+
+    fun findRevision(id: BinaryId, revisionNumber: Long): Optional<Revision<Long, T>>
 }
