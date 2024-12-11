@@ -7,6 +7,7 @@ import org.coco.example.infra.jpa.model.rental.RentalDataModel
 import org.coco.example.infra.jpa.model.user.UserDataModel
 import org.coco.infra.jpa.model.DataModel
 import org.hibernate.envers.Audited
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "rental_histories")
@@ -15,7 +16,9 @@ class RentalHistoryDataModel(
     id: BinaryId = BinaryId.new(),
     user: UserDataModel,
     rental: RentalDataModel,
-) : DataModel<RentalHistory>(id.value) {
+    createdAt: LocalDateTime,
+    updatedAt: LocalDateTime,
+) : DataModel<RentalHistory>(id.value, createdAt, updatedAt) {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     var user: UserDataModel = user
@@ -39,7 +42,9 @@ class RentalHistoryDataModel(
             return RentalHistoryDataModel(
                 id = history.id,
                 user = UserDataModel.of(history.user),
-                rental = RentalDataModel.of(history.rental)
+                rental = RentalDataModel.of(history.rental),
+                createdAt = history.createdAt,
+                updatedAt = history.updatedAt,
             )
         }
     }

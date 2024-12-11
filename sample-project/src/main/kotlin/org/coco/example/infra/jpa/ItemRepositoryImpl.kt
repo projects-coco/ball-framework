@@ -14,7 +14,7 @@ class ItemRepositoryImpl(
     private val jpaRepository: ItemJpaRepository
 ): ItemRepository, JpaRepositoryHelper<Item, ItemDataModel>(jpaRepository, Item::class) {
     override fun save(entity: Item): Item {
-        val dataModel = ItemDataModel(id = entity.id, name = entity.name)
+        val dataModel = ItemDataModel.of(entity)
         return jpaRepository.save(dataModel).toEntity()
     }
 }

@@ -1,12 +1,13 @@
 package org.coco.example.infra.jpa.model.rental
 
 import jakarta.persistence.*
-import org.coco.domain.model.BinaryId
 import org.coco.core.utils.currentClock
+import org.coco.domain.model.BinaryId
 import org.coco.example.domain.model.rental.Rental
 import org.coco.infra.jpa.model.DataModel
 import org.hibernate.envers.Audited
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "rentals")
@@ -16,7 +17,9 @@ class RentalDataModel(
     item: ItemDataModel,
     beginAt: LocalDate = LocalDate.now(currentClock()),
     endAt: LocalDate = beginAt.plusDays(7),
-) : DataModel<Rental>(id.value) {
+    createdAt: LocalDateTime,
+    updatedAt: LocalDateTime,
+) : DataModel<Rental>(id.value, createdAt, updatedAt) {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
     var item: ItemDataModel = item
@@ -44,7 +47,9 @@ class RentalDataModel(
                 rental.id,
                 ItemDataModel.of(rental.item),
                 beginAt = rental.beginAt,
-                endAt = rental.endAt
+                endAt = rental.endAt,
+                createdAt = rental.createdAt,
+                updatedAt = rental.updatedAt,
             )
         }
     }
