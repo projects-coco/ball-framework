@@ -3,7 +3,7 @@ package org.coco.infra.auth.jpa.model
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
-import org.coco.domain.model.BinaryId
+import org.coco.core.type.BinaryId
 import org.coco.domain.model.auth.RefreshToken
 import org.coco.domain.model.auth.Token
 import org.coco.infra.jpa.model.DataModel

@@ -5,7 +5,7 @@ import com.linecorp.kotlinjdsl.dsl.jpql.select.SelectQueryWhereStep
 import com.linecorp.kotlinjdsl.querymodel.jpql.predicate.Predicatable
 import com.linecorp.kotlinjdsl.render.jpql.JpqlRenderContext
 import jakarta.persistence.EntityManager
-import org.coco.domain.core.bindOrNull
+import org.coco.core.extension.bindOrNull
 import org.coco.domain.model.user.BasicUserSearchDto
 import org.coco.example.domain.model.user.User
 import org.coco.example.domain.model.user.UserRepository

@@ -1,5 +1,6 @@
-package org.coco.domain.model
+package org.coco.domain.model.revision
 
+import org.coco.core.type.BinaryId
 import org.coco.domain.model.user.BasicUser
 import java.time.Instant
 

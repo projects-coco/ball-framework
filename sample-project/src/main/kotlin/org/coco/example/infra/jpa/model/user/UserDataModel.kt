@@ -4,7 +4,7 @@ import io.hypersistence.utils.hibernate.type.json.JsonType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
-import org.coco.domain.model.BinaryId
+import org.coco.core.type.BinaryId
 import org.coco.domain.model.user.Agreement
 import org.coco.domain.model.user.BasicUser.*
 import org.coco.example.domain.model.user.User

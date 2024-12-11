@@ -1,4 +1,4 @@
-package org.coco.domain.model
+package org.coco.domain.model.revision
 
 import org.springframework.data.history.Revision
 import org.springframework.data.history.RevisionMetadata

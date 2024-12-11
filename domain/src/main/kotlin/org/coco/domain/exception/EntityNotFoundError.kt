@@ -1,7 +1,8 @@
-package org.coco.domain.model
+package org.coco.domain.exception
 
-import org.coco.domain.core.ErrorType
-import org.coco.domain.core.LogicError
+import org.coco.core.type.BinaryId
+import org.coco.core.type.ErrorType
+import org.coco.core.type.LogicError
 import kotlin.reflect.KClass
 
 class EntityNotFoundError(kClass: KClass<*>, id: BinaryId) :

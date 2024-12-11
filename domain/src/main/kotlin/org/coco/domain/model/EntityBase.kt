@@ -1,5 +1,6 @@
 package org.coco.domain.model
 
+import org.coco.core.type.BinaryId
 import java.time.LocalDateTime
 
 abstract class EntityBase(

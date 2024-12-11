@@ -4,7 +4,7 @@ import jakarta.servlet.Filter
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletRequest
 import jakarta.servlet.ServletResponse
-import org.coco.domain.core.BallRequestContext
+import org.coco.core.type.BallRequestContext
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 

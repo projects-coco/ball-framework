@@ -1,6 +1,5 @@
-package org.coco.domain.model
+package org.coco.core.type
 
-import org.coco.domain.core.LogicError
 import ulid.ULID
 
 @JvmInline

@@ -1,6 +1,4 @@
-package org.coco.domain.core
-
-import org.coco.domain.model.BinaryId
+package org.coco.core.type
 
 object BallRequestContext {
     private val currentRequestId = ThreadLocal<BinaryId>()

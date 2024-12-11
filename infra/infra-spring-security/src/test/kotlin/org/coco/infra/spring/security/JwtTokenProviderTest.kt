@@ -4,8 +4,8 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.interfaces.DecodedJWT
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
+import org.coco.core.type.BinaryId
 import org.coco.core.utils.JsonUtils
-import org.coco.domain.model.BinaryId
 import org.coco.domain.model.auth.UserPrincipal
 import org.coco.domain.model.user.BasicUser
 import org.coco.infra.spring.security.JwtTokenProvider.Companion.CLAIM_ID

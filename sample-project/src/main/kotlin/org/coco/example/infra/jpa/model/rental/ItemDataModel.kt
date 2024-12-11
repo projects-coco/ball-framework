@@ -3,7 +3,7 @@ package org.coco.example.infra.jpa.model.rental
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
-import org.coco.domain.model.BinaryId
+import org.coco.core.type.BinaryId
 import org.coco.example.domain.model.rental.Item
 import org.coco.infra.jpa.model.DataModel
 import org.hibernate.envers.Audited

@@ -1,8 +1,8 @@
 package org.coco.infra.jpa.model
 
 import jakarta.persistence.*
-import org.coco.domain.model.BallRevisionMetadata
-import org.coco.domain.model.BinaryId
+import org.coco.core.type.BinaryId
+import org.coco.domain.model.revision.BallRevisionMetadata
 import org.coco.domain.model.user.BasicUser
 import org.coco.infra.jpa.core.BallAuditRevisionListener
 import org.hibernate.envers.RevisionEntity

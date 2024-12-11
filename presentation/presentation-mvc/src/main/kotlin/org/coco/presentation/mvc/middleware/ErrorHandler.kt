@@ -1,10 +1,10 @@
 package org.coco.presentation.mvc.middleware
 
 import jakarta.servlet.http.HttpServletRequest
+import org.coco.core.type.BallRequestContext
+import org.coco.core.type.ErrorType
+import org.coco.core.type.LogicError
 import org.coco.core.utils.logger
-import org.coco.domain.core.BallRequestContext
-import org.coco.domain.core.ErrorType
-import org.coco.domain.core.LogicError
 import org.coco.domain.model.auth.UserPrincipalContextHolder
 import org.coco.presentation.mvc.core.ErrorResponse
 import org.coco.presentation.mvc.core.getRemoteIp

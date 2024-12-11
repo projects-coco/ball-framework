@@ -1,7 +1,7 @@
 package org.coco.example.application
 
-import org.coco.domain.core.ErrorType
-import org.coco.domain.core.LogicError
+import org.coco.core.type.ErrorType
+import org.coco.core.type.LogicError
 import org.coco.domain.model.user.BasicUser
 import org.coco.domain.service.auth.PasswordHashProvider
 import org.coco.example.domain.model.user.User

@@ -1,9 +1,9 @@
 package org.coco.domain.model.auth
 
+import org.coco.core.type.BinaryId
+import org.coco.core.type.ErrorType
+import org.coco.core.type.LogicError
 import org.coco.core.utils.currentClock
-import org.coco.domain.core.ErrorType
-import org.coco.domain.core.LogicError
-import org.coco.domain.model.BinaryId
 import org.coco.domain.model.EntityBase
 import java.time.LocalDateTime
 

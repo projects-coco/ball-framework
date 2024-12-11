@@ -1,6 +1,10 @@
 package org.coco.example.application
 
-import org.coco.domain.core.*
+import org.coco.core.extension.Logic
+import org.coco.core.extension.bindOrThrow
+import org.coco.core.extension.logic
+import org.coco.core.type.ErrorType
+import org.coco.core.type.LogicError
 import org.springframework.stereotype.Service
 import kotlin.random.Random
 

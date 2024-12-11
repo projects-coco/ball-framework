@@ -1,7 +1,7 @@
 package org.coco.example.infra.jpa.model.history
 
 import jakarta.persistence.*
-import org.coco.domain.model.BinaryId
+import org.coco.core.type.BinaryId
 import org.coco.example.domain.model.history.RentalHistory
 import org.coco.example.infra.jpa.model.rental.RentalDataModel
 import org.coco.example.infra.jpa.model.user.UserDataModel

@@ -1,8 +1,9 @@
-package org.coco.domain.core
+package org.coco.core.extension
 
 import arrow.core.Option
 import arrow.core.identity
 import arrow.core.raise.*
+import org.coco.core.type.LogicError
 import kotlin.experimental.ExperimentalTypeInference
 
 typealias Logic<E, A> = EagerEffect<E, A>
