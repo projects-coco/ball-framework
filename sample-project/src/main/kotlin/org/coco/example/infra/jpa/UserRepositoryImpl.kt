@@ -1,13 +1,16 @@
 package org.coco.example.infra.jpa
 
+import com.linecorp.kotlinjdsl.dsl.jpql.Jpql
+import com.linecorp.kotlinjdsl.dsl.jpql.select.SelectQueryWhereStep
+import com.linecorp.kotlinjdsl.querymodel.jpql.predicate.Predicatable
+import com.linecorp.kotlinjdsl.support.spring.data.jpa.repository.KotlinJdslJpqlExecutor
+import org.coco.domain.core.bindOrNull
 import org.coco.domain.model.user.BasicUserSearchDto
 import org.coco.example.domain.model.user.User
 import org.coco.example.domain.model.user.UserRepository
 import org.coco.example.infra.jpa.model.user.UserDataModel
 import org.coco.example.infra.jpa.model.user.UserJpaRepository
-import org.coco.infra.jpa.JpaRepositoryHelper
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
+import org.coco.infra.jpa.JpaSearchRepositoryHelper
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -15,9 +18,14 @@ import java.util.*
 @Repository
 @Transactional
 class UserRepositoryImpl(
-    private val jpaRepository: UserJpaRepository
+    private val jpaRepository: UserJpaRepository,
+    kotlinJdslJpqlExecutor: KotlinJdslJpqlExecutor,
 ) : UserRepository,
-    JpaRepositoryHelper<User, UserDataModel>(jpaRepository, User::class) {
+    JpaSearchRepositoryHelper<User, UserDataModel, BasicUserSearchDto>(
+        jpaRepository,
+        User::class,
+        kotlinJdslJpqlExecutor
+    ) {
     override fun findByUsername(username: String): Optional<User> =
         jpaRepository.findByUsername(username).map { it.toEntity() }
 
@@ -26,11 +34,19 @@ class UserRepositoryImpl(
         return jpaRepository.save(dataModel).toEntity()
     }
 
-    override fun search(searchDto: BasicUserSearchDto): List<User> {
-        TODO("Not yet implemented")
+    override fun Jpql.selectFrom(): SelectQueryWhereStep<UserDataModel> {
+        return select(entity(UserDataModel::class))
+            .from(entity(UserDataModel::class))
     }
 
-    override fun search(searchDto: BasicUserSearchDto, pageable: Pageable): Page<User> {
-        TODO("Not yet implemented")
+    override fun Jpql.where(searchDto: BasicUserSearchDto): Array<out Predicatable?> = searchDto.run {
+        arrayOf(
+            id.bindOrNull { path(UserDataModel::id).eq(it.value) },
+            username.bindOrNull { path(UserDataModel::username).like("%$it%") },
+            name.bindOrNull { path(UserDataModel::name).like("%$it%") },
+            phoneNumber.bindOrNull { path(UserDataModel::phoneNumber).like("%$it%") },
+            active.bindOrNull { path(UserDataModel::active).eq(it) },
+            loginCount.bindOrNull { path(UserDataModel::loginCount).eq(it) },
+        )
     }
 }

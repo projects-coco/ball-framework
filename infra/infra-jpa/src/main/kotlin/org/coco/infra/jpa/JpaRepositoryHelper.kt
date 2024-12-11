@@ -14,7 +14,7 @@ import kotlin.reflect.KClass
 
 abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
     private val jpaRepository: JpaRepository<D, ByteArray>,
-    private val kClass: KClass<E>
+    private val entityClass: KClass<E>
 ) : RepositoryBase<E> {
     override fun findById(id: BinaryId): Optional<E> = jpaRepository.findById(id.value).map { it.toEntity() }
 
@@ -27,7 +27,7 @@ abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
 
     @Transactional
     override fun update(id: BinaryId, modifier: (E)->Unit) {
-        val dataModel = jpaRepository.findById(id.value).orElseThrow { EntityNotFoundError(kClass, id) }
+        val dataModel = jpaRepository.findById(id.value).orElseThrow { EntityNotFoundError(entityClass, id) }
         val entity = dataModel.toEntity()
         modifier.invoke(entity)
         dataModel.update(entity)

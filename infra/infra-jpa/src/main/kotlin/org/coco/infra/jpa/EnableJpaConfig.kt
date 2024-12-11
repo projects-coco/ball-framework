@@ -1,6 +1,8 @@
 package org.coco.infra.jpa
 
+import com.linecorp.kotlinjdsl.support.spring.data.jpa.autoconfigure.KotlinJdslAutoConfiguration
 import org.springframework.boot.autoconfigure.domain.EntityScan
+import org.springframework.context.annotation.Import
 import org.springframework.core.annotation.AliasFor
 import org.springframework.data.envers.repository.config.EnableEnversRepositories
 import org.springframework.data.envers.repository.support.EnversRevisionRepositoryFactoryBean
@@ -13,6 +15,9 @@ import kotlin.reflect.KClass
 @EntityScan
 @EnableJpaRepositories
 @EnableEnversRepositories
+@Import(
+    KotlinJdslAutoConfiguration::class,
+)
 annotation class EnableJpaConfig(
     @get:AliasFor(
         annotation = EntityScan::class, attribute = "basePackages"
