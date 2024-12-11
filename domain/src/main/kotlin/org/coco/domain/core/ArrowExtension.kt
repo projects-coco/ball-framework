@@ -28,3 +28,4 @@ suspend fun <E1, E2, A> SuspendLogic<E1, A>.bindOrRaise(transform: (E1) -> E2): 
 @Suppress("UnusedReceiverParameter")
 fun <T> Nothing?.toOption(): Option<T> = Option.fromNullable(null)
 
+inline fun <T, R> Option<T>.bindOrNull(f: (T) -> R): R? = fold({ null }, f)

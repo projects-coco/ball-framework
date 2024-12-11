@@ -16,4 +16,7 @@ dependencies {
     api(libs.spring.boot.data.jpa)
     api(libs.spring.data.envers)
     api(libs.hypersistence.utils)
+    api(libs.kotlin.jdsl.jpql.dsl)
+    api(libs.kotlin.jdsl.jpql.render)
+    api(libs.kotlin.jdsl.spring.data.jpa.support)
 }

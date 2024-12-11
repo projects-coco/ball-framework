@@ -13,7 +13,7 @@ open class AuthService(
     private val accessTokenProvider: TokenProvider,
     private val refreshTokenHandler: RefreshTokenHandler,
     private val refreshTokenRepository: RefreshTokenRepository,
-    private val userRepository: BasicUserRepository<*>,
+    private val userRepository: BasicUserRepository<*, *>,
     private val passwordHashProvider: PasswordHashProvider,
 ) {
     companion object {
