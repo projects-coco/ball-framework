@@ -1,6 +1,6 @@
 package org.coco.example.infra.jpa.model.user
 
-import org.coco.infra.jpa.JpaRevisionRepository
+import org.coco.infra.jpa.helper.JpaRevisionRepository
 import org.springframework.stereotype.Repository
 import java.util.*
 

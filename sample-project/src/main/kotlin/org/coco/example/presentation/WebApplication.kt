@@ -1,6 +1,7 @@
 package org.coco.example.presentation
 
-import org.coco.domain.model.user.BasicUserSearchDto
+import org.coco.domain.model.BallRevisionDto
+import org.coco.domain.model.user.BasicUser
 import org.coco.example.application.UserService
 import org.coco.example.domain.model.user.UserRepository
 import org.coco.infra.auth.jpa.EnableBallAuthJpaInfra
@@ -9,7 +10,6 @@ import org.coco.presentation.mvc.core.EnableBallApplication
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
 
 @SpringBootApplication(
@@ -41,13 +41,10 @@ class SampleCommandLineRunner(
     private val userRepository: UserRepository,
 ) : CommandLineRunner {
     override fun run(vararg args: String?) {
-        userService.createUser("coco")
-        userService.createUser("coco2")
-        userService.updateUsername("coco", "ball")
-
-        val searchResult = userRepository.search(BasicUserSearchDto(), PageRequest.of(0, 1))
-        println(searchResult.content)
-        println(searchResult.totalPages)
-        println(searchResult.totalElements)
+        userService.createUser("coco",  "coco-password!")
+        val createdUser = userService.findUser(BasicUser.Username("coco"))
+        userRepository.findRevisions(createdUser.id).forEach {
+            println(BallRevisionDto.of(it))
+        }
     }
 }

@@ -6,9 +6,12 @@ import org.coco.domain.model.user.Agreement
 import org.coco.domain.model.user.BasicUser
 import org.coco.domain.model.user.BasicUser.*
 import org.coco.infra.jpa.model.DataModel
+import org.hibernate.envers.Audited
+import org.hibernate.envers.NotAudited
 import java.time.LocalDateTime
 
 @MappedSuperclass
+@Audited
 abstract class BasicUserDataModel<T : BasicUser>(
     id: BinaryId,
     username: Username,
@@ -60,9 +63,11 @@ abstract class BasicUserDataModel<T : BasicUser>(
     var active: Boolean = active
         protected set
 
+    @NotAudited
     var lastLoginAt: LocalDateTime? = lastLoginAt
         protected set
 
+    @NotAudited
     var loginCount: Long = loginCount
         protected set
 }

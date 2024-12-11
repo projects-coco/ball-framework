@@ -1,4 +1,4 @@
-package org.coco.infra.jpa
+package org.coco.infra.jpa.helper
 
 import org.coco.infra.jpa.model.DataModel
 import org.springframework.data.jpa.repository.JpaRepository

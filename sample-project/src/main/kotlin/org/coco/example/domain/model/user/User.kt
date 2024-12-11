@@ -40,7 +40,7 @@ class User(
         ROLE_USER
     }
 
-    fun updateUsername(username: Username) {
-        this.username = username
+    fun updateName(name: Name) {
+        this.name = name
     }
 }

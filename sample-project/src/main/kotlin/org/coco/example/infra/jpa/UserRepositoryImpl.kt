@@ -11,9 +11,9 @@ import org.coco.example.domain.model.user.User
 import org.coco.example.domain.model.user.UserRepository
 import org.coco.example.infra.jpa.model.user.UserDataModel
 import org.coco.example.infra.jpa.model.user.UserJpaRepository
-import org.coco.infra.jpa.JpaSearchRepositoryHelper
 import org.coco.infra.jpa.core.selectCount
 import org.coco.infra.jpa.core.selectFrom
+import org.coco.infra.jpa.helper.JpaSearchRepositoryHelper
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.util.*

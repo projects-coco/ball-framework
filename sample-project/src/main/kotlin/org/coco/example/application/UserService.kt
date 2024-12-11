@@ -13,16 +13,16 @@ class UserService(
     private val userRepository: UserRepository,
     private val passwordHashProvider: PasswordHashProvider,
 ) {
-    fun findUser(username: String): User {
-        return userRepository.findByUsername(username)
+    fun findUser(username: BasicUser.Username): User {
+        return userRepository.findByUsername(username.value)
             .orElseThrow { LogicError("$username not found", ErrorType.NOT_FOUND) }
     }
 
-    fun createUser(username: String) {
+    fun createUser(username: String, password: String) {
         if (userRepository.findByUsername(username).isPresent) {
             throw LogicError("$username already exist", ErrorType.BAD_REQUEST)
         }
-        val passwordHash = passwordHashProvider.hash(BasicUser.Password(username))
+        val passwordHash = passwordHashProvider.hash(BasicUser.Password(password))
         val user = User(
             username = BasicUser.Username(username),
             roles = setOf(User.Role.ROLE_USER),
@@ -33,15 +33,9 @@ class UserService(
         userRepository.save(user)
     }
 
-    fun updateUsername(previous: String, newUsername: String) {
-        val user = userRepository.findByUsername(previous)
-            .orElseThrow { LogicError("$previous not found", ErrorType.NOT_FOUND) }
-        runCatching {
-            userRepository.update(user.id) {
-                it.updateUsername(BasicUser.Username(newUsername))
-            }
-        }.onFailure {
-            throw it
+    fun updateName(user: User, newName: BasicUser.Name) {
+        userRepository.update(user) {
+            it.updateName(newName)
         }
     }
 }

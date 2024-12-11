@@ -1,6 +1,7 @@
 package org.coco.infra.jpa
 
 import com.linecorp.kotlinjdsl.support.spring.data.jpa.autoconfigure.KotlinJdslAutoConfiguration
+import org.coco.infra.jpa.core.BallAuditRevisionListener
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.context.annotation.Import
 import org.springframework.core.annotation.AliasFor
@@ -16,6 +17,7 @@ import kotlin.reflect.KClass
 @EnableJpaRepositories
 @EnableEnversRepositories
 @Import(
+    BallAuditRevisionListener::class,
     KotlinJdslAutoConfiguration::class,
 )
 annotation class EnableJpaConfig(
@@ -32,6 +34,6 @@ annotation class EnableJpaConfig(
     ) val repositoryFactoryBeanClass: KClass<*> = EnversRevisionRepositoryFactoryBean::class,
 ) {
     companion object {
-        const val BALL_INFRA_ENTITY_PACKAGE = "org.coco.infra.jpa"
+        const val BALL_INFRA_ENTITY_PACKAGE = "org.coco.infra.jpa.*"
     }
 }
