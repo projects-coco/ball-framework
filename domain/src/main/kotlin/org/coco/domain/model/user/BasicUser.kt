@@ -1,6 +1,7 @@
 package org.coco.domain.model.user
 
 import org.coco.core.type.BinaryId
+import org.coco.core.utils.ToStringBuilder
 import org.coco.core.utils.currentClock
 import org.coco.domain.model.EntityBase
 import java.time.LocalDateTime
@@ -100,4 +101,10 @@ open class BasicUser(
             require(phoneNumberRegex.matches(value)) { "전화번호 양식을 확인해주세요." }
         }
     }
+
+    override fun toString(): String = ToStringBuilder(this)
+        .append("id", id.toString())
+        .append("username", username.value)
+        .append("roles", roles)
+        .toString()
 }

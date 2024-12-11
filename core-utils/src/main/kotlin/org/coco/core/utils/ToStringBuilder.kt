@@ -16,7 +16,7 @@ class ToStringBuilder(
     override fun toString(): String {
         val className = target::class.java.simpleName
         val value =
-            buffer.joinToString(",") {
+            buffer.joinToString(", ") {
                 "${it.first}=${it.second}"
             }
         return "$className($value)"
