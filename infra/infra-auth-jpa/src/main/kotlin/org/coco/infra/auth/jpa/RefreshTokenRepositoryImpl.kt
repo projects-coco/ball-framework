@@ -6,7 +6,7 @@ import org.coco.domain.model.auth.RefreshTokenRepository
 import org.coco.domain.model.auth.Token
 import org.coco.infra.auth.jpa.model.RefreshTokenDataModel
 import org.coco.infra.auth.jpa.model.RefreshTokenJpaRepository
-import org.coco.infra.jpa.JpaRepositoryHelper
+import org.coco.infra.jpa.helper.JpaRepositoryHelper
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 import java.util.*
@@ -26,8 +26,8 @@ class RefreshTokenRepositoryImpl(
             payload = entity.payload,
             used = entity.used,
             expiredAt = entity.expiredAt,
-            createdAt = entity.createdAt ?: LocalDateTime.now(currentClock()),
-            updatedAt = entity.updatedAt ?: LocalDateTime.now(currentClock()),
+            createdAt = entity.createdAt,
+            updatedAt = entity.updatedAt,
         )
         return jpaRepository.save(dataModel).toEntity()
     }

@@ -1,4 +1,4 @@
-package org.coco.infra.jpa
+package org.coco.infra.jpa.helper
 
 import com.linecorp.kotlinjdsl.dsl.jpql.Jpql
 import com.linecorp.kotlinjdsl.dsl.jpql.jpql

@@ -4,7 +4,7 @@ import org.coco.example.domain.model.rental.Item
 import org.coco.example.domain.model.rental.ItemRepository
 import org.coco.example.infra.jpa.model.rental.ItemDataModel
 import org.coco.example.infra.jpa.model.rental.ItemJpaRepository
-import org.coco.infra.jpa.JpaRepositoryHelper
+import org.coco.infra.jpa.helper.JpaRepositoryHelper
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
