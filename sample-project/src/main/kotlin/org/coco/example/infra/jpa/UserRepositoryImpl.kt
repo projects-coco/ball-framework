@@ -12,6 +12,8 @@ import org.coco.example.domain.model.user.UserRepository
 import org.coco.example.infra.jpa.model.user.UserDataModel
 import org.coco.example.infra.jpa.model.user.UserJpaRepository
 import org.coco.infra.jpa.JpaSearchRepositoryHelper
+import org.coco.infra.jpa.core.selectCount
+import org.coco.infra.jpa.core.selectFrom
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -37,16 +39,9 @@ class UserRepositoryImpl(
         return jpaRepository.save(dataModel).toEntity()
     }
 
+    override fun Jpql.selectFrom(): SelectQueryWhereStep<UserDataModel> = selectFrom(UserDataModel::class)
 
-    override fun Jpql.selectFrom(): SelectQueryWhereStep<UserDataModel> {
-        return select(entity(UserDataModel::class))
-            .from(entity(UserDataModel::class))
-    }
-
-    override fun Jpql.selectCount(): SelectQueryWhereStep<Long> {
-        return select(count(UserDataModel::id))
-            .from(entity(UserDataModel::class))
-    }
+    override fun Jpql.selectCount(): SelectQueryWhereStep<Long> = selectCount(UserDataModel::class)
 
     override fun Jpql.where(searchDto: BasicUserSearchDto): Array<out Predicatable?> = searchDto.run {
         arrayOf(
