@@ -128,6 +128,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dep-management = { id = "io.spring.dependency-management", version = "1.1.4" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "12.1.2" }
 kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
 
 jooq = { id = "nu.studer.jooq", version.ref = "jooq-gradle" }
