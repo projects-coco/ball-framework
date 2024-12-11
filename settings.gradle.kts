@@ -19,6 +19,9 @@ include("infra")
 include("infra:infra-jpa")
 findProject(":infra:infra-jpa")?.name = "infra-jpa"
 
+include("infra:infra-mongodb")
+findProject(":infra:infra-mongodb")?.name = "infra-mongodb"
+
 include("infra:infra-spring-security")
 findProject(":infra:infra-spring-security")?.name = "infra-spring-security"
 
@@ -30,4 +33,3 @@ include("core-utils")
 
 // ETC
 include("sample-project")
-
