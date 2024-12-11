@@ -19,5 +19,9 @@ interface RepositoryBase<T : EntityBase> {
 
     fun update(id: BinaryId, modifier: (T) -> Unit)
 
+    fun update(entity: T, modifier: (T) -> Unit) {
+        update(entity.id, modifier)
+    }
+
     fun delete(id: BinaryId)
 }

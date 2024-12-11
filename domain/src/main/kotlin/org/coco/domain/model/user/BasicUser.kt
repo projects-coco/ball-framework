@@ -80,9 +80,8 @@ open class BasicUser(
         val value: String,
     ) {
         init {
-            val minLength = 2
-            // val passwordComplexityRegex = Regex("^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@%^&*-]).{8,15}\$")
-            require(value.length >= minLength) { "최소 ${minLength}자 이상의 패스워드를 입력해주세요." }
+            val passwordComplexityRegex = Regex("^(?=.*?[a-zA-Z])(?=.*?[#?!@%^&*-]).{6,24}\$")
+            require(passwordComplexityRegex.matches(value)) { "최소 하나 이상의 영문자, 특수문자(#?!@%^&*-)를 포함해 6자 이상 24자 이하의 패스워드를 입력해주세요." }
         }
     }
 
