@@ -8,6 +8,7 @@ spring-boot = "3.4.0"
 spring = "6.2.0"
 kotlinter = "4.1.1"
 arrow = "1.2.4"
+kotlin-jdsl = "3.5.3"
 jooq-gradle = "8.2.3"
 jooq = "3.19.13"
 test-container = "1.19.7"
@@ -62,12 +63,17 @@ bouncycastle-crypto = { group = "org.bouncycastle", name = "bcpkix-jdk15on", ver
 # Persistence
 jpa = { module = "jakarta.persistence:jakarta.persistence-api", version = "3.2.0" }
 hypersistence-utils = { module = "io.hypersistence:hypersistence-utils-hibernate-63", version = "3.9.0" }
+
+kotlin-jdsl-jpql-dsl = { group = "com.linecorp.kotlin-jdsl", name = "jpql-dsl", version.ref = "kotlin-jdsl" }
+kotlin-jdsl-jpql-render = { group = "com.linecorp.kotlin-jdsl", name = "jpql-render", version.ref = "kotlin-jdsl" }
+kotlin-jdsl-spring-data-jpa-support = { group = "com.linecorp.kotlin-jdsl", name = "spring-data-jpa-support", version.ref = "kotlin-jdsl" }
+
+
 jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
 jooq-kotlin = { module = "org.jooq:jooq-kotlin", version.ref = "jooq" }
 jooq-coroutine = { module = "org.jooq:jooq-kotlin-coroutines", version.ref = "jooq" }
-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis", version = "3.2.4" }
 
-hikaricp = { module = "com.zaxxer:HikariCP", version = "5.1.0" }
+# Database
 mariadb = { module = "org.mariadb.jdbc:mariadb-java-client" }
 
 r2dbc-postgresql = { module = "org.postgresql:r2dbc-postgresql", version.ref = "r2dbc" }
@@ -76,6 +82,7 @@ r2dbc-mariadb = { module = "org.mariadb:r2dbc-mariadb", version = "1.2.2" }
 r2dbc-pool = { module = "io.r2dbc:r2dbc-pool", version.ref = "r2dbc" }
 
 # Cache
+redis = { module = "org.springframework.boot:spring-boot-starter-data-redis", version = "3.2.4" }
 redis-lettuce = { module = "io.lettuce:lettuce-core", version = "6.3.2.RELEASE" }
 redis-redisson = { module = "org.redisson:redisson", version = "3.35.0" }
 
