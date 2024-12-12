@@ -61,7 +61,8 @@ open class BasicUser(
         val value: String,
     ) {
         init {
-            require(value.isNotBlank()) { "Username cannot be blank" }
+            val usernameMinLength = 5
+            require(value.length >= usernameMinLength) { "아이디는 최소 ${usernameMinLength}자 이상의 값이 필요합니다." }
         }
     }
 
@@ -77,7 +78,8 @@ open class BasicUser(
         val value: String,
     ) {
         init {
-            require(value.isNotBlank()) { "Name cannot be blank" }
+            val nameMinLength = 2
+            require(value.length >= nameMinLength) { "이름은 최소 ${nameMinLength}자 이상의 값이 필요합니다." }
         }
     }
 
@@ -106,7 +108,7 @@ open class BasicUser(
     ) {
         init {
             val phoneNumberRegex = Regex("^[0-9]{3}-+[0-9]{3,4}-+[0-9]{4}\$")
-            require(phoneNumberRegex.matches(value)) { "전화번호 양식을 확인해주세요." }
+            require(phoneNumberRegex.matches(value)) { "휴대폰 번호 양식을 확인해주세요." }
         }
     }
 
