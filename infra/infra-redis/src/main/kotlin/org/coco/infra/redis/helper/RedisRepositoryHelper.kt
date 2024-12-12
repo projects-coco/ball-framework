@@ -1,4 +1,4 @@
-package org.coco.infra.redis
+package org.coco.infra.redis.helper
 
 import org.coco.core.type.BinaryId
 import org.coco.core.type.LogicError
