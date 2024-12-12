@@ -1,4 +1,4 @@
-package org.coco.infra.mongodb
+package org.coco.infra.mongodb.helper
 
 import org.coco.core.type.BinaryId
 import org.coco.domain.exception.EntityNotFoundError

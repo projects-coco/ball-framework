@@ -1,16 +1,16 @@
 package org.coco.infra.mongodb.model
 
 import org.bson.types.ObjectId
-import org.coco.core.type.BinaryId
 import org.coco.domain.model.EntityBase
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.query.Update
 import java.time.LocalDateTime
 
 abstract class DocumentModel<T : EntityBase>(
-    id: BinaryId,
+    id: String,
     createdAt: LocalDateTime,
     updatedAt: LocalDateTime,
 ) {
@@ -18,7 +18,8 @@ abstract class DocumentModel<T : EntityBase>(
     var id: ObjectId? = null
         protected set
 
-    var entityId: ByteArray = id.value
+    @Indexed(unique = true)
+    var entityId: String = id
         protected set
 
     @CreatedDate
