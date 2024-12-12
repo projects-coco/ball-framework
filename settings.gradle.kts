@@ -22,6 +22,9 @@ findProject(":infra:infra-jpa")?.name = "infra-jpa"
 include("infra:infra-mongodb")
 findProject(":infra:infra-mongodb")?.name = "infra-mongodb"
 
+include("infra:infra-redis")
+findProject(":infra:infra-redis")?.name = "infra-redis"
+
 include("infra:infra-spring-security")
 findProject(":infra:infra-spring-security")?.name = "infra-spring-security"
 
