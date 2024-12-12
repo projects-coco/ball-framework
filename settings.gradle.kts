@@ -31,6 +31,9 @@ findProject(":infra:infra-spring-security")?.name = "infra-spring-security"
 include("infra:infra-auth-jpa")
 findProject(":infra:infra-auth-jpa")?.name = "infra-auth-jpa"
 
+include("infra:infra-auth-redis")
+findProject(":infra:infra-auth-redis")?.name = "infra-auth-redis"
+
 // CORE
 include("core-utils")
 

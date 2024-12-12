@@ -12,8 +12,8 @@ import java.util.*
 @Repository
 class RefreshTokenRepositoryImpl(
     private val jpaRepository: RefreshTokenJpaRepository,
-) : RefreshTokenRepository,
-    JpaRepositoryHelper<RefreshToken, RefreshTokenDataModel>(jpaRepository, RefreshToken::class) {
+) : JpaRepositoryHelper<RefreshToken, RefreshTokenDataModel>(jpaRepository, RefreshToken::class),
+    RefreshTokenRepository {
     override fun findByPayload(payload: Token.Payload): Optional<RefreshToken> =
         jpaRepository.findByPayload(payload.value).map { it.toEntity() }
 
