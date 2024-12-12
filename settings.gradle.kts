@@ -22,11 +22,17 @@ findProject(":infra:infra-jpa")?.name = "infra-jpa"
 include("infra:infra-mongodb")
 findProject(":infra:infra-mongodb")?.name = "infra-mongodb"
 
+include("infra:infra-redis")
+findProject(":infra:infra-redis")?.name = "infra-redis"
+
 include("infra:infra-spring-security")
 findProject(":infra:infra-spring-security")?.name = "infra-spring-security"
 
 include("infra:infra-auth-jpa")
 findProject(":infra:infra-auth-jpa")?.name = "infra-auth-jpa"
+
+include("infra:infra-auth-redis")
+findProject(":infra:infra-auth-redis")?.name = "infra-auth-redis"
 
 // CORE
 include("core-utils")

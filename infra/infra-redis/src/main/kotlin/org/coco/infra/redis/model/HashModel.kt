@@ -1,24 +1,18 @@
-package org.coco.infra.mongodb.model
+package org.coco.infra.redis.model
 
-import org.bson.types.ObjectId
-import org.coco.core.type.BinaryId
 import org.coco.domain.model.EntityBase
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
-import org.springframework.data.mongodb.core.query.Update
 import java.time.LocalDateTime
 
-abstract class DocumentModel<T : EntityBase>(
-    id: BinaryId,
+abstract class HashModel<T : EntityBase>(
+    id: String,
     createdAt: LocalDateTime,
     updatedAt: LocalDateTime,
 ) {
     @Id
-    var id: ObjectId? = null
-        protected set
-
-    var entityId: ByteArray = id.value
+    var id: String = id
         protected set
 
     @CreatedDate
@@ -31,5 +25,5 @@ abstract class DocumentModel<T : EntityBase>(
 
     abstract fun toEntity(): T
 
-    abstract fun update(entity: T): Update
+    abstract fun update(entity: T)
 }

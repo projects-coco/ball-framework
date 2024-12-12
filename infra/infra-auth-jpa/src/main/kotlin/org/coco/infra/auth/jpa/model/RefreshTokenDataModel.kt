@@ -35,8 +35,8 @@ class RefreshTokenDataModel(
     var expiredAt: LocalDateTime = expiredAt
         protected set
 
-    override fun toEntity(): RefreshToken {
-        return RefreshToken(
+    override fun toEntity(): RefreshToken =
+        RefreshToken(
             id = BinaryId(id),
             userId = BinaryId(userId),
             payload = Token.Payload(payload),
@@ -45,20 +45,11 @@ class RefreshTokenDataModel(
             createdAt = createdAt,
             updatedAt = updatedAt,
         )
-    }
 
     override fun update(entity: RefreshToken) {
-        if (!this.userId.contentEquals(entity.userId.value)) {
-            this.userId = entity.userId.value
-        }
-        if (!this.payload.contentEquals(entity.payload.value)) {
-            this.payload = entity.payload.value
-        }
-        if (this.used != entity.used) {
-            this.used = entity.used
-        }
-        if (!this.expiredAt.isEqual(entity.expiredAt)) {
-            this.expiredAt = entity.expiredAt
-        }
+        userId = entity.userId.value
+        payload = entity.payload.value
+        used = entity.used
+        expiredAt = entity.expiredAt
     }
 }

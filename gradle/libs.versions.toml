@@ -48,6 +48,7 @@ spring-boot-security = { group = "org.springframework.boot", name = "spring-boot
 spring-boot-devtools = { group = "org.springframework.boot", name = "spring-boot-devtools", version.ref = "spring-boot" }
 spring-boot-data-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa", version.ref = "spring-boot" }
 spring-boot-data-mongodb = { group = "org.springframework.boot", name = "spring-boot-starter-data-mongodb", version.ref = "spring-boot" }
+spring-boot-data-redis = { group = "org.springframework.boot", name = "spring-boot-starter-data-redis", version.ref = "spring-boot" }
 
 # Spring Data
 spring-data-core = { module = "org.springframework.data:spring-data-commons", version.ref = "spring-boot" }
