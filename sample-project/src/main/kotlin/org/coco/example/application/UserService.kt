@@ -13,24 +13,24 @@ class UserService(
     private val userRepository: UserRepository,
     private val passwordHashProvider: PasswordHashProvider,
 ) {
-    fun findUser(username: BasicUser.Username): User {
-        return userRepository.findByUsername(username.value)
+    fun findUser(username: BasicUser.Username): User =
+        userRepository
+            .findByUsername(username.value)
             .orElseThrow { LogicError("$username not found", ErrorType.NOT_FOUND) }
-    }
 
     fun createUser(
-        username: String,
-        password: String,
+        username: BasicUser.Username,
+        password: User.Password,
     ) {
-        if (userRepository.findByUsername(username).isPresent) {
+        if (userRepository.findByUsername(username.value).isPresent) {
             throw LogicError("$username already exist", ErrorType.BAD_REQUEST)
         }
-        val passwordHash = passwordHashProvider.hash(BasicUser.Password(password))
+        val passwordHash = passwordHashProvider.hash(password)
         val user =
             User(
-                username = BasicUser.Username(username),
+                username = username,
                 roles = setOf(User.Role.ROLE_USER),
-                name = BasicUser.Name(username),
+                name = BasicUser.Name(username.value),
                 phoneNumber = BasicUser.PhoneNumber("010-0000-0000"),
                 passwordHash = passwordHash,
             )
