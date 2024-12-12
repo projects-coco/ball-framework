@@ -56,7 +56,7 @@ spring-data-envers = { module = "org.springframework.data:spring-data-envers", v
 
 # Spring Security
 spring-security-crypto = { group = "org.springframework.security", name = "spring-security-crypto", version = "6.4.1" }
-bouncycastle-crypto = { group = "org.bouncycastle", name = "bcpkix-jdk15on", version = "1.70" }
+bouncycastle-crypto = { group = "org.bouncycastle", name = "bcpkix-jdk18on", version = "1.79" }
 
 # Spring Framework
 spring-aspects = { group = "org.springframework", name = "spring-aspects", version.ref = "spring" }
