@@ -5,6 +5,7 @@ import org.coco.domain.model.auth.RefreshToken
 import org.coco.domain.model.auth.Token
 import org.coco.infra.redis.model.HashModel
 import org.springframework.data.redis.core.RedisHash
+import org.springframework.data.redis.core.index.Indexed
 import java.time.LocalDateTime
 
 @RedisHash(value = "refresh_tokens", timeToLive = 60 * 60 * 24 * 30)
@@ -20,6 +21,7 @@ class RefreshTokenHashModel(
     var userId: String = userId
         private set
 
+    @Indexed
     var payload: String = payload
         private set
 
