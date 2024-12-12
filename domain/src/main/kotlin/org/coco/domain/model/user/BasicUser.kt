@@ -57,7 +57,9 @@ open class BasicUser(
     }
 
     @JvmInline
-    value class Username(val value: String) {
+    value class Username(
+        val value: String,
+    ) {
         init {
             require(value.isNotBlank()) { "Username cannot be blank" }
         }
@@ -71,16 +73,22 @@ open class BasicUser(
     }
 
     @JvmInline
-    value class Name(val value: String) {
+    value class Name(
+        val value: String,
+    ) {
         init {
             require(value.isNotBlank()) { "Name cannot be blank" }
         }
     }
 
+    interface IPassword {
+        val value: String
+    }
+
     @JvmInline
     value class Password(
-        val value: String,
-    ) {
+        override val value: String,
+    ) : IPassword {
         init {
             val passwordComplexityRegex = Regex("^(?=.*?[a-zA-Z])(?=.*?[#?!@%^&*-]).{6,24}\$")
             require(passwordComplexityRegex.matches(value)) { "최소 하나 이상의 영문자, 특수문자(#?!@%^&*-)를 포함해 6자 이상 24자 이하의 패스워드를 입력해주세요." }

@@ -3,6 +3,7 @@ package org.coco.example.presentation
 import org.coco.domain.model.revision.BallRevisionDto
 import org.coco.domain.model.user.BasicUser
 import org.coco.example.application.UserService
+import org.coco.example.domain.model.user.User
 import org.coco.example.domain.model.user.UserRepository
 import org.coco.infra.auth.jpa.EnableBallAuthJpaInfra
 import org.coco.infra.jpa.EnableJpaConfig
@@ -41,7 +42,7 @@ class SampleCommandLineRunner(
     private val userRepository: UserRepository,
 ) : CommandLineRunner {
     override fun run(vararg args: String?) {
-        userService.createUser("coco", "coco-password!")
+        userService.createUser(BasicUser.Username("coco"), User.Password("coco"))
         val createdUser = userService.findUser(BasicUser.Username("coco"))
         userRepository.findRevisions(createdUser.id).forEach {
             println(BallRevisionDto.of(it))

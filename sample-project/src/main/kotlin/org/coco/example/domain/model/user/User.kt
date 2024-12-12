@@ -40,6 +40,16 @@ class User(
         ROLE_USER,
     }
 
+    @JvmInline
+    value class Password(
+        override val value: String,
+    ) : IPassword {
+        init {
+            val passwordMinLength = 4
+            require(value.length >= passwordMinLength) { "최소 4자 이상의 패스워드를 입력해주세요." }
+        }
+    }
+
     fun updateName(name: Name) {
         this.name = name
     }
