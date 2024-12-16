@@ -3,8 +3,9 @@ Ball Framework
 
 ## 🔗 Table of Contents
 
-<p>I. [📍 Overview](#-overview)</p>
-<p>II. [📁 Project Structure](#-project-structure)</p>
+I. [📍 Overview](#-overview)
+
+II. [📁 Project Structure](#-project-structure)
 
 ---
 
@@ -184,7 +185,7 @@ abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
     private val entityClass: KClass<E>,
 ) : RepositoryBase<E> {
     // (...)
-    
+
     override fun findAll(): List<E> = jpaRepository.findAll().map { it.toEntity() }
 
     override fun findAll(ids: List<BinaryId>): List<E> = jpaRepository.findAllById(ids.map { it.value }).map { it.toEntity() }
