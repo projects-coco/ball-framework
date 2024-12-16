@@ -12,7 +12,7 @@ class LocalLockProvider(
     txAdvice: TxAdvice,
 ) : LockProvider(txAdvice) {
     companion object {
-        val lockMap: MutableMap<String, Boolean> = mutableMapOf()
+        val lockMap: MutableMap<String, Long> = mutableMapOf()
     }
 
     override fun tryLock(
@@ -26,8 +26,11 @@ class LocalLockProvider(
 
         while (System.currentTimeMillis() - startTime < waitTimeInMillis) {
             synchronized(lockMap) {
-                if (lockMap[key] != true) {
-                    lockMap[key] = true
+                if (!lockMap.containsKey(key)) {
+                    lockMap[key] = System.currentTimeMillis() + leaseTime
+                    return true
+                } else if (lockMap[key]!! > System.currentTimeMillis()) {
+                    lockMap[key] = System.currentTimeMillis() + leaseTime
                     return true
                 }
             }
@@ -38,8 +41,8 @@ class LocalLockProvider(
 
     override fun unlock(key: String): Boolean {
         synchronized(lockMap) {
-            if (lockMap[key] == true) {
-                lockMap[key] = false
+            if (lockMap.containsKey(key)) {
+                lockMap.remove(key)
                 return true
             }
         }
