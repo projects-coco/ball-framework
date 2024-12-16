@@ -12,6 +12,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(libs.spring.boot.core)
     implementation(libs.spring.tx)
+    implementation(libs.spring.boot.aop)
 }
 
 

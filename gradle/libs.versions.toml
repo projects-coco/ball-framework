@@ -86,9 +86,8 @@ r2dbc-mysql = { module = "io.asyncer:r2dbc-mysql", version = "1.0.4" }
 r2dbc-mariadb = { module = "org.mariadb:r2dbc-mariadb", version = "1.2.2" }
 r2dbc-pool = { module = "io.r2dbc:r2dbc-pool", version.ref = "r2dbc" }
 
-# Cache
 redis = { module = "org.springframework.boot:spring-boot-starter-data-redis", version = "3.2.4" }
-redis-lettuce = { module = "io.lettuce:lettuce-core", version = "6.3.2.RELEASE" }
+redis-lettuce = { module = "io.lettuce:lettuce-core", version = "6.5.1.RELEASE" }
 redis-redisson = { module = "org.redisson:redisson", version = "3.35.0" }
 
 # Utils
