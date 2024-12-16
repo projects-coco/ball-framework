@@ -1,5 +1,6 @@
-package org.coco.application
+package org.coco.application.lock
 
+import org.coco.application.transaction.TxAdvice
 import java.util.concurrent.TimeUnit
 
 abstract class LockProvider(
@@ -25,16 +26,16 @@ abstract class LockProvider(
         leaseTime: Long = 3L,
         action: () -> T,
     ): T {
-        val keyWithPrefix = "${LOCK_PREFIX}$key"
+        val keyWithPrefix = "$LOCK_PREFIX$key"
         return try {
-            checkLockAvailability(keyWithPrefix, timeUnit, waitTime, leaseTime)
+            acquireLock(keyWithPrefix, timeUnit, waitTime, leaseTime)
             txAdvice.runWithNewTransaction(action)
         } finally {
             unlock(keyWithPrefix)
         }
     }
 
-    private fun checkLockAvailability(
+    private fun acquireLock(
         key: String,
         timeUnit: TimeUnit,
         waitTime: Long,

@@ -1,6 +1,6 @@
 package org.coco.example.presentation.handler
 
-import org.coco.application.DistributedLock
+import org.coco.application.lock.DistributedLock
 import org.coco.core.type.ErrorType
 import org.coco.core.type.LogicError
 import org.coco.example.application.SampleService
@@ -27,27 +27,17 @@ class SampleHandler(
     ): ResponseEntity<String> = ResponseEntity.ok(sampleService.sayHello(name))
 
     @GetMapping("/error")
-    fun error(): ResponseEntity<String> {
-        throw LogicError("You're unlucky.", errorType = ErrorType.BAD_REQUEST)
-    }
+    fun error(): ResponseEntity<String> = throw LogicError("You're unlucky.", errorType = ErrorType.BAD_REQUEST)
 
     @PostMapping
-    fun post(): ResponseEntity<String> {
-        return ResponseEntity.ok("Post: Hello World")
-    }
+    fun post(): ResponseEntity<String> = ResponseEntity.ok("Post: Hello World")
 
     @PutMapping
-    fun put(): ResponseEntity<String> {
-        return ResponseEntity.ok("Put: Hello World")
-    }
+    fun put(): ResponseEntity<String> = ResponseEntity.ok("Put: Hello World")
 
     @PatchMapping
-    fun patch(): ResponseEntity<String> {
-        return ResponseEntity.ok("Patch: Hello World")
-    }
+    fun patch(): ResponseEntity<String> = ResponseEntity.ok("Patch: Hello World")
 
     @DeleteMapping
-    fun delete(): ResponseEntity<String> {
-        return ResponseEntity.ok("Delete: Hello World")
-    }
+    fun delete(): ResponseEntity<String> = ResponseEntity.ok("Delete: Hello World")
 }

@@ -1,6 +1,6 @@
 package org.coco.example.presentation
 
-import org.coco.application.DistributedLockAop
+import org.coco.application.lock.DistributedLockAop
 import org.coco.domain.model.auth.RefreshTokenRepository
 import org.coco.domain.model.revision.BallRevisionDto
 import org.coco.domain.model.user.BasicUser
@@ -10,7 +10,7 @@ import org.coco.example.domain.model.user.UserRepository
 import org.coco.infra.auth.redis.EnableBallAuthRedisInfra
 import org.coco.infra.jpa.EnableJpaConfig
 import org.coco.infra.redis.EnableRedisConfig
-import org.coco.presentation.mvc.core.EnableBallApplication
+import org.coco.presentation.mvc.core.EnableBallWebMvc
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component
 @SpringBootApplication(
     scanBasePackages = ["org.coco.example"],
 )
-@EnableBallApplication
+@EnableBallWebMvc
 @EnableJpaConfig(
     entityBasePackages = [
         EnableJpaConfig.BALL_INFRA_ENTITY_PACKAGE,

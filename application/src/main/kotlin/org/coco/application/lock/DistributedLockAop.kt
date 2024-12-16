@@ -1,4 +1,4 @@
-package org.coco.application
+package org.coco.application.lock
 
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
@@ -12,7 +12,7 @@ import java.lang.reflect.Method
 class DistributedLockAop(
     val lockProvider: LockProvider,
 ) {
-    @Around("@annotation(org.coco.application.DistributedLock)")
+    @Around("@annotation(org.coco.application.lock.DistributedLock)")
     fun lock(joinPoint: ProceedingJoinPoint): Any {
         val signature: MethodSignature = joinPoint.signature as MethodSignature
         val method: Method = signature.method
