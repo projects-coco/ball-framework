@@ -15,7 +15,6 @@ dependencies {
     implementation(libs.spring.boot.aop)
 }
 
-
 val rootVersion = rootProject.version
 val localProperties = Properties()
 val localPropertiesFile = rootProject.file("local.properties")
@@ -38,7 +37,7 @@ publishing {
         create<MavenPublication>("maven") {
             from(components["java"])
             artifact(tasks["sourcesJar"])
-            groupId = "org.coco"
+            group = "com.github.project-coco.ball-framework"
             artifactId = "application"
             version = rootVersion.toString()
         }

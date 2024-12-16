@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.ktlint)
 }
 
-group = "org.coco"
+group = "com.github.project-coco"
 version = "0.0.1-RELEASE"
 
 repositories {

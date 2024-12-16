@@ -30,7 +30,7 @@ publishing {
         create<MavenPublication>("maven") {
             from(components["java"])
             artifact(tasks["sourcesJar"])
-            groupId = "org.coco"
+            group = "com.github.project-coco.ball-framework"
             artifactId = "domain"
             version = rootVersion.toString()
         }
