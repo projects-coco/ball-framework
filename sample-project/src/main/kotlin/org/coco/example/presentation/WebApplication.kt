@@ -9,10 +9,12 @@ import org.coco.example.domain.model.user.UserRepository
 import org.coco.infra.auth.redis.EnableBallAuthRedisInfra
 import org.coco.infra.jpa.EnableJpaConfig
 import org.coco.infra.redis.EnableRedisConfig
+import org.coco.infra.redis.util.RedissonLockHandler
 import org.coco.presentation.mvc.core.EnableBallApplication
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.context.annotation.Import
 import org.springframework.stereotype.Component
 
 @SpringBootApplication(
@@ -37,6 +39,9 @@ import org.springframework.stereotype.Component
     ],
 )
 @EnableBallAuthRedisInfra
+@Import(
+    RedissonLockHandler::class,
+)
 class WebApplication
 
 fun main(args: Array<String>) {

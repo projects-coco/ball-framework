@@ -4,7 +4,7 @@ import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.reflect.MethodSignature
-import org.redisson.api.RedissonClient
+import org.coco.domain.util.LockHandler
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -23,8 +23,8 @@ annotation class DistributedLock(
 @Aspect
 @Component
 class DistributedLockAop(
-    val redissonClient: RedissonClient,
-    val txForAop: TxForAop
+    val lockHandler: LockHandler,
+    val txForAop: TxForAop,
 ) {
     val REDISSON_LOCK_PREFIX: String = "LOCK:"
 
@@ -35,10 +35,9 @@ class DistributedLockAop(
         val distributedLock: DistributedLock = method.getAnnotation(DistributedLock::class.java)
 
         val key: String = REDISSON_LOCK_PREFIX + distributedLock.key
-        val rLock = redissonClient.getLock(key)
 
         try {
-            val available = rLock.tryLock(distributedLock.waitTime, distributedLock.leaseTime, distributedLock.timeUnit)
+            val available = lockHandler.tryLock(key, distributedLock.waitTime, distributedLock.leaseTime)
             if (!available) {
                 return false
             }
@@ -46,9 +45,7 @@ class DistributedLockAop(
         } catch (e: InterruptedException) {
             throw InterruptedException()
         } finally {
-            if (rLock != null && rLock.isHeldByCurrentThread) {
-                rLock.unlock()
-            }
+            lockHandler.unlock(key)
         }
     }
 }

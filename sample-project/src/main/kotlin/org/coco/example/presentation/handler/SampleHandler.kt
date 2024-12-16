@@ -1,5 +1,6 @@
 package org.coco.example.presentation.handler
 
+import org.coco.application.DistributedLock
 import org.coco.core.type.ErrorType
 import org.coco.core.type.LogicError
 import org.coco.example.application.SampleService
@@ -13,7 +14,9 @@ class SampleHandler(
     private val sampleService: SampleService,
 ) {
     @GetMapping
+    @DistributedLock(key = "sample", waitTime = 7000, leaseTime = 5000)
     fun get(): ResponseEntity<String> {
+        Thread.sleep(3000)
         return ResponseEntity.ok("Hello World")
     }
 
