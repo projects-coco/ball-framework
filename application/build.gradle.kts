@@ -10,8 +10,10 @@ plugins {
 
 dependencies {
     implementation(project(":domain"))
+    implementation(project(":infra:infra-redis"))
     implementation(libs.spring.boot.core)
     implementation(libs.spring.tx)
+    implementation(libs.spring.boot.aop)
 }
 
 
