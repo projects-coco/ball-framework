@@ -1,14 +1,13 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.konan.properties.Properties
-import java.io.FileInputStream
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.maven.publish)
 }
 
-group = "org.coco"
-version = "0.0.1-RELEASE"
+group = "com.github.project-coco"
+version = "1.0.0-RELEASE"
 
 repositories {
     mavenCentral()
@@ -17,10 +16,6 @@ repositories {
 val deps = libs
 
 allprojects {
-    val localPropertiesFile = rootProject.file("local.properties")
-    val localProperties = Properties()
-    localProperties.load(FileInputStream(localPropertiesFile))
-
     apply {
         plugin("java")
         plugin(
@@ -37,23 +32,10 @@ allprojects {
 
     java.sourceCompatibility = JavaVersion.VERSION_21
     java.targetCompatibility = JavaVersion.VERSION_21
+    java.toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 
     repositories {
         mavenCentral()
-        maven {
-            url = uri(localProperties["coco.repo.url.snapshot"] as String)
-            credentials {
-                username = localProperties["coco.repo.username"] as String
-                password = localProperties["coco.repo.password"] as String
-            }
-        }
-        maven {
-            url = uri(localProperties["coco.repo.url.release"] as String)
-            credentials {
-                username = localProperties["coco.repo.username"] as String
-                password = localProperties["coco.repo.password"] as String
-            }
-        }
     }
 
     dependencies {
