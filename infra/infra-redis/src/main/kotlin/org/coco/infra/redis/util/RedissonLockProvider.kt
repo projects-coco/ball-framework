@@ -1,15 +1,20 @@
 package org.coco.infra.redis.util
 
-import org.coco.domain.util.LockHandler
+import org.coco.application.LockProvider
+import org.coco.application.TxAdvice
 import org.redisson.api.RedissonClient
 import java.util.concurrent.TimeUnit
 
-class RedissonLockHandler(
+class RedissonLockProvider(
+    txAdvice: TxAdvice,
     val redissonClient: RedissonClient,
-) : LockHandler {
-    override fun tryLock(key: String, waitTime: Long, leaseTime: Long): Boolean {
-        return redissonClient.getLock(key).tryLock(waitTime, leaseTime, TimeUnit.SECONDS)
-    }
+) : LockProvider(txAdvice = txAdvice) {
+    override fun tryLock(
+        key: String,
+        timeUnit: TimeUnit,
+        waitTime: Long,
+        leaseTime: Long,
+    ): Boolean = redissonClient.getLock(key).tryLock(waitTime, leaseTime, timeUnit)
 
     override fun unlock(key: String): Boolean {
         val lock = redissonClient.getLock(key)

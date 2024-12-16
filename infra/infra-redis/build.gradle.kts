@@ -10,6 +10,7 @@ allOpen {
 
 dependencies {
     api(project(":domain"))
+    api(project(":application"))
     api(libs.spring.boot.data.redis) {
         implementation(libs.redis.lettuce)
     }

@@ -1,5 +1,6 @@
 package org.coco.infra.redis
 
+import org.coco.infra.redis.util.RedissonLockProvider
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.context.annotation.Import
 import org.springframework.core.annotation.AliasFor
@@ -9,6 +10,7 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @EnableRedisRepositories
 @Import(
     RedisClientConfig::class,
+    RedissonLockProvider::class,
 )
 annotation class EnableRedisConfig(
     @get:AliasFor(
