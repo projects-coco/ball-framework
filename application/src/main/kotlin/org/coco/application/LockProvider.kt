@@ -24,20 +24,25 @@ abstract class LockProvider(
         waitTime: Long = 10L,
         leaseTime: Long = 3L,
         action: () -> T,
-    ) {
+    ): T {
         val keyWithPrefix = "${LOCK_PREFIX}$key"
-        try {
-            val available = tryLock(key, timeUnit, waitTime, leaseTime)
-            if (!available) {
-                return
-            }
-            return txAdvice.runWithNewTransaction {
-                action()
-            }
-        } catch (e: InterruptedException) {
-            throw InterruptedException()
+        return try {
+            checkLockAvailability(keyWithPrefix, timeUnit, waitTime, leaseTime)
+            txAdvice.runWithNewTransaction(action)
         } finally {
             unlock(keyWithPrefix)
+        }
+    }
+
+    private fun checkLockAvailability(
+        key: String,
+        timeUnit: TimeUnit,
+        waitTime: Long,
+        leaseTime: Long,
+    ) {
+        val isLockAcquired = tryLock(key, timeUnit, waitTime, leaseTime)
+        if (!isLockAcquired) {
+            throw InterruptedException("Unable to acquire lock for key: $key")
         }
     }
 }

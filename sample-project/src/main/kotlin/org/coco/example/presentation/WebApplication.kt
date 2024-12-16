@@ -1,5 +1,6 @@
 package org.coco.example.presentation
 
+import org.coco.application.DistributedLockAop
 import org.coco.domain.model.auth.RefreshTokenRepository
 import org.coco.domain.model.revision.BallRevisionDto
 import org.coco.domain.model.user.BasicUser
@@ -13,6 +14,7 @@ import org.coco.presentation.mvc.core.EnableBallApplication
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.context.annotation.Import
 import org.springframework.stereotype.Component
 
 @SpringBootApplication(
@@ -37,6 +39,9 @@ import org.springframework.stereotype.Component
     ],
 )
 @EnableBallAuthRedisInfra
+@Import(
+    DistributedLockAop::class,
+)
 class WebApplication
 
 fun main(args: Array<String>) {
