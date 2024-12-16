@@ -1,4 +1,4 @@
-group = "org.coco.infra.auth.jpa"
+group = "com.github.project-coco.ball-framework"
 
 plugins {
     alias(libs.plugins.kotlin.jpa)

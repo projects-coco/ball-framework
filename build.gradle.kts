@@ -5,9 +5,10 @@ import java.io.FileInputStream
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.maven.publish)
 }
 
-group = "org.coco"
+group = "com.github.project-coco"
 version = "0.0.1-RELEASE"
 
 repositories {
@@ -40,20 +41,6 @@ allprojects {
 
     repositories {
         mavenCentral()
-        maven {
-            url = uri(localProperties["coco.repo.url.snapshot"] as String)
-            credentials {
-                username = localProperties["coco.repo.username"] as String
-                password = localProperties["coco.repo.password"] as String
-            }
-        }
-        maven {
-            url = uri(localProperties["coco.repo.url.release"] as String)
-            credentials {
-                username = localProperties["coco.repo.username"] as String
-                password = localProperties["coco.repo.password"] as String
-            }
-        }
     }
 
     dependencies {
@@ -75,6 +62,18 @@ allprojects {
             compilerOptions {
                 freeCompilerArgs = listOf("-Xjsr305=strict", "-Xcontext-receivers")
                 jvmTarget.set(JvmTarget.JVM_21)
+            }
+        }
+    }
+
+    publishing {
+        publications {
+            create<MavenPublication>("publishToMavenLocal") {
+                group = "com.github.project-coco.ball-framework"
+                artifactId = project.name
+                version = rootProject.version.toString()
+                from(components["java"])
+                artifact(tasks["sourcesJar"])
             }
         }
     }

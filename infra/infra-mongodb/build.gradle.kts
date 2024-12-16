@@ -1,4 +1,4 @@
-group = "org.coco.infra.mongodb"
+group = "com.github.project-coco.ball-framework"
 
 plugins {
     alias(libs.plugins.kotlin.spring)
@@ -6,9 +6,4 @@ plugins {
 }
 
 allOpen {
-}
-
-dependencies {
-    api(project(":domain"))
-    api(libs.spring.boot.data.mongodb)
 }

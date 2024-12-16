@@ -1,4 +1,4 @@
-group = "org.coco.infra.auth.redis"
+group = "com.github.project-coco.ball-framework"
 
 plugins {
     alias(libs.plugins.kotlin.spring)
