@@ -13,5 +13,5 @@ allOpen {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":infra:infra-jpa"))
-    api(project(":infra:infra-spring-security"))
+    api(project(":infra:infra-auth-spring-security"))
 }

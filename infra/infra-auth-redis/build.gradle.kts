@@ -7,5 +7,5 @@ plugins {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":infra:infra-redis"))
-    api(project(":infra:infra-spring-security"))
+    api(project(":infra:infra-auth-spring-security"))
 }
