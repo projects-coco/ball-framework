@@ -19,7 +19,7 @@ import java.time.LocalDateTime
 )
 class JpaRepositoryTest(
     private val testRepository: TestRepository,
-) : JpaTestSpec() {
+) : JpaTestSpecUsingMariadb() {
     init {
         this.test("TestRepository.save()") {
             // given
