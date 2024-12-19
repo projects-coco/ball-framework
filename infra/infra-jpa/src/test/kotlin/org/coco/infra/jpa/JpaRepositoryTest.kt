@@ -3,10 +3,10 @@ package org.coco.infra.jpa
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.coco.core.type.BinaryId
-import org.coco.infra.jpa.model.TestRepositoryImpl
-import org.coco.infra.jpa.model.domain.TestEntity
-import org.coco.infra.jpa.model.domain.TestRepository
-import org.coco.infra.jpa.model.infra.TestEntityJpaRepository
+import org.coco.domain.TestEntity
+import org.coco.domain.TestEntityRepository
+import org.coco.infra.jpa.model.TestEntityJpaRepository
+import org.coco.infra.jpa.model.TestEntityRepositoryImpl
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.support.TransactionTemplate
@@ -15,7 +15,7 @@ import java.util.concurrent.CountDownLatch
 
 @ContextConfiguration(
     classes = [
-        TestRepositoryImpl::class,
+        TestEntityRepositoryImpl::class,
     ],
 )
 @EnableJpaConfig(
@@ -23,7 +23,7 @@ import java.util.concurrent.CountDownLatch
     repositoryBasePackages = ["org.coco.infra.jpa"],
 )
 class JpaRepositoryTest(
-    private val testRepository: TestRepository,
+    private val testEntityRepository: TestEntityRepository,
     private val jpaRepository: TestEntityJpaRepository,
     private val tm: PlatformTransactionManager,
 ) : JpaTestSpecUsingMariadb() {
@@ -33,15 +33,15 @@ class JpaRepositoryTest(
             transaction = TransactionTemplate(tm)
             transaction!!.propagationBehavior = TransactionTemplate.PROPAGATION_REQUIRES_NEW
         }
-        this.test("TestRepository.save()") {
+        this.test("TestEntityRepository.save()") {
             // given
             val testEntity = TestEntity(BinaryId.new(), LocalDateTime.now(), LocalDateTime.now(), "test")
 
             // when
-            testRepository.save(testEntity)
+            testEntityRepository.save(testEntity)
 
             // then
-            testRepository.findById(testEntity.id).get().payload shouldBe "test"
+            testEntityRepository.findById(testEntity.id).get().payload shouldBe "test"
         }
 
         this.test("TestRepository.update()는 낙관적 락을 사용한다") {
@@ -50,7 +50,7 @@ class JpaRepositoryTest(
             val latch = CountDownLatch(numberOfThreads)
             val testEntity = TestEntity(BinaryId.new(), LocalDateTime.now(), LocalDateTime.now(), "test")
             transaction!!.execute {
-                testRepository.save(testEntity)
+                testEntityRepository.save(testEntity)
             }
 
             class EntityUpdateJob(
@@ -62,7 +62,7 @@ class JpaRepositoryTest(
                 override fun run() {
                     println("Start Thread: $payload")
                     try {
-                        testRepository.update(id) {
+                        testEntityRepository.update(id) {
                             println("Start Transaction: $payload")
                             Thread.sleep(delayInTransaction)
                             it.payload = payload
@@ -90,7 +90,7 @@ class JpaRepositoryTest(
             latch.await()
 
             // then
-            testRepository.findById(testEntity.id).get().payload shouldNotBe "updated-1"
+            testEntityRepository.findById(testEntity.id).get().payload shouldNotBe "updated-1"
             jpaRepository.findById(testEntity.id.value).get().version shouldBe 1
         }
     }

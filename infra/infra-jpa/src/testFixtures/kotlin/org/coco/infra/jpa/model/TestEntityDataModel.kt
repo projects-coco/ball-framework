@@ -1,16 +1,15 @@
-package org.coco.infra.jpa.model.infra
+package org.coco.infra.jpa.model
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import org.coco.core.type.BinaryId
-import org.coco.infra.jpa.model.DataModel
-import org.coco.infra.jpa.model.domain.TestEntity
+import org.coco.domain.TestEntity
 import org.hibernate.envers.Audited
 import java.time.LocalDateTime
 
 @Entity
 @Audited
-class TestDataModel(
+class TestEntityDataModel(
     id: ByteArray,
     createdAt: LocalDateTime,
     updatedAt: LocalDateTime,
@@ -29,8 +28,8 @@ class TestDataModel(
     }
 
     companion object {
-        fun of(entity: TestEntity): TestDataModel =
-            TestDataModel(
+        fun of(entity: TestEntity): TestEntityDataModel =
+            TestEntityDataModel(
                 entity.id.value,
                 entity.createdAt,
                 entity.updatedAt,

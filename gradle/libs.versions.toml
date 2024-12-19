@@ -81,6 +81,8 @@ jooq-coroutine = { module = "org.jooq:jooq-kotlin-coroutines", version.ref = "jo
 
 # Database
 mariadb = { module = "org.mariadb.jdbc:mariadb-java-client" }
+mongodb = { module = "org.mongodb:mongodb-jdbc", version = "2.2.0" }
+
 
 r2dbc-postgresql = { module = "org.postgresql:r2dbc-postgresql", version.ref = "r2dbc" }
 r2dbc-mysql = { module = "io.asyncer:r2dbc-mysql", version = "1.0.4" }
@@ -118,6 +120,7 @@ mariadb-client = { module = "org.mariadb.jdbc:mariadb-java-client", version = "3
 zaxxer-hikaricp = { module = "com.zaxxer:HikariCP", version = "2.2.5" }
 testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "test-container" }
 testcontainers-mariadb = { module = "org.testcontainers:mariadb", version.ref = "test-container" }
+testcontainers-mongodb = { module = "org.testcontainers:mongodb", version.ref = "test-container" }
 apache-configuration2 = { module = "org.apache.commons:commons-configuration2", version = "2.11.0" }
 snakeyaml = { module = "org.yaml:snakeyaml", version = "2.2" }
 

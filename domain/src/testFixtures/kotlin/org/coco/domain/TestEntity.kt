@@ -1,4 +1,4 @@
-package org.coco.infra.jpa.model.domain
+package org.coco.domain
 
 import org.coco.core.type.BinaryId
 import org.coco.domain.model.EntityBase
