@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.maven.publish)
+    alias(libs.plugins.java.test.fixtures)
 }
 
 group = "com.github.project-coco"
@@ -28,6 +29,7 @@ allprojects {
                 .get()
                 .pluginId,
         )
+        plugin("java-test-fixtures")
     }
 
     java.sourceCompatibility = JavaVersion.VERSION_21
@@ -42,6 +44,7 @@ allprojects {
         testImplementation(deps.bundles.kotest)
         testImplementation(deps.mockk)
         testImplementation(kotlin("test"))
+        testFixturesImplementation(deps.bundles.kotest)
     }
     task<Jar>("sourcesJar") {
         enabled = true

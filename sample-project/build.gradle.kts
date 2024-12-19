@@ -19,5 +19,5 @@ dependencies {
     implementation(project(":infra:infra-jpa"))
     implementation(project(":infra:infra-redis"))
     implementation(project(":infra:infra-auth-redis"))
-    runtimeOnly(libs.mariadb)
+    runtimeOnly(libs.mariadb.client)
 }

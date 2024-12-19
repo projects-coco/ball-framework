@@ -19,6 +19,7 @@ subprojects {
                 version = rootProject.version.toString()
                 from(components["java"])
                 artifact(tasks["sourcesJar"])
+                artifact(tasks["testFixturesJar"])
             }
         }
     }
