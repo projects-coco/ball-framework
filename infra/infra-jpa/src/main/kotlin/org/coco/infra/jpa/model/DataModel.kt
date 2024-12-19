@@ -1,9 +1,6 @@
 package org.coco.infra.jpa.model
 
-import jakarta.persistence.Column
-import jakarta.persistence.EntityListeners
-import jakarta.persistence.Id
-import jakarta.persistence.MappedSuperclass
+import jakarta.persistence.*
 import org.coco.domain.model.EntityBase
 import org.hibernate.envers.Audited
 import org.springframework.data.annotation.CreatedDate
@@ -30,6 +27,10 @@ abstract class DataModel<T : EntityBase>(
 
     @LastModifiedDate
     var updatedAt: LocalDateTime = updatedAt
+        protected set
+
+    @Version
+    var version: Long = 0L
         protected set
 
     abstract fun toEntity(): T
