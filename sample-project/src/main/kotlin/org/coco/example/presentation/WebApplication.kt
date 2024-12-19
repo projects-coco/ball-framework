@@ -1,6 +1,6 @@
 package org.coco.example.presentation
 
-import org.coco.application.lock.DistributedLockAop
+import org.coco.application.lock.DistributedLockAspect
 import org.coco.domain.model.auth.RefreshTokenRepository
 import org.coco.domain.model.revision.BallRevisionDto
 import org.coco.domain.model.user.BasicUser
@@ -40,7 +40,7 @@ import org.springframework.stereotype.Component
 )
 @EnableBallAuthRedisInfra
 @Import(
-    DistributedLockAop::class,
+    DistributedLockAspect::class,
 )
 class WebApplication
 
