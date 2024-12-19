@@ -16,7 +16,8 @@ dependencies {
     api(libs.spring.boot.mvc)
     api(libs.spring.aspects)
     api(libs.spring.boot.security)
-    runtimeOnly(libs.spring.boot.actuator)
+    api(libs.prometheus)
+    api(libs.spring.boot.actuator)
     developmentOnly(libs.spring.boot.devtools)
 }
 
