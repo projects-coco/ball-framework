@@ -19,4 +19,13 @@ dependencies {
     api(libs.kotlin.jdsl.jpql.dsl)
     api(libs.kotlin.jdsl.jpql.render)
     api(libs.kotlin.jdsl.spring.data.jpa.support)
+
+    testFixturesApi(libs.kotest.extensions.spring)
+    testFixturesApi(libs.kotest.extensions.testcontainers)
+    testFixturesApi(libs.spring.boot.test)
+    testFixturesApi(libs.spring.boot.testcontainers)
+    testFixturesApi(libs.testcontainers)
+    testFixturesApi(libs.testcontainers.mariadb)
+    testFixturesApi(libs.mariadb.client)
+    testFixturesApi(testFixtures(project(":domain")))
 }
