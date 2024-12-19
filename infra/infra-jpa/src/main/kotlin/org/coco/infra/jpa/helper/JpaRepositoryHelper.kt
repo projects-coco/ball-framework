@@ -3,6 +3,7 @@ package org.coco.infra.jpa.helper
 import org.coco.core.type.BinaryId
 import org.coco.core.type.LogicError
 import org.coco.domain.exception.EntityNotFoundError
+import org.coco.domain.exception.EntityUpdateError
 import org.coco.domain.model.EntityBase
 import org.coco.domain.model.RepositoryBase
 import org.coco.infra.jpa.model.DataModel
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.history.Revision
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.orm.ObjectOptimisticLockingFailureException
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 import kotlin.reflect.KClass
@@ -38,7 +40,11 @@ abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
         val dataModel = jpaRepository.findById(id.value).orElseThrow { EntityNotFoundError(entityClass, id) }
         val entity = dataModel.toEntity()
         modifier.invoke(entity)
-        dataModel.update(entity)
+        try {
+            dataModel.update(entity)
+        } catch (e: ObjectOptimisticLockingFailureException) {
+            throw EntityUpdateError(entityClass, id)
+        }
     }
 
     override fun delete(id: BinaryId) {
@@ -51,8 +57,7 @@ abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
             return revisions
                 .map {
                     Revision.of(it.metadata, it.entity.toEntity())
-                }
-                .toList()
+                }.toList()
         } else {
             throw RevisionNotImplementedError
         }
