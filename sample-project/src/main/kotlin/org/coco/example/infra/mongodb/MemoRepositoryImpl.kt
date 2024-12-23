@@ -14,17 +14,23 @@ class MemoRepositoryImpl(
     private val mongoRepository: MemoMongoRepository,
 ) : MongoRepositoryHelper<Memo, MemoDocumentModel>(mongoRepository, Memo::class),
     MemoRepository {
-    override fun save(entity: Memo): Memo {
-        val documentModel =
-            MemoDocumentModel(
-                entity.id.toString(),
-                entity.targetId.toString(),
-                entity.content,
-                entity.createdAt,
-                entity.updatedAt,
-            )
-        return mongoRepository.save(documentModel).toEntity()
-    }
+    override fun MemoDocumentModel.toEntity(): Memo =
+        Memo(
+            id = BinaryId.fromString(entityId),
+            targetId = BinaryId.fromString(targetId),
+            content = content,
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+        )
+
+    override fun Memo.toModel(): MemoDocumentModel =
+        MemoDocumentModel(
+            entityId = id.toString(),
+            targetId = targetId.toString(),
+            content = content,
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+        )
 
     override fun findByTargetId(targetId: BinaryId): Optional<Memo> =
         mongoRepository.findByTargetId(targetId.toString()).map { it.toEntity() }

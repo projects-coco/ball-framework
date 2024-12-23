@@ -1,6 +1,5 @@
 package org.coco.example.infra.mongodb.model
 
-import org.coco.core.type.BinaryId
 import org.coco.example.domain.model.memo.Memo
 import org.coco.infra.mongodb.model.DocumentModel
 import org.springframework.data.mongodb.core.mapping.Document
@@ -19,15 +18,6 @@ class MemoDocumentModel(
 
     var content: String = content
         private set
-
-    override fun toEntity(): Memo =
-        Memo(
-            id = BinaryId.fromString(entityId),
-            targetId = BinaryId.fromString(targetId),
-            content = content,
-            createdAt = createdAt,
-            updatedAt = updatedAt,
-        )
 
     override fun update(entity: Memo) {
         this.targetId = entity.targetId.toString()

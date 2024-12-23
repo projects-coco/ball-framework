@@ -1,5 +1,6 @@
 package org.coco.infra.auth.redis
 
+import org.coco.core.type.BinaryId
 import org.coco.domain.model.auth.RefreshToken
 import org.coco.domain.model.auth.RefreshTokenRepository
 import org.coco.domain.model.auth.Token
@@ -14,10 +15,18 @@ class RefreshTokenRepositoryImpl(
     private val redisRepository: RefreshTokenRedisRepository,
 ) : RedisRepositoryHelper<RefreshToken, RefreshTokenHashModel>(redisRepository, RefreshToken::class),
     RefreshTokenRepository {
-    override fun save(entity: RefreshToken): RefreshToken {
-        val hashModel = RefreshTokenHashModel.of(entity)
-        return redisRepository.save(hashModel).toEntity()
-    }
+    override fun RefreshTokenHashModel.toEntity(): RefreshToken =
+        RefreshToken(
+            id = BinaryId.fromString(id),
+            userId = BinaryId.fromString(userId),
+            payload = Token.Payload(payload),
+            used = used,
+            expiredAt = expiredAt,
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+        )
+
+    override fun RefreshToken.toModel(): RefreshTokenHashModel = RefreshTokenHashModel.of(this)
 
     override fun findByPayload(payload: Token.Payload): Optional<RefreshToken> =
         redisRepository.findByPayload(payload.value).map { it.toEntity() }

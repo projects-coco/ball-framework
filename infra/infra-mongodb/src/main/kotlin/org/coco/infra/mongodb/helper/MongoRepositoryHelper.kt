@@ -22,6 +22,12 @@ abstract class MongoRepositoryHelper<E : EntityBase, D : DocumentModel<E>>(
         val RevisionNotImplementedError = LogicError("Revision 을 찾을 수 없습니다.")
     }
 
+    abstract fun D.toEntity(): E
+
+    abstract fun E.toModel(): D
+
+    fun modelToEntity(documentModel: D): E = documentModel.toEntity()
+
     override fun findById(id: BinaryId): Optional<E> = mongoRepository.findByEntityId(id.toString()).map { it.toEntity() }
 
     override fun findAll(): List<E> = mongoRepository.findAll().map { it.toEntity() }
@@ -29,6 +35,11 @@ abstract class MongoRepositoryHelper<E : EntityBase, D : DocumentModel<E>>(
     override fun findAll(ids: List<BinaryId>): List<E> = mongoRepository.findAllByEntityId(ids.map { it.toString() }).map { it.toEntity() }
 
     override fun findAll(pageable: Pageable): Page<E> = mongoRepository.findAll(pageable).map { it.toEntity() }
+
+    override fun save(entity: E): E {
+        val documentModel = entity.toModel()
+        return mongoRepository.save(documentModel).toEntity()
+    }
 
     override fun update(
         id: BinaryId,
