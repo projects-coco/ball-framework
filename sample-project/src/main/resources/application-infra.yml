@@ -1,4 +1,7 @@
 spring:
+  data.mongodb:
+    uri: ${MONGODB_URI}
+    database: ${MONGODB_DATABASE}
   datasource:
     url: ${DATASOURCE_URL}
     username: ${DATASOURCE_USERNAME}

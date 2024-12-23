@@ -9,25 +9,24 @@ import org.coco.infra.mongodb.model.DocumentModel
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.history.Revision
-import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 import kotlin.reflect.KClass
 
 @Transactional
 abstract class MongoRepositoryHelper<E : EntityBase, D : DocumentModel<E>>(
-    private val mongoRepository: MongoRepository<D, String>,
+    private val mongoRepository: CustomMongoRepository<D>,
     private val entityClass: KClass<E>,
 ) : RepositoryBase<E> {
     companion object {
         val RevisionNotImplementedError = LogicError("Revision 을 찾을 수 없습니다.")
     }
 
-    override fun findById(id: BinaryId): Optional<E> = mongoRepository.findById(id.toString()).map { it.toEntity() }
+    override fun findById(id: BinaryId): Optional<E> = mongoRepository.findByEntityId(id.toString()).map { it.toEntity() }
 
     override fun findAll(): List<E> = mongoRepository.findAll().map { it.toEntity() }
 
-    override fun findAll(ids: List<BinaryId>): List<E> = mongoRepository.findAllById(ids.map { it.toString() }).map { it.toEntity() }
+    override fun findAll(ids: List<BinaryId>): List<E> = mongoRepository.findAllByEntityId(ids.map { it.toString() }).map { it.toEntity() }
 
     override fun findAll(pageable: Pageable): Page<E> = mongoRepository.findAll(pageable).map { it.toEntity() }
 
@@ -35,14 +34,17 @@ abstract class MongoRepositoryHelper<E : EntityBase, D : DocumentModel<E>>(
         id: BinaryId,
         modifier: (E) -> Unit,
     ) {
-        val documentModel = mongoRepository.findById(id.toString()).orElseThrow { EntityNotFoundError(entityClass, id) }
+        val documentModel =
+            mongoRepository.findByEntityId(id.toString()).orElseThrow { EntityNotFoundError(entityClass, id) }
         val entity = documentModel.toEntity()
         modifier.invoke(entity)
         documentModel.update(entity)
     }
 
     override fun delete(id: BinaryId) {
-        mongoRepository.deleteById(id.toString())
+        val documentModel =
+            mongoRepository.findByEntityId(id.toString()).orElseThrow { EntityNotFoundError(entityClass, id) }
+        mongoRepository.deleteById(documentModel.id)
     }
 
     override fun findRevisions(id: BinaryId): List<Revision<Long, E>> = throw RevisionNotImplementedError

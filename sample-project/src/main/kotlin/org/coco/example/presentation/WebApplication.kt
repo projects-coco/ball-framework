@@ -1,10 +1,11 @@
 package org.coco.example.presentation
 
 import org.coco.application.lock.DistributedLockAspect
-import org.coco.domain.model.auth.RefreshTokenRepository
 import org.coco.domain.model.revision.BallRevisionDto
 import org.coco.domain.model.user.BasicUser
 import org.coco.example.application.UserService
+import org.coco.example.domain.model.memo.Memo
+import org.coco.example.domain.model.memo.MemoRepository
 import org.coco.example.domain.model.user.User
 import org.coco.example.domain.model.user.UserRepository
 import org.coco.infra.auth.redis.EnableBallAuthRedisInfra
@@ -15,6 +16,7 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Import
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 import org.springframework.stereotype.Component
 
 @SpringBootApplication(
@@ -28,6 +30,11 @@ import org.springframework.stereotype.Component
     ],
     repositoryBasePackages = [
         "org.coco.example.infra.jpa.model",
+    ],
+)
+@EnableMongoRepositories(
+    basePackages = [
+        "org.coco.example.infra.mongodb.*",
     ],
 )
 @EnableRedisConfig(
@@ -53,7 +60,7 @@ fun main(args: Array<String>) {
 class SampleCommandLineRunner(
     private val userService: UserService,
     private val userRepository: UserRepository,
-    private val refreshTokenRepository: RefreshTokenRepository,
+    private val memoRepository: MemoRepository,
 ) : CommandLineRunner {
     override fun run(vararg args: String?) {
         userService.createUser(BasicUser.Username("coco-user"), User.Password("coco-password"))
@@ -61,5 +68,14 @@ class SampleCommandLineRunner(
         userRepository.findRevisions(createdUser.id).forEach {
             println(BallRevisionDto.of(it))
         }
+
+        val memo =
+            Memo(
+                targetId = createdUser.id,
+                content = "Hello world!",
+            )
+        memoRepository.save(memo)
+        val createdMemo = memoRepository.findById(memo.id)
+        println(createdMemo.get())
     }
 }

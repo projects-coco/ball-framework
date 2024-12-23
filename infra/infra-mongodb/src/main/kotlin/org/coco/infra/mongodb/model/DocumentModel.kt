@@ -9,16 +9,16 @@ import org.springframework.data.mongodb.core.index.Indexed
 import java.time.LocalDateTime
 
 abstract class DocumentModel<T : EntityBase>(
-    id: String,
+    entityId: String,
     createdAt: LocalDateTime,
     updatedAt: LocalDateTime,
 ) {
     @Id
-    var objectId: ObjectId? = null
+    var id: ObjectId = ObjectId()
         protected set
 
     @Indexed(unique = true)
-    var id: String = id
+    var entityId: String = entityId
         protected set
 
     @CreatedDate

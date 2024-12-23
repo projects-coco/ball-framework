@@ -6,14 +6,12 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @EnableMongoAuditing
 @EnableMongoRepositories
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.RUNTIME)
 annotation class EnableMongodbConfig(
     @get:AliasFor(
         annotation = EnableMongoRepositories::class,
         attribute = "basePackages",
     )
-    val repositoryBasePackages: Array<String> = [],
-) {
-    companion object {
-        const val BALL_INFRA_PACKAGE = "org.coco.infra.mongodb"
-    }
-}
+    val basePackages: Array<String> = [],
+)
