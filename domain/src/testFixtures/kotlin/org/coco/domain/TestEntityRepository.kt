@@ -1,7 +1,7 @@
-package org.coco.infra.jpa.model.domain
+package org.coco.domain
 
 import org.coco.domain.model.RepositoryBase
 import org.springframework.data.repository.NoRepositoryBean
 
 @NoRepositoryBean
-interface TestRepository : RepositoryBase<TestEntity>
+interface TestEntityRepository : RepositoryBase<TestEntity>

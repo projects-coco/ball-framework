@@ -6,20 +6,19 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.mongodb.core.index.Indexed
-import org.springframework.data.mongodb.core.query.Update
 import java.time.LocalDateTime
 
 abstract class DocumentModel<T : EntityBase>(
-    id: String,
+    entityId: String,
     createdAt: LocalDateTime,
     updatedAt: LocalDateTime,
 ) {
     @Id
-    var id: ObjectId? = null
+    var id: ObjectId = ObjectId()
         protected set
 
     @Indexed(unique = true)
-    var entityId: String = id
+    var entityId: String = entityId
         protected set
 
     @CreatedDate
@@ -32,5 +31,5 @@ abstract class DocumentModel<T : EntityBase>(
 
     abstract fun toEntity(): T
 
-    abstract fun update(entity: T): Update
+    abstract fun update(entity: T)
 }
