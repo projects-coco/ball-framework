@@ -30,7 +30,8 @@ class RentalHistoryDataModel(
         protected set
 
     override fun update(entity: RentalHistory) {
-        TODO("Not yet implemented")
+        this.user = UserDataModel.of(entity.user)
+        this.rental = RentalDataModel.of(entity.rental)
     }
 
     companion object {

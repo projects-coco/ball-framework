@@ -34,7 +34,9 @@ class RentalDataModel(
         protected set
 
     override fun update(entity: Rental) {
-        TODO("Not yet implemented")
+        this.item = ItemDataModel.of(entity.item)
+        this.beginAt = entity.beginAt
+        this.endAt = entity.endAt
     }
 
     companion object {

@@ -23,7 +23,7 @@ class ItemDataModel(
         protected set
 
     override fun update(entity: Item) {
-        TODO("Not yet implemented")
+        this.name = entity.name
     }
 
     companion object {

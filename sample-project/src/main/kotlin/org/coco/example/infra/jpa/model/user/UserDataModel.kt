@@ -33,7 +33,6 @@ class UserDataModel(
 ) : BasicUserDataModel<User>(
         id,
         username,
-        roles,
         name,
         phoneNumber,
         passwordHash,
