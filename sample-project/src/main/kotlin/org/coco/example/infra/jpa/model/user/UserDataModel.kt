@@ -49,24 +49,6 @@ class UserDataModel(
     @Column(columnDefinition = "json")
     override var roles: Set<String> = roles.map { it.name }.toSet()
 
-    override fun toEntity(): User {
-        return User(
-            id = BinaryId(id),
-            username = Username(username),
-            roles = roles.map { User.Role.valueOf(it) }.toSet(),
-            name = Name(name),
-            phoneNumber = PhoneNumber(phoneNumber),
-            passwordHash = PasswordHash(passwordHash),
-            agreementOfTerms = agreementOfTerms,
-            agreementOfPrivacy = agreementOfPrivacy,
-            active = active,
-            lastLoginAt = lastLoginAt,
-            loginCount = loginCount,
-            createdAt = createdAt,
-            updatedAt = updatedAt,
-        )
-    }
-
     override fun update(entity: User) {
         this.username = entity.username.value
         this.roles = entity.roles.map { it.toString() }.toSet()

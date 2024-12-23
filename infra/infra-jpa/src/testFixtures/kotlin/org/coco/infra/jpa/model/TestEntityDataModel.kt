@@ -2,7 +2,6 @@ package org.coco.infra.jpa.model
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import org.coco.core.type.BinaryId
 import org.coco.domain.TestEntity
 import org.hibernate.envers.Audited
 import java.time.LocalDateTime
@@ -18,8 +17,6 @@ class TestEntityDataModel(
     @Column(name = "payload", columnDefinition = "varchar(255)")
     var payload: String = payload
         protected set
-
-    override fun toEntity(): TestEntity = TestEntity(BinaryId(id), createdAt, updatedAt, payload)
 
     override fun update(entity: TestEntity) {
         this.payload = entity.payload

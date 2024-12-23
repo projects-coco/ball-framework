@@ -1,5 +1,6 @@
 package org.coco.infra.auth.jpa
 
+import org.coco.core.type.BinaryId
 import org.coco.domain.model.auth.RefreshToken
 import org.coco.domain.model.auth.RefreshTokenRepository
 import org.coco.domain.model.auth.Token
@@ -14,6 +15,17 @@ class RefreshTokenRepositoryImpl(
     private val jpaRepository: RefreshTokenJpaRepository,
 ) : JpaRepositoryHelper<RefreshToken, RefreshTokenDataModel>(jpaRepository, RefreshToken::class),
     RefreshTokenRepository {
+    override fun RefreshTokenDataModel.toEntity(): RefreshToken =
+        RefreshToken(
+            id = BinaryId(id),
+            userId = BinaryId(userId),
+            payload = Token.Payload(payload),
+            used = used,
+            expiredAt = expiredAt,
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+        )
+
     override fun findByPayload(payload: Token.Payload): Optional<RefreshToken> =
         jpaRepository.findByPayload(payload.value).map { it.toEntity() }
 

@@ -29,23 +29,18 @@ class RentalHistoryDataModel(
     var rental: RentalDataModel = rental
         protected set
 
-    override fun toEntity(): RentalHistory {
-        TODO("Not yet implemented")
-    }
-
     override fun update(entity: RentalHistory) {
         TODO("Not yet implemented")
     }
 
     companion object {
-        fun of(history: RentalHistory): RentalHistoryDataModel {
-            return RentalHistoryDataModel(
+        fun of(history: RentalHistory): RentalHistoryDataModel =
+            RentalHistoryDataModel(
                 id = history.id,
                 user = UserDataModel.of(history.user),
                 rental = RentalDataModel.of(history.rental),
                 createdAt = history.createdAt,
                 updatedAt = history.updatedAt,
             )
-        }
     }
 }

@@ -6,6 +6,8 @@ import com.linecorp.kotlinjdsl.querymodel.jpql.predicate.Predicatable
 import com.linecorp.kotlinjdsl.render.jpql.JpqlRenderContext
 import jakarta.persistence.EntityManager
 import org.coco.core.extension.bindOrNull
+import org.coco.core.type.BinaryId
+import org.coco.domain.model.user.BasicUser.*
 import org.coco.domain.model.user.BasicUserSearchDto
 import org.coco.example.domain.model.user.User
 import org.coco.example.domain.model.user.UserRepository
@@ -24,13 +26,30 @@ class UserRepositoryImpl(
     private val jpaRepository: UserJpaRepository,
     jpqlRenderContext: JpqlRenderContext,
     entityManager: EntityManager,
-) : UserRepository,
-    JpaSearchRepositoryHelper<User, UserDataModel, BasicUserSearchDto>(
+) : JpaSearchRepositoryHelper<User, UserDataModel, BasicUserSearchDto>(
         jpaRepository,
         User::class,
         entityManager,
         jpqlRenderContext,
-    ) {
+    ),
+    UserRepository {
+    override fun UserDataModel.toEntity(): User =
+        User(
+            id = BinaryId(id),
+            username = Username(username),
+            roles = roles.map { User.Role.valueOf(it) }.toSet(),
+            name = Name(name),
+            phoneNumber = PhoneNumber(phoneNumber),
+            passwordHash = PasswordHash(passwordHash),
+            agreementOfTerms = agreementOfTerms,
+            agreementOfPrivacy = agreementOfPrivacy,
+            active = active,
+            lastLoginAt = lastLoginAt,
+            loginCount = loginCount,
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+        )
+
     override fun findByUsername(username: String): Optional<User> = jpaRepository.findByUsername(username).map { it.toEntity() }
 
     override fun save(entity: User): User {

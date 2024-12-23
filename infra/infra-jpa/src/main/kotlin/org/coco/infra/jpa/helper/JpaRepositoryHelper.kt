@@ -25,6 +25,8 @@ abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
         val RevisionNotImplementedError = LogicError("Revision 을 찾을 수 없습니다.")
     }
 
+    abstract fun D.toEntity(): E
+
     override fun findById(id: BinaryId): Optional<E> = jpaRepository.findById(id.value).map { it.toEntity() }
 
     override fun findAll(): List<E> = jpaRepository.findAll().map { it.toEntity() }
