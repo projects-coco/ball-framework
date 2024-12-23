@@ -19,6 +19,8 @@ class TestEntityRepositoryImpl(
             payload = payload,
         )
 
+    override fun TestEntity.toModel(): TestEntityDataModel = TestEntityDataModel.of(this)
+
     override fun save(entity: TestEntity): TestEntity {
         val dataModel = TestEntityDataModel.of(entity)
         return jpaRepository.save(dataModel).toEntity()

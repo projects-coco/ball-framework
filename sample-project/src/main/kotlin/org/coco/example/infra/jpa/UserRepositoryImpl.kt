@@ -50,12 +50,9 @@ class UserRepositoryImpl(
             updatedAt = updatedAt,
         )
 
-    override fun findByUsername(username: String): Optional<User> = jpaRepository.findByUsername(username).map { it.toEntity() }
+    override fun User.toModel(): UserDataModel = UserDataModel.of(this)
 
-    override fun save(entity: User): User {
-        val dataModel = UserDataModel.of(entity)
-        return jpaRepository.save(dataModel).toEntity()
-    }
+    override fun findByUsername(username: String): Optional<User> = jpaRepository.findByUsername(username).map { it.toEntity() }
 
     override fun Jpql.selectFrom(): SelectQueryWhereStep<UserDataModel> = selectFrom(UserDataModel::class)
 

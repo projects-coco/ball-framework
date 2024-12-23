@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 @Repository
 @Transactional
 class ItemRepositoryImpl(
-    private val jpaRepository: ItemJpaRepository,
+    jpaRepository: ItemJpaRepository,
 ) : JpaRepositoryHelper<Item, ItemDataModel>(jpaRepository, Item::class),
     ItemRepository {
     override fun ItemDataModel.toEntity(): Item =
@@ -23,8 +23,5 @@ class ItemRepositoryImpl(
             updatedAt = updatedAt,
         )
 
-    override fun save(entity: Item): Item {
-        val dataModel = ItemDataModel.of(entity)
-        return jpaRepository.save(dataModel).toEntity()
-    }
+    override fun Item.toModel(): ItemDataModel = ItemDataModel.of(this)
 }

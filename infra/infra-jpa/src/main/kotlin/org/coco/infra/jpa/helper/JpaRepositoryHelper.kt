@@ -27,6 +27,8 @@ abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
 
     abstract fun D.toEntity(): E
 
+    abstract fun E.toModel(): D
+
     fun modelToEntity(dataModel: D): E = dataModel.toEntity()
 
     override fun findById(id: BinaryId): Optional<E> = jpaRepository.findById(id.value).map { it.toEntity() }
@@ -36,6 +38,11 @@ abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
     override fun findAll(ids: List<BinaryId>): List<E> = jpaRepository.findAllById(ids.map { it.value }).map { it.toEntity() }
 
     override fun findAll(pageable: Pageable): Page<E> = jpaRepository.findAll(pageable).map { it.toEntity() }
+
+    override fun save(entity: E): E {
+        val dataModel = entity.toModel()
+        return jpaRepository.save(dataModel).toEntity()
+    }
 
     override fun update(
         id: BinaryId,

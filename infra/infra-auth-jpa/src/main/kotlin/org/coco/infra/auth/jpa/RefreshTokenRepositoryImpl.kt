@@ -26,20 +26,17 @@ class RefreshTokenRepositoryImpl(
             updatedAt = updatedAt,
         )
 
+    override fun RefreshToken.toModel(): RefreshTokenDataModel =
+        RefreshTokenDataModel(
+            id = id,
+            userId = userId,
+            payload = payload,
+            used = used,
+            expiredAt = expiredAt,
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+        )
+
     override fun findByPayload(payload: Token.Payload): Optional<RefreshToken> =
         jpaRepository.findByPayload(payload.value).map { it.toEntity() }
-
-    override fun save(entity: RefreshToken): RefreshToken {
-        val dataModel =
-            RefreshTokenDataModel(
-                id = entity.id,
-                userId = entity.userId,
-                payload = entity.payload,
-                used = entity.used,
-                expiredAt = entity.expiredAt,
-                createdAt = entity.createdAt,
-                updatedAt = entity.updatedAt,
-            )
-        return jpaRepository.save(dataModel).toEntity()
-    }
 }

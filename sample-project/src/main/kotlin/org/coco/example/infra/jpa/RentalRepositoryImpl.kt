@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 @Repository
 @Transactional
 class RentalRepositoryImpl(
-    private val jpaRepository: RentalJpaRepository,
+    jpaRepository: RentalJpaRepository,
     private val itemRepository: ItemRepositoryImpl,
 ) : JpaRepositoryHelper<Rental, RentalDataModel>(jpaRepository, Rental::class),
     RentalRepository {
@@ -28,8 +28,5 @@ class RentalRepositoryImpl(
         )
     }
 
-    override fun save(entity: Rental): Rental {
-        val dataModel = RentalDataModel.of(rental = entity)
-        return jpaRepository.save(dataModel).toEntity()
-    }
+    override fun Rental.toModel(): RentalDataModel = RentalDataModel.of(this)
 }
