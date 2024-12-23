@@ -3,14 +3,16 @@ package org.coco.infra.mongodb.testcontainers
 import io.kotest.core.annotation.AutoScan
 import io.kotest.core.extensions.ProjectExtension
 import io.kotest.core.project.ProjectContext
-import org.testcontainers.mongodb.MongoDBAtlasLocalContainer
+import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.utility.DockerImageName
 import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.superclasses
 
 @AutoScan
 object MongodbContainerExtension : ProjectExtension {
-    private val container = MongoDBAtlasLocalContainer(DockerImageName.parse("mongodb/mongodb-atlas-local:8.0"))
+    private val container =
+        MongoDBContainer(DockerImageName.parse("mongo:8.0.4"))
+            .withReuse(true)
 
     override suspend fun interceptProject(
         context: ProjectContext,
@@ -26,7 +28,9 @@ object MongodbContainerExtension : ProjectExtension {
     private fun launchContainer() {
         if (!container.isRunning) {
             container.start()
-            System.setProperty("spring.data.mongodb.uri", container.connectionString)
+            System.setProperty("spring.data.mongodb.uri", container.replicaSetUrl)
+            System.setProperty("spring.data.mongodb.database", "testdb")
+            System.setProperty("spring.data.mongodb.auto-index-creation", "true")
         }
     }
 

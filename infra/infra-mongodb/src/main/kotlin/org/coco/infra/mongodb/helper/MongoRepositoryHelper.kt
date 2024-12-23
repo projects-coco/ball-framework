@@ -39,6 +39,7 @@ abstract class MongoRepositoryHelper<E : EntityBase, D : DocumentModel<E>>(
         val entity = documentModel.toEntity()
         modifier.invoke(entity)
         documentModel.update(entity)
+        mongoRepository.save(documentModel)
     }
 
     override fun delete(id: BinaryId) {

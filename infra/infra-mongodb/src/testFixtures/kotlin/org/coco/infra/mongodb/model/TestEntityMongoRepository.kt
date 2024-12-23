@@ -1,7 +1,7 @@
 package org.coco.infra.mongodb.model
 
-import org.springframework.data.mongodb.repository.MongoRepository
+import org.coco.infra.mongodb.helper.CustomMongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface TestEntityMongoRepository : MongoRepository<TestEntityDocumentModel, String>
+interface TestEntityMongoRepository : CustomMongoRepository<TestEntityDocumentModel>

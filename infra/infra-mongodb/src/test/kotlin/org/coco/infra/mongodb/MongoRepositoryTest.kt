@@ -13,8 +13,7 @@ import java.time.LocalDateTime
     classes = [TestEntityRepositoryImpl::class],
 )
 @EnableMongodbConfig(
-    entityBasePackages = ["org.coco.infra.mongodb.model"],
-    repositoryBasePackages = ["org.coco.infra.mongodb.model"],
+    basePackages = ["org.coco.infra.mongodb.model"],
 )
 class MongoRepositoryTest(
     private val testEntityRepository: TestEntityRepository,
@@ -30,6 +29,22 @@ class MongoRepositoryTest(
 
             // then
             testEntityRepository.findById(testEntity.id).get().payload shouldBe "test"
+        }
+
+        this.test("TestEntityRepository.update()") {
+            // given
+            val testEntity = TestEntity(BinaryId.new(), LocalDateTime.now(), LocalDateTime.now(), "test")
+            testEntityRepository.save(testEntity)
+            val documentCount = mongoRepository.count()
+
+            // when
+            testEntityRepository.update(testEntity.id) {
+                it.payload = "updated"
+            }
+
+            // then
+            mongoRepository.count() shouldBe documentCount
+            testEntityRepository.findById(testEntity.id).get().payload shouldBe "updated"
         }
     }
 }

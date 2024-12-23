@@ -7,17 +7,17 @@ import java.time.LocalDateTime
 
 @Document(collection = "test_entity")
 class TestEntityDocumentModel(
-    id: String,
+    entityId: String,
     createdAt: LocalDateTime,
     updatedAt: LocalDateTime,
     payload: String,
-) : DocumentModel<TestEntity>(id, createdAt, updatedAt) {
+) : DocumentModel<TestEntity>(entityId, createdAt, updatedAt) {
     var payload: String = payload
         protected set
 
     override fun toEntity(): TestEntity =
         TestEntity(
-            BinaryId.fromString(id),
+            BinaryId.fromString(entityId),
             createdAt,
             updatedAt,
             payload,
