@@ -27,6 +27,8 @@ abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
 
     abstract fun D.toEntity(): E
 
+    fun modelToEntity(dataModel: D): E = dataModel.toEntity()
+
     override fun findById(id: BinaryId): Optional<E> = jpaRepository.findById(id.value).map { it.toEntity() }
 
     override fun findAll(): List<E> = jpaRepository.findAll().map { it.toEntity() }
