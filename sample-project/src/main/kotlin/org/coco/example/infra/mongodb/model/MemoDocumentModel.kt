@@ -9,6 +9,7 @@ import java.time.LocalDateTime
 class MemoDocumentModel(
     entityId: String,
     targetId: String,
+    writerId: String,
     content: String,
     createdAt: LocalDateTime,
     updatedAt: LocalDateTime,
@@ -16,11 +17,15 @@ class MemoDocumentModel(
     var targetId: String = targetId
         private set
 
+    var writerId: String = writerId
+        private set
+
     var content: String = content
         private set
 
     override fun update(entity: Memo) {
         this.targetId = entity.targetId.toString()
+        this.writerId = entity.writer.id.toString()
         this.content = entity.content
         this.createdAt = entity.createdAt
         this.updatedAt = entity.updatedAt

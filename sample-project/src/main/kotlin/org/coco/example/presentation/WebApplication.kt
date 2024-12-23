@@ -72,6 +72,7 @@ class SampleCommandLineRunner(
         val memo =
             Memo(
                 targetId = createdUser.id,
+                writer = createdUser,
                 content = "Hello world!",
             )
         memoRepository.save(memo)
