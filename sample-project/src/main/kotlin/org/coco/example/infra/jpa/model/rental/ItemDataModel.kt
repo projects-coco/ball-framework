@@ -22,22 +22,17 @@ class ItemDataModel(
     var name: String = name
         protected set
 
-    override fun toEntity(): Item {
-        TODO("Not yet implemented")
-    }
-
     override fun update(entity: Item) {
-        TODO("Not yet implemented")
+        this.name = entity.name
     }
 
     companion object {
-        fun of(item: Item): ItemDataModel {
-            return ItemDataModel(
+        fun of(item: Item): ItemDataModel =
+            ItemDataModel(
                 item.id,
                 item.name,
                 item.createdAt,
                 item.updatedAt,
             )
-        }
     }
 }

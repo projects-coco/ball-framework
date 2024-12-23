@@ -15,7 +15,6 @@ import java.time.LocalDateTime
 abstract class BasicUserDataModel<T : BasicUser>(
     id: BinaryId,
     username: Username,
-    roles: Set<IRole>,
     name: Name,
     phoneNumber: PhoneNumber,
     passwordHash: PasswordHash,

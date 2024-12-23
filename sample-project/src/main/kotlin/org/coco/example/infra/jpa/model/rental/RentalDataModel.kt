@@ -33,17 +33,15 @@ class RentalDataModel(
     var endAt: LocalDate = endAt
         protected set
 
-    override fun toEntity(): Rental {
-        TODO("Not yet implemented")
-    }
-
     override fun update(entity: Rental) {
-        TODO("Not yet implemented")
+        this.item = ItemDataModel.of(entity.item)
+        this.beginAt = entity.beginAt
+        this.endAt = entity.endAt
     }
 
     companion object {
-        fun of(rental: Rental): RentalDataModel {
-            return RentalDataModel(
+        fun of(rental: Rental): RentalDataModel =
+            RentalDataModel(
                 rental.id,
                 ItemDataModel.of(rental.item),
                 beginAt = rental.beginAt,
@@ -51,6 +49,5 @@ class RentalDataModel(
                 createdAt = rental.createdAt,
                 updatedAt = rental.updatedAt,
             )
-        }
     }
 }

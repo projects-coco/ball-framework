@@ -33,7 +33,5 @@ abstract class DataModel<T : EntityBase>(
     var version: Long = 0L
         protected set
 
-    abstract fun toEntity(): T
-
     abstract fun update(entity: T)
 }

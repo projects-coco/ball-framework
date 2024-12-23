@@ -1,5 +1,6 @@
 package org.coco.example.infra.jpa
 
+import org.coco.core.type.BinaryId
 import org.coco.example.domain.model.rental.Rental
 import org.coco.example.domain.model.rental.RentalRepository
 import org.coco.example.infra.jpa.model.rental.RentalDataModel
@@ -11,10 +12,21 @@ import org.springframework.transaction.annotation.Transactional
 @Repository
 @Transactional
 class RentalRepositoryImpl(
-    private val jpaRepository: RentalJpaRepository,
-) : RentalRepository, JpaRepositoryHelper<Rental, RentalDataModel>(jpaRepository, Rental::class) {
-    override fun save(entity: Rental): Rental {
-        val dataModel = RentalDataModel.of(rental = entity)
-        return jpaRepository.save(dataModel).toEntity()
+    jpaRepository: RentalJpaRepository,
+    private val itemRepository: ItemRepositoryImpl,
+) : JpaRepositoryHelper<Rental, RentalDataModel>(jpaRepository, Rental::class),
+    RentalRepository {
+    override fun RentalDataModel.toEntity(): Rental {
+        val item = itemRepository.modelToEntity(this.item)
+        return Rental(
+            id = BinaryId(id),
+            item = item,
+            beginAt = beginAt,
+            endAt = endAt,
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+        )
     }
+
+    override fun Rental.toModel(): RentalDataModel = RentalDataModel.of(this)
 }
