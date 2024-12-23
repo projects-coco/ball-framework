@@ -1,6 +1,5 @@
 package org.coco.infra.mongodb.model
 
-import org.coco.core.type.BinaryId
 import org.coco.domain.TestEntity
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
@@ -14,14 +13,6 @@ class TestEntityDocumentModel(
 ) : DocumentModel<TestEntity>(entityId, createdAt, updatedAt) {
     var payload: String = payload
         protected set
-
-    override fun toEntity(): TestEntity =
-        TestEntity(
-            BinaryId.fromString(entityId),
-            createdAt,
-            updatedAt,
-            payload,
-        )
 
     override fun update(entity: TestEntity) {
         this.payload = entity.payload

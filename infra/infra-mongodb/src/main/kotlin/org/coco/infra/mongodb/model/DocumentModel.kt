@@ -29,7 +29,5 @@ abstract class DocumentModel<T : EntityBase>(
     var updatedAt: LocalDateTime = updatedAt
         protected set
 
-    abstract fun toEntity(): T
-
     abstract fun update(entity: T)
 }

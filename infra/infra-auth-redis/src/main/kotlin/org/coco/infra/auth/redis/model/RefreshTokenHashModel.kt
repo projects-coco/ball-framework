@@ -1,8 +1,6 @@
 package org.coco.infra.auth.redis.model
 
-import org.coco.core.type.BinaryId
 import org.coco.domain.model.auth.RefreshToken
-import org.coco.domain.model.auth.Token
 import org.coco.infra.redis.model.HashModel
 import org.springframework.data.redis.core.RedisHash
 import org.springframework.data.redis.core.index.Indexed
@@ -30,17 +28,6 @@ class RefreshTokenHashModel(
 
     var expiredAt: LocalDateTime = expiredAt
         private set
-
-    override fun toEntity(): RefreshToken =
-        RefreshToken(
-            id = BinaryId.fromString(id),
-            userId = BinaryId.fromString(userId),
-            payload = Token.Payload(payload),
-            used = used,
-            expiredAt = expiredAt,
-            createdAt = createdAt,
-            updatedAt = updatedAt,
-        )
 
     override fun update(entity: RefreshToken) {
         userId = entity.userId.toString()

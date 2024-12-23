@@ -22,6 +22,12 @@ abstract class RedisRepositoryHelper<E : EntityBase, H : HashModel<E>>(
         val RevisionNotSupportedError = LogicError("Revision 을 찾을 수 없습니다.")
     }
 
+    abstract fun H.toEntity(): E
+
+    abstract fun E.toModel(): H
+
+    fun modelToEntity(hashModel: H): E = hashModel.toEntity()
+
     override fun findAll(pageable: Pageable): Page<E> = throw PaginationNotSupportedError
 
     override fun findAll(ids: List<BinaryId>): List<E> = redisRepository.findAllById(ids.map { it.toString() }).map { it.toEntity() }
@@ -29,6 +35,11 @@ abstract class RedisRepositoryHelper<E : EntityBase, H : HashModel<E>>(
     override fun findAll(): List<E> = redisRepository.findAll().map { it.toEntity() }
 
     override fun findById(id: BinaryId): Optional<E> = redisRepository.findById(id.toString()).map { it.toEntity() }
+
+    override fun save(entity: E): E {
+        val hashModel = entity.toModel()
+        return redisRepository.save(hashModel).toEntity()
+    }
 
     override fun update(
         id: BinaryId,
