@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
-import org.coco.core.type.BallRequestContext
+import org.coco.core.utils.BallRequestContextHolder
 import org.coco.core.utils.currentClock
 import org.coco.core.utils.logger
 import org.coco.presentation.mvc.core.getRemoteIp
@@ -43,7 +43,7 @@ class RequestLogger {
             val endAt = LocalDateTime.now(currentClock())
             log.error(
                 "# REQUEST | REQ_ID = {} | CONTROLLER = {} | METHOD = {} | PATH = {} | IN_PARAMS = {} | DURATION: {} | REMOTE_ADDR = {} | Exception:",
-                BallRequestContext.requestId,
+                BallRequestContextHolder.requestId,
                 controller,
                 request.method,
                 request.requestURI,
@@ -57,7 +57,7 @@ class RequestLogger {
             val endAt = LocalDateTime.now(currentClock())
             log.info(
                 "# REQUEST | REQ_ID = {} | CONTROLLER = {} | METHOD = {} | PATH = {} | IN_PARAMS = {} | DURATION: {} | REMOTE_ADDR = {}",
-                BallRequestContext.requestId,
+                BallRequestContextHolder.requestId,
                 controller,
                 request.method,
                 request.requestURI,

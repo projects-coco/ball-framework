@@ -1,9 +1,9 @@
 package org.coco.presentation.mvc.middleware
 
 import jakarta.servlet.http.HttpServletRequest
-import org.coco.core.type.BallRequestContext
 import org.coco.core.type.ErrorType
 import org.coco.core.type.LogicError
+import org.coco.core.utils.BallRequestContextHolder
 import org.coco.core.utils.logger
 import org.coco.domain.model.auth.UserPrincipalContextHolder
 import org.coco.presentation.mvc.core.ErrorResponse
@@ -83,7 +83,7 @@ class ErrorHandler {
     ): ResponseEntity<ErrorResponse> {
         logger.debug(
             "# DEBUG | REQ_ID = {} | HANDLER = ErrorHandler | Exception:",
-            BallRequestContext.requestId,
+            BallRequestContextHolder.requestId,
             exception,
         )
         return ResponseEntity
@@ -101,7 +101,7 @@ class ErrorHandler {
     private fun logRequest(request: HttpServletRequest) {
         logger.warn(
             "# WARNING | REQ_ID = {} | METHOD = {} | PATH = {} | USERNAME = {} | REMOTE_ADDR = {}",
-            BallRequestContext.requestId,
+            BallRequestContextHolder.requestId,
             request.method,
             request.requestURI,
             UserPrincipalContextHolder.userPrincipal?.username?.value ?: "<anonymous>",

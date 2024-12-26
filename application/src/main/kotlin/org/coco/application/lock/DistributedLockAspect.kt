@@ -10,7 +10,7 @@ import java.lang.reflect.Method
 @Aspect
 @Component
 class DistributedLockAspect(
-    val lockProvider: LockProvider,
+    private val lockProvider: LockProvider,
 ) {
     @Around("@annotation(org.coco.application.lock.DistributedLock)")
     fun lock(joinPoint: ProceedingJoinPoint): Any {
