@@ -3,6 +3,7 @@ group = "org.coco.ball-framework"
 dependencies {
     api(libs.kotlin.reflect)
     api(libs.kotlinx.coroutines.core)
+    api(libs.kotlinx.coroutines.reactor)
     api(libs.arrow.core)
     api(libs.slf4j)
     implementation(libs.ulid)
