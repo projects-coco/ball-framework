@@ -6,10 +6,10 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":domain"))
-    implementation(libs.spring.boot.core)
-    implementation(libs.spring.tx)
-    implementation(libs.spring.boot.aop)
+    api(project(":domain"))
+    api(libs.spring.boot.core)
+    api(libs.spring.tx)
+    api(libs.spring.boot.aop)
 }
 
 configure<PublishingExtension> {

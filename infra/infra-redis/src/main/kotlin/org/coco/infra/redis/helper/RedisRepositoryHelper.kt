@@ -44,12 +44,13 @@ abstract class RedisRepositoryHelper<E : EntityBase, H : HashModel<E>>(
     override fun update(
         id: BinaryId,
         modifier: (E) -> Unit,
-    ) {
+    ): E {
         val hashModel = redisRepository.findById(id.toString()).orElseThrow { EntityNotFoundError(entityClass, id) }
         val entity = hashModel.toEntity()
         modifier.invoke(entity)
         hashModel.update(entity)
         redisRepository.save(hashModel)
+        return hashModel.toEntity()
     }
 
     override fun delete(id: BinaryId) = redisRepository.deleteById(id.toString())
