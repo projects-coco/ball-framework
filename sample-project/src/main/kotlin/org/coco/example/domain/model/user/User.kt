@@ -23,7 +23,7 @@ class User(
 ) : BasicUser(
         id,
         username,
-        roles,
+        roles.map { it.toString() }.toSet(),
         name,
         phoneNumber,
         passwordHash,
@@ -35,7 +35,7 @@ class User(
         createdAt,
         updatedAt,
     ) {
-    enum class Role : IRole {
+    enum class Role {
         ROLE_ADMIN,
         ROLE_USER,
     }
