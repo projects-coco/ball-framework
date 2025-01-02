@@ -44,13 +44,14 @@ abstract class MongoRepositoryHelper<E : EntityBase, D : DocumentModel<E>>(
     override fun update(
         id: BinaryId,
         modifier: (E) -> Unit,
-    ) {
+    ): E {
         val documentModel =
             mongoRepository.findByEntityId(id.toString()).orElseThrow { EntityNotFoundError(entityClass, id) }
         val entity = documentModel.toEntity()
         modifier.invoke(entity)
         documentModel.update(entity)
         mongoRepository.save(documentModel)
+        return documentModel.toEntity()
     }
 
     override fun delete(id: BinaryId) {

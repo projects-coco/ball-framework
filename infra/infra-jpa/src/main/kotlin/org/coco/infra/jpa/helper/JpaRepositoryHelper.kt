@@ -47,7 +47,7 @@ abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
     override fun update(
         id: BinaryId,
         modifier: (E) -> Unit,
-    ) {
+    ): E {
         val dataModel = jpaRepository.findById(id.value).orElseThrow { EntityNotFoundError(entityClass, id) }
         val entity = dataModel.toEntity()
         modifier.invoke(entity)
@@ -56,6 +56,7 @@ abstract class JpaRepositoryHelper<E : EntityBase, D : DataModel<E>>(
         } catch (e: ObjectOptimisticLockingFailureException) {
             throw EntityUpdateError(entityClass, id)
         }
+        return dataModel.toEntity()
     }
 
     override fun delete(id: BinaryId) {

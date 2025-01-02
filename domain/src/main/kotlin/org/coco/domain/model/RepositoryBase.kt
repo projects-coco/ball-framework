@@ -22,14 +22,12 @@ interface RepositoryBase<T : EntityBase> {
     fun update(
         id: BinaryId,
         modifier: (T) -> Unit,
-    )
+    ): T
 
     fun update(
         entity: T,
         modifier: (T) -> Unit,
-    ) {
-        update(entity.id, modifier)
-    }
+    ): T = update(entity.id, modifier)
 
     fun delete(id: BinaryId)
 
