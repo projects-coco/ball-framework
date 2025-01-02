@@ -1,25 +1,22 @@
 package org.coco.example.infra.jpa.model.user
 
-import io.hypersistence.utils.hibernate.type.json.JsonType
-import jakarta.persistence.Column
+import jakarta.persistence.DiscriminatorValue
 import jakarta.persistence.Entity
-import jakarta.persistence.Table
 import org.coco.core.type.BinaryId
 import org.coco.domain.model.user.Agreement
 import org.coco.domain.model.user.BasicUser.*
 import org.coco.example.domain.model.user.User
 import org.coco.infra.jpa.model.user.BasicUserDataModel
-import org.hibernate.annotations.Type
 import org.hibernate.envers.Audited
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "users")
+@DiscriminatorValue("user")
 @Audited
 class UserDataModel(
     id: BinaryId,
     username: Username,
-    roles: Set<User.Role>,
+    roles: Set<String>,
     name: Name,
     phoneNumber: PhoneNumber,
     passwordHash: PasswordHash,
@@ -33,6 +30,7 @@ class UserDataModel(
 ) : BasicUserDataModel<User>(
         id,
         username,
+        roles,
         name,
         phoneNumber,
         passwordHash,
@@ -44,13 +42,9 @@ class UserDataModel(
         createdAt,
         updatedAt,
     ) {
-    @Type(JsonType::class)
-    @Column(columnDefinition = "json")
-    override var roles: Set<String> = roles.map { it.name }.toSet()
-
     override fun update(entity: User) {
         this.username = entity.username.value
-        this.roles = entity.roles.toSet()
+        this.roles = entity.rolesAsString.toSet()
         this.name = entity.name.value
         this.phoneNumber = entity.phoneNumber.value
         this.passwordHash = entity.passwordHash.value
@@ -59,12 +53,11 @@ class UserDataModel(
     }
 
     companion object {
-        fun of(entity: User): UserDataModel {
-            @Suppress("UNCHECKED_CAST")
-            return UserDataModel(
+        fun of(entity: User): UserDataModel =
+            UserDataModel(
                 id = entity.id,
                 username = entity.username,
-                roles = User.Role.from(entity.roles),
+                roles = entity.roles.map { it.name }.toSet(),
                 name = entity.name,
                 phoneNumber = entity.phoneNumber,
                 passwordHash = entity.passwordHash,
@@ -76,6 +69,5 @@ class UserDataModel(
                 createdAt = entity.createdAt,
                 updatedAt = entity.updatedAt,
             )
-        }
     }
 }

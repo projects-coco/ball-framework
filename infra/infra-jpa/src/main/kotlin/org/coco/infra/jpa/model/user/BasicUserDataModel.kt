@@ -1,20 +1,26 @@
 package org.coco.infra.jpa.model.user
 
+import io.hypersistence.utils.hibernate.type.json.JsonType
 import jakarta.persistence.*
 import org.coco.core.type.BinaryId
 import org.coco.domain.model.user.Agreement
 import org.coco.domain.model.user.BasicUser
 import org.coco.domain.model.user.BasicUser.*
 import org.coco.infra.jpa.model.DataModel
+import org.hibernate.annotations.Type
 import org.hibernate.envers.Audited
 import org.hibernate.envers.NotAudited
 import java.time.LocalDateTime
 
-@MappedSuperclass
+@Entity
 @Audited
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "DTYPE")
 abstract class BasicUserDataModel<T : BasicUser>(
     id: BinaryId,
     username: Username,
+    roles: Set<String>,
     name: Name,
     phoneNumber: PhoneNumber,
     passwordHash: PasswordHash,
@@ -30,7 +36,9 @@ abstract class BasicUserDataModel<T : BasicUser>(
     var username: String = username.value
         protected set
 
-    abstract var roles: Set<String>
+    @Type(JsonType::class)
+    @Column(columnDefinition = "json")
+    var roles: Set<String> = roles
         protected set
 
     @Column(columnDefinition = "varchar(64)")
