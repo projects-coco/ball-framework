@@ -12,45 +12,46 @@ import org.coco.infra.spring.security.JwtTokenProvider.Companion.CLAIM_ID
 import org.coco.infra.spring.security.JwtTokenProvider.Companion.key
 import java.time.Duration
 
-class JwtTokenProviderTest : FunSpec({
-    val toPrincipal: DecodedJWT.() -> UserPrincipal = {
-        UserPrincipal(
-            id = BinaryId.fromString(getClaim(CLAIM_ID).asString()),
-            roles =
-                JsonUtils
-                    .deserialize(this.key("roles"), Set::class.java)
-                    .map {
-                        BasicUser.Role.valueOf(it as String)
-                    }.toSet(),
-            username = BasicUser.Username(this.key("username")),
-        )
-    }
-    val tokenProvider =
-        JwtTokenProvider(
-            issuer = "authProperties.issuer",
-            secret = "authProperties.accessTokenSecret",
-            expiry = Duration.ofMinutes(30),
-            toPrincipal = toPrincipal,
-        )
-
-    test("DecodedJWT::payload(key: String)") {
-        val id = BinaryId.new()
-        val username = BasicUser.Username("username")
-        val authToken =
-            tokenProvider.generateToken(
-                UserPrincipal(
-                    id = id,
-                    roles = setOf(BasicUser.Role.USER),
-                    username = username,
-                ),
+class JwtTokenProviderTest :
+    FunSpec({
+        val toPrincipal: DecodedJWT.() -> UserPrincipal = {
+            UserPrincipal(
+                id = BinaryId.fromString(getClaim(CLAIM_ID).asString()),
+                roles =
+                    JsonUtils
+                        .deserialize(this.key("roles"), Set::class.java)
+                        .map {
+                            it.toString()
+                        }.toSet(),
+                username = BasicUser.Username(this.key("username")),
             )
-        val jwtString = authToken.value
+        }
+        val tokenProvider =
+            JwtTokenProvider(
+                issuer = "authProperties.issuer",
+                secret = "authProperties.accessTokenSecret",
+                expiry = Duration.ofMinutes(30),
+                toPrincipal = toPrincipal,
+            )
 
-        val decoded = JWT.decode(jwtString)
-        val principal = decoded.toPrincipal()
+        test("DecodedJWT::payload(key: String)") {
+            val id = BinaryId.new()
+            val username = BasicUser.Username("username")
+            val authToken =
+                tokenProvider.generateToken(
+                    UserPrincipal(
+                        id = id,
+                        roles = setOf("ROLE_USER"),
+                        username = username,
+                    ),
+                )
+            val jwtString = authToken.value
 
-        principal.id.value shouldBe id.value
-        principal.username shouldBe username
-        principal.roles shouldBe setOf(BasicUser.Role.USER)
-    }
-})
+            val decoded = JWT.decode(jwtString)
+            val principal = decoded.toPrincipal()
+
+            principal.id.value shouldBe id.value
+            principal.username shouldBe username
+            principal.roles shouldBe setOf("ROLE_USER")
+        }
+    })

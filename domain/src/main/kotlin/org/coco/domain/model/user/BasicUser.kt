@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 open class BasicUser(
     id: BinaryId = BinaryId.new(),
     username: Username,
-    roles: Set<IRole> = setOf(Role.USER),
+    roles: Set<String>,
     name: Name,
     phoneNumber: PhoneNumber,
     passwordHash: PasswordHash,
@@ -24,7 +24,7 @@ open class BasicUser(
     var username: Username = username
         protected set
 
-    var roles: Set<IRole> = roles
+    var roles: Set<String> = roles
         protected set
 
     var name: Name = name
@@ -64,13 +64,6 @@ open class BasicUser(
             val usernameMinLength = 5
             require(value.length >= usernameMinLength) { "아이디는 최소 ${usernameMinLength}자 이상의 값이 필요합니다." }
         }
-    }
-
-    interface IRole
-
-    enum class Role : IRole {
-        USER,
-        ADMIN,
     }
 
     @JvmInline
