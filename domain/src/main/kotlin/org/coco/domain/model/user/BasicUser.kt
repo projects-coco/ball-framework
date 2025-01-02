@@ -24,7 +24,7 @@ open class BasicUser(
     var username: Username = username
         protected set
 
-    var roles: Set<String> = roles
+    var rolesAsString: Set<String> = roles
         protected set
 
     var name: Name = name
@@ -109,6 +109,6 @@ open class BasicUser(
         ToStringBuilder(this)
             .append("id", id.toString())
             .append("username", username.value)
-            .append("roles", roles)
+            .append("roles", rolesAsString)
             .toString()
 }

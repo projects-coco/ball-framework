@@ -16,7 +16,7 @@ data class UserPrincipal(
             UserPrincipal(
                 id = user.id,
                 username = user.username,
-                roles = user.roles,
+                roles = user.rolesAsString,
             )
     }
 }

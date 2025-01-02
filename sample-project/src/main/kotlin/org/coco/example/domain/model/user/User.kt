@@ -35,6 +35,9 @@ class User(
         createdAt,
         updatedAt,
     ) {
+    var roles: Set<Role> = roles
+        private set
+
     enum class Role {
         ROLE_ADMIN,
         ROLE_USER,
