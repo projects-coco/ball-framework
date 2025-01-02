@@ -23,7 +23,7 @@ class User(
 ) : BasicUser(
         id,
         username,
-        roles.map { it.toString() }.toSet(),
+        roles.map { it.name }.toSet(),
         name,
         phoneNumber,
         passwordHash,
@@ -38,6 +38,11 @@ class User(
     enum class Role {
         ROLE_ADMIN,
         ROLE_USER,
+        ;
+
+        companion object {
+            fun from(roles: Set<String>): Set<Role> = roles.map { valueOf(it) }.toSet()
+        }
     }
 
     @JvmInline
