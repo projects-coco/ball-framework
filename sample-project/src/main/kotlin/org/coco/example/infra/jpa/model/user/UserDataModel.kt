@@ -50,7 +50,7 @@ class UserDataModel(
 
     override fun update(entity: User) {
         this.username = entity.username.value
-        this.roles = entity.roles.map { it.toString() }.toSet()
+        this.roles = entity.roles.toSet()
         this.name = entity.name.value
         this.phoneNumber = entity.phoneNumber.value
         this.passwordHash = entity.passwordHash.value
@@ -64,7 +64,7 @@ class UserDataModel(
             return UserDataModel(
                 id = entity.id,
                 username = entity.username,
-                roles = entity.roles as Set<User.Role>,
+                roles = User.Role.from(entity.roles),
                 name = entity.name,
                 phoneNumber = entity.phoneNumber,
                 passwordHash = entity.passwordHash,

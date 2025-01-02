@@ -3,7 +3,9 @@ package org.coco.infra.jpa.helper
 import com.linecorp.kotlinjdsl.dsl.jpql.Jpql
 import com.linecorp.kotlinjdsl.dsl.jpql.jpql
 import com.linecorp.kotlinjdsl.dsl.jpql.select.SelectQueryWhereStep
+import com.linecorp.kotlinjdsl.querymodel.jpql.path.Path
 import com.linecorp.kotlinjdsl.querymodel.jpql.predicate.Predicatable
+import com.linecorp.kotlinjdsl.querymodel.jpql.sort.Sortable
 import com.linecorp.kotlinjdsl.render.jpql.JpqlRenderContext
 import com.linecorp.kotlinjdsl.support.spring.data.jpa.extension.createQuery
 import jakarta.persistence.EntityManager
@@ -15,7 +17,10 @@ import org.coco.infra.jpa.model.DataModel
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.domain.Sort.Order
 import org.springframework.data.jpa.repository.JpaRepository
+import java.io.Serializable
 import kotlin.reflect.KClass
 
 abstract class JpaSearchRepositoryHelper<E : EntityBase, D : DataModel<E>, S : SearchDto>(
@@ -41,8 +46,10 @@ abstract class JpaSearchRepositoryHelper<E : EntityBase, D : DataModel<E>, S : S
     ): Page<E> {
         val contentQuery =
             jpql {
+                val orderBy = orderBy(pageable.sort)
                 selectFrom()
                     .whereAnd(*where(searchDto))
+                    .orderBy(*orderBy)
             }
         val countQuery =
             jpql {
@@ -76,4 +83,19 @@ abstract class JpaSearchRepositoryHelper<E : EntityBase, D : DataModel<E>, S : S
     abstract fun Jpql.selectCount(): SelectQueryWhereStep<Long>
 
     abstract fun Jpql.where(searchDto: S): Array<out Predicatable?>
+
+    abstract fun Jpql.orderBy(order: Order): Path<out Serializable>
+
+    fun Jpql.orderBy(sort: Sort): Array<out Sortable?> =
+        sort
+            .map {
+                val direction = if (it.isAscending) Sort.Direction.ASC else Sort.Direction.DESC
+                val path = orderBy(it)
+                if (direction == Sort.Direction.ASC) {
+                    path.asc()
+                } else {
+                    path.desc()
+                }
+            }.toList()
+            .toTypedArray()
 }

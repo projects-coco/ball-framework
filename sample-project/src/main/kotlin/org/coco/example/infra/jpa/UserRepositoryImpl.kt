@@ -2,6 +2,7 @@ package org.coco.example.infra.jpa
 
 import com.linecorp.kotlinjdsl.dsl.jpql.Jpql
 import com.linecorp.kotlinjdsl.dsl.jpql.select.SelectQueryWhereStep
+import com.linecorp.kotlinjdsl.querymodel.jpql.path.Path
 import com.linecorp.kotlinjdsl.querymodel.jpql.predicate.Predicatable
 import com.linecorp.kotlinjdsl.render.jpql.JpqlRenderContext
 import jakarta.persistence.EntityManager
@@ -16,8 +17,10 @@ import org.coco.example.infra.jpa.model.user.UserJpaRepository
 import org.coco.infra.jpa.core.selectCount
 import org.coco.infra.jpa.core.selectFrom
 import org.coco.infra.jpa.helper.JpaSearchRepositoryHelper
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import java.io.Serializable
 import java.util.*
 
 @Repository
@@ -68,5 +71,15 @@ class UserRepositoryImpl(
                 active.bindOrNull { path(UserDataModel::active).eq(it) },
                 loginCount.bindOrNull { path(UserDataModel::loginCount).eq(it) },
             )
+        }
+
+    override fun Jpql.orderBy(order: Sort.Order): Path<out Serializable> =
+        when (order.property) {
+            "username" -> path(UserDataModel::username)
+            "name" -> path(UserDataModel::name)
+            "phoneNumber" -> path(UserDataModel::phoneNumber)
+            "active" -> path(UserDataModel::active)
+            "loginCount" -> path(UserDataModel::loginCount)
+            else -> path(UserDataModel::id)
         }
 }

@@ -1,8 +1,10 @@
 package org.coco.example.presentation
 
+import arrow.core.toOption
 import org.coco.application.lock.DistributedLockAspect
 import org.coco.domain.model.revision.BallRevisionDto
 import org.coco.domain.model.user.BasicUser
+import org.coco.domain.model.user.BasicUserSearchDto
 import org.coco.example.application.UserService
 import org.coco.example.domain.model.memo.Memo
 import org.coco.example.domain.model.memo.MemoRepository
@@ -16,6 +18,8 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Import
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 import org.springframework.stereotype.Component
 
@@ -64,10 +68,28 @@ class SampleCommandLineRunner(
 ) : CommandLineRunner {
     override fun run(vararg args: String?) {
         userService.createUser(BasicUser.Username("coco-user"), User.Password("coco-password"))
+        userService.createUser(BasicUser.Username("coco-user-1"), User.Password("coco-password"))
+        userService.createUser(BasicUser.Username("coco-user-2"), User.Password("coco-password"))
+        userService.createUser(BasicUser.Username("coco-user-3"), User.Password("coco-password"))
+        userService.createUser(BasicUser.Username("coco-user-4"), User.Password("coco-password"))
+
         val createdUser = userService.findUser(BasicUser.Username("coco-user"))
         userRepository.findRevisions(createdUser.id).forEach {
             println(BallRevisionDto.of(it))
         }
+
+        userRepository
+            .search(
+                BasicUserSearchDto(
+                    username = "coco-user-".toOption(),
+                ),
+                pageable =
+                    PageRequest.of(0, 10).withSort(
+                        Sort.by("username").descending(),
+                    ),
+            ).forEach {
+                println(it)
+            }
 
         val memo =
             Memo(
