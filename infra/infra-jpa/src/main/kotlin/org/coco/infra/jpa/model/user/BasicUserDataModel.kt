@@ -12,15 +12,12 @@ import org.hibernate.envers.Audited
 import org.hibernate.envers.NotAudited
 import java.time.LocalDateTime
 
-@Entity
+@MappedSuperclass
 @Audited
-@Table(name = "users")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "DTYPE")
 abstract class BasicUserDataModel<T : BasicUser>(
     id: BinaryId,
     username: Username,
-    roles: Set<String>,
+    rolesAsString: Set<String>,
     name: Name,
     phoneNumber: PhoneNumber,
     passwordHash: PasswordHash,
@@ -38,7 +35,7 @@ abstract class BasicUserDataModel<T : BasicUser>(
 
     @Type(JsonType::class)
     @Column(columnDefinition = "json")
-    var roles: Set<String> = roles
+    var rolesAsString: Set<String> = rolesAsString
         protected set
 
     @Column(columnDefinition = "varchar(64)")
@@ -77,4 +74,19 @@ abstract class BasicUserDataModel<T : BasicUser>(
     @NotAudited
     var loginCount: Long = loginCount
         protected set
+
+    protected fun update(entity: BasicUser) {
+        this.username = entity.username.value
+        this.rolesAsString = entity.rolesAsString
+        this.name = entity.name.value
+        this.phoneNumber = entity.phoneNumber.value
+        this.passwordHash = entity.passwordHash.value
+        this.agreementOfTerms = entity.agreementOfTerms
+        this.agreementOfPrivacy = entity.agreementOfPrivacy
+        this.active = entity.active
+        this.lastLoginAt = entity.lastLoginAt
+        this.loginCount = entity.loginCount
+        this.createdAt = entity.createdAt
+        this.updatedAt = entity.updatedAt
+    }
 }

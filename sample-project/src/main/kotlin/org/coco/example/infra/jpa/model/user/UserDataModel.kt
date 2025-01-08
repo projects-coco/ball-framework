@@ -16,7 +16,7 @@ import java.time.LocalDateTime
 class UserDataModel(
     id: BinaryId,
     username: Username,
-    roles: Set<String>,
+    rolesAsString: Set<String>,
     name: Name,
     phoneNumber: PhoneNumber,
     passwordHash: PasswordHash,
@@ -30,7 +30,7 @@ class UserDataModel(
 ) : BasicUserDataModel<User>(
         id,
         username,
-        roles,
+        rolesAsString,
         name,
         phoneNumber,
         passwordHash,
@@ -43,13 +43,7 @@ class UserDataModel(
         updatedAt,
     ) {
     override fun update(entity: User) {
-        this.username = entity.username.value
-        this.roles = entity.rolesAsString.toSet()
-        this.name = entity.name.value
-        this.phoneNumber = entity.phoneNumber.value
-        this.passwordHash = entity.passwordHash.value
-        this.agreementOfTerms = entity.agreementOfTerms
-        this.agreementOfPrivacy = entity.agreementOfPrivacy
+        super.update(entity)
     }
 
     companion object {
@@ -57,7 +51,7 @@ class UserDataModel(
             UserDataModel(
                 id = entity.id,
                 username = entity.username,
-                roles = entity.roles.map { it.name }.toSet(),
+                rolesAsString = entity.roles.map { it.name }.toSet(),
                 name = entity.name,
                 phoneNumber = entity.phoneNumber,
                 passwordHash = entity.passwordHash,
