@@ -40,7 +40,7 @@ class UserRepositoryImpl(
         User(
             id = BinaryId(id),
             username = Username(username),
-            roles = roles.map { User.Role.valueOf(it) }.toSet(),
+            roles = rolesAsString.map { User.Role.valueOf(it) }.toSet(),
             name = Name(name),
             phoneNumber = PhoneNumber(phoneNumber),
             passwordHash = PasswordHash(passwordHash),
