@@ -29,7 +29,7 @@ class LocalLockProvider(
                 if (!lockMap.containsKey(key)) {
                     lockMap[key] = System.currentTimeMillis() + leaseTime
                     return true
-                } else if (lockMap[key]!! > System.currentTimeMillis()) {
+                } else if (lockMap[key]!! < System.currentTimeMillis()) {
                     lockMap[key] = System.currentTimeMillis() + leaseTime
                     return true
                 }
