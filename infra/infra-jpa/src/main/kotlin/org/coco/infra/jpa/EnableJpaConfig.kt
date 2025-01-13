@@ -1,6 +1,7 @@
 package org.coco.infra.jpa
 
 import com.linecorp.kotlinjdsl.support.spring.data.jpa.autoconfigure.KotlinJdslAutoConfiguration
+import org.coco.infra.jpa.converter.DurationToLongJpaConverter
 import org.coco.infra.jpa.core.BallAuditRevisionListener
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.context.annotation.Import
@@ -19,6 +20,7 @@ import kotlin.reflect.KClass
 @Import(
     BallAuditRevisionListener::class,
     KotlinJdslAutoConfiguration::class,
+    DurationToLongJpaConverter::class,
 )
 annotation class EnableJpaConfig(
     @get:AliasFor(
