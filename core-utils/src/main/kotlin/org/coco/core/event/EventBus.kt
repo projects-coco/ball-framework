@@ -17,6 +17,8 @@ object EventBus {
             .filter { it is T }
             .map { it as T }
             .doOnNext(action)
+            // TODO : Error 후처리
+            .onErrorContinue({ _, _ -> })
             .subscribe()
     }
 }
