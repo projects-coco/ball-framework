@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse
 import org.coco.domain.model.user.vo.Password
 import org.coco.domain.model.user.vo.Username
 import org.coco.domain.service.auth.AuthService
+import org.coco.domain.service.auth.AuthTokenGenerator
 import org.coco.presentation.mvc.core.*
 import org.coco.presentation.mvc.middleware.BallAuthenticationToken
 import org.springframework.context.annotation.Import
@@ -14,7 +15,10 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/auth")
-@Import(AuthService::class)
+@Import(
+    AuthService::class,
+    AuthTokenGenerator::class,
+)
 class AuthController(
     private val authService: AuthService,
 ) {

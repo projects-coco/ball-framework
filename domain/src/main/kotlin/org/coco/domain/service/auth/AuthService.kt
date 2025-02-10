@@ -2,7 +2,6 @@ package org.coco.domain.service.auth
 
 import org.coco.core.type.ErrorType
 import org.coco.core.type.LogicError
-import org.coco.core.utils.logger
 import org.coco.domain.model.auth.RefreshTokenRepository
 import org.coco.domain.model.auth.Token
 import org.coco.domain.model.auth.UserPrincipal
@@ -12,8 +11,7 @@ import org.coco.domain.model.user.vo.Password
 import org.coco.domain.model.user.vo.Username
 
 open class AuthService(
-    private val accessTokenProvider: TokenProvider<UserPrincipal>,
-    private val refreshTokenHandler: RefreshTokenHandler,
+    private val authTokenGenerator: AuthTokenGenerator,
     private val refreshTokenRepository: RefreshTokenRepository,
     private val userRepository: BasicUserRepository<*, *>,
     private val passwordHashProvider: PasswordHashProvider,
@@ -23,8 +21,6 @@ open class AuthService(
         val UserDisabledError = LogicError("사용이 중지된 계정입니다. 관리자에게 문의해주세요.", ErrorType.UNAUTHORIZED)
         val LogoutFailError = LogicError("로그아웃 할 수 없습니다", ErrorType.BAD_REQUEST)
     }
-
-    protected val logger = logger()
 
     data class LoginCommand(
         val username: Username,
@@ -39,10 +35,7 @@ open class AuthService(
         }
 
         val userPrincipal = UserPrincipal.of(user)
-        val accessToken = accessTokenProvider.generateToken(userPrincipal)
-        val refreshToken = refreshTokenHandler.issue(userPrincipal)
-
-        return Pair(accessToken, refreshToken.payload)
+        return authTokenGenerator.generate(userPrincipal)
     }
 
     data class LogoutCommand(

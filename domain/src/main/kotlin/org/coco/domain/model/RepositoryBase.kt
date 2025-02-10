@@ -31,6 +31,8 @@ interface RepositoryBase<T : EntityBase> {
 
     fun delete(id: BinaryId)
 
+    fun delete(entity: T) = delete(entity.id)
+
     fun findRevisions(id: BinaryId): List<Revision<Long, T>>
 
     fun findRevisions(
