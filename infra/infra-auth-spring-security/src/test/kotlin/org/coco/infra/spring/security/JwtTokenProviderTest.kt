@@ -8,8 +8,8 @@ import org.coco.core.type.BinaryId
 import org.coco.core.utils.JsonUtils
 import org.coco.domain.model.auth.UserPrincipal
 import org.coco.domain.model.user.vo.Username
-import org.coco.infra.spring.security.JwtTokenProvider.Companion.CLAIM_ID
-import org.coco.infra.spring.security.JwtTokenProvider.Companion.key
+import org.coco.infra.spring.security.TokenProviderJwtHelper.Companion.CLAIM_ID
+import org.coco.infra.spring.security.TokenProviderJwtHelper.Companion.key
 import java.time.Duration
 
 class JwtTokenProviderTest :
@@ -27,7 +27,7 @@ class JwtTokenProviderTest :
             )
         }
         val tokenProvider =
-            JwtTokenProvider(
+            UserPrincipalTokenProvider(
                 issuer = "authProperties.issuer",
                 secret = "authProperties.accessTokenSecret",
                 expiry = Duration.ofMinutes(30),
