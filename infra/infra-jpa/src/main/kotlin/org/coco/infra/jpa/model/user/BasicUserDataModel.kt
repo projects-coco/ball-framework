@@ -38,7 +38,7 @@ abstract class BasicUserDataModel<T : BasicUser>(
         protected set
 
     @Column(columnDefinition = "varchar(64)")
-    var name: String = legalName.value
+    var legalName: String = legalName.value
 
     @Column(columnDefinition = "varchar(16)")
     var phoneNumber: String = phoneNumber.value
@@ -77,7 +77,7 @@ abstract class BasicUserDataModel<T : BasicUser>(
     protected fun update(entity: BasicUser) {
         this.username = entity.username.value
         this.rolesAsString = entity.rolesAsString
-        this.name = entity.legalName.value
+        this.legalName = entity.legalName.value
         this.phoneNumber = entity.phoneNumber.value
         this.passwordHash = entity.passwordHash.value
         this.agreementOfTerms = entity.agreementOfTerms

@@ -44,7 +44,7 @@ class UserRepositoryImpl(
             id = BinaryId(id),
             username = Username(username),
             roles = rolesAsString.map { User.Role.valueOf(it) }.toSet(),
-            legalName = LegalName(name),
+            legalName = LegalName(legalName),
             phoneNumber = PhoneNumber(phoneNumber),
             passwordHash = PasswordHash(passwordHash),
             agreementOfTerms = agreementOfTerms,
@@ -69,7 +69,7 @@ class UserRepositoryImpl(
             arrayOf(
                 id.bindOrNull { path(UserDataModel::id).eq(it.value) },
                 username.bindOrNull { path(UserDataModel::username).like("%$it%") },
-                name.bindOrNull { path(UserDataModel::name).like("%$it%") },
+                name.bindOrNull { path(UserDataModel::legalName).like("%$it%") },
                 phoneNumber.bindOrNull { path(UserDataModel::phoneNumber).like("%$it%") },
                 active.bindOrNull { path(UserDataModel::active).eq(it) },
                 loginCount.bindOrNull { path(UserDataModel::loginCount).eq(it) },
@@ -79,7 +79,7 @@ class UserRepositoryImpl(
     override fun Jpql.orderBy(order: Sort.Order): Path<out Serializable> =
         when (order.property) {
             "username" -> path(UserDataModel::username)
-            "name" -> path(UserDataModel::name)
+            "name" -> path(UserDataModel::legalName)
             "phoneNumber" -> path(UserDataModel::phoneNumber)
             "active" -> path(UserDataModel::active)
             "loginCount" -> path(UserDataModel::loginCount)
