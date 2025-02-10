@@ -69,7 +69,7 @@ class UserRepositoryImpl(
             arrayOf(
                 id.bindOrNull { path(UserDataModel::id).eq(it.value) },
                 username.bindOrNull { path(UserDataModel::username).like("%$it%") },
-                name.bindOrNull { path(UserDataModel::legalName).like("%$it%") },
+                legalName.bindOrNull { path(UserDataModel::legalName).like("%$it%") },
                 phoneNumber.bindOrNull { path(UserDataModel::phoneNumber).like("%$it%") },
                 active.bindOrNull { path(UserDataModel::active).eq(it) },
                 loginCount.bindOrNull { path(UserDataModel::loginCount).eq(it) },
