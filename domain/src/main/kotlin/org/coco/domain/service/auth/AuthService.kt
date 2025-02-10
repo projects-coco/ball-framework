@@ -12,7 +12,7 @@ import org.coco.domain.model.user.vo.Password
 import org.coco.domain.model.user.vo.Username
 
 open class AuthService(
-    private val accessTokenProvider: TokenProvider,
+    private val accessTokenProvider: TokenProvider<UserPrincipal>,
     private val refreshTokenHandler: RefreshTokenHandler,
     private val refreshTokenRepository: RefreshTokenRepository,
     private val userRepository: BasicUserRepository<*, *>,

@@ -2,11 +2,11 @@ package org.coco.domain.service.auth
 
 import arrow.core.Either
 import org.coco.domain.model.auth.Token.Payload
-import org.coco.domain.model.auth.UserPrincipal
+import java.security.Principal
 import java.time.LocalDateTime
 
-interface TokenProvider {
-    fun generateToken(payload: UserPrincipal): Payload
+interface TokenProvider<T : Principal> {
+    fun generateToken(payload: T): Payload
 
     sealed interface VerifyError {
         data object InvalidToken : VerifyError
@@ -14,7 +14,7 @@ interface TokenProvider {
         data object Expired : VerifyError
     }
 
-    fun verify(token: Payload): Either<VerifyError, UserPrincipal>
+    fun verify(token: Payload): Either<VerifyError, T>
 
     fun getExpiredAt(token: Payload): LocalDateTime
 }

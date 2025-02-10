@@ -43,7 +43,7 @@ data class BallAuthenticationToken(
     RefreshTokenHandler::class,
 )
 class JwtAuthenticationFilter(
-    private val accessTokenProvider: TokenProvider,
+    private val accessTokenProvider: TokenProvider<UserPrincipal>,
     private val refreshTokenHandler: RefreshTokenHandler,
 ) : OncePerRequestFilter() {
     companion object {

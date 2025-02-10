@@ -5,16 +5,16 @@ import org.coco.core.utils.JsonUtils
 import org.coco.domain.model.auth.UserPrincipal
 import org.coco.domain.model.user.vo.Username
 import org.coco.example.domain.model.user.User
-import org.coco.infra.spring.security.JwtTokenProvider.Companion.CLAIM_ID
-import org.coco.infra.spring.security.JwtTokenProvider.Companion.key
-import org.coco.infra.spring.security.PrincipalBuilder
+import org.coco.infra.spring.security.TokenProviderJwtHelper.Companion.CLAIM_ID
+import org.coco.infra.spring.security.TokenProviderJwtHelper.Companion.key
+import org.coco.infra.spring.security.UserPrincipalBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
 class PrincipalConfig {
     @Bean
-    fun principalBuilder(): PrincipalBuilder =
+    fun principalBuilder(): UserPrincipalBuilder =
         {
             UserPrincipal(
                 id = BinaryId.fromString(getClaim(CLAIM_ID).asString()),
