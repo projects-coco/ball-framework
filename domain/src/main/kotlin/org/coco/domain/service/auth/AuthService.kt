@@ -8,6 +8,8 @@ import org.coco.domain.model.auth.Token
 import org.coco.domain.model.auth.UserPrincipal
 import org.coco.domain.model.user.BasicUser
 import org.coco.domain.model.user.BasicUserRepository
+import org.coco.domain.model.user.vo.Password
+import org.coco.domain.model.user.vo.Username
 
 open class AuthService(
     private val accessTokenProvider: TokenProvider,
@@ -25,8 +27,8 @@ open class AuthService(
     protected val logger = logger()
 
     data class LoginCommand(
-        val username: BasicUser.Username,
-        val password: BasicUser.Password,
+        val username: Username,
+        val password: Password,
         val remoteIp: String,
     )
 

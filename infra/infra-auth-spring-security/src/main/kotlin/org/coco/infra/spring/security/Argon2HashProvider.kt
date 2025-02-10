@@ -1,7 +1,7 @@
 package org.coco.infra.spring.security
 
-import org.coco.domain.model.user.BasicUser.IPassword
-import org.coco.domain.model.user.BasicUser.PasswordHash
+import org.coco.domain.model.user.vo.IPassword
+import org.coco.domain.model.user.vo.PasswordHash
 import org.coco.domain.service.auth.PasswordHashProvider
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
 

@@ -74,6 +74,7 @@ hypersistence-utils = { module = "io.hypersistence:hypersistence-utils-hibernate
 kotlin-jdsl-jpql-dsl = { group = "com.linecorp.kotlin-jdsl", name = "jpql-dsl", version.ref = "kotlin-jdsl" }
 kotlin-jdsl-jpql-render = { group = "com.linecorp.kotlin-jdsl", name = "jpql-render", version.ref = "kotlin-jdsl" }
 kotlin-jdsl-spring-data-jpa-support = { group = "com.linecorp.kotlin-jdsl", name = "spring-data-jpa-support", version.ref = "kotlin-jdsl" }
+kotlin-jdsl-spring-batch-support = { group = "com.linecorp.kotlin-jdsl", name = "spring-batch-support", version.ref = "kotlin-jdsl" }
 
 jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
 jooq-kotlin = { module = "org.jooq:jooq-kotlin", version.ref = "jooq" }

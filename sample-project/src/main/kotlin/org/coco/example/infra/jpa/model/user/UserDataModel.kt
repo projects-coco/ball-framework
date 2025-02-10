@@ -3,8 +3,7 @@ package org.coco.example.infra.jpa.model.user
 import jakarta.persistence.DiscriminatorValue
 import jakarta.persistence.Entity
 import org.coco.core.type.BinaryId
-import org.coco.domain.model.user.Agreement
-import org.coco.domain.model.user.BasicUser.*
+import org.coco.domain.model.user.vo.*
 import org.coco.example.domain.model.user.User
 import org.coco.infra.jpa.model.user.BasicUserDataModel
 import org.hibernate.envers.Audited
@@ -17,7 +16,7 @@ class UserDataModel(
     id: BinaryId,
     username: Username,
     rolesAsString: Set<String>,
-    name: Name,
+    legalName: LegalName,
     phoneNumber: PhoneNumber,
     passwordHash: PasswordHash,
     agreementOfTerms: Agreement,
@@ -31,7 +30,7 @@ class UserDataModel(
         id,
         username,
         rolesAsString,
-        name,
+        legalName,
         phoneNumber,
         passwordHash,
         agreementOfTerms,
@@ -52,7 +51,7 @@ class UserDataModel(
                 id = entity.id,
                 username = entity.username,
                 rolesAsString = entity.roles.map { it.name }.toSet(),
-                name = entity.name,
+                legalName = entity.legalName,
                 phoneNumber = entity.phoneNumber,
                 passwordHash = entity.passwordHash,
                 agreementOfTerms = entity.agreementOfTerms,

@@ -3,7 +3,7 @@ package org.coco.example.presentation
 import org.coco.core.type.BinaryId
 import org.coco.core.utils.JsonUtils
 import org.coco.domain.model.auth.UserPrincipal
-import org.coco.domain.model.user.BasicUser
+import org.coco.domain.model.user.vo.Username
 import org.coco.example.domain.model.user.User
 import org.coco.infra.spring.security.JwtTokenProvider.Companion.CLAIM_ID
 import org.coco.infra.spring.security.JwtTokenProvider.Companion.key
@@ -24,7 +24,7 @@ class PrincipalConfig {
                         .map {
                             User.Role.valueOf(it as String).name
                         }.toSet(),
-                username = BasicUser.Username(this.key("username")),
+                username = Username(this.key("username")),
             )
         }
 }

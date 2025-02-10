@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 import org.coco.core.type.BinaryId
 import org.coco.core.utils.JsonUtils
 import org.coco.domain.model.auth.UserPrincipal
-import org.coco.domain.model.user.BasicUser
+import org.coco.domain.model.user.vo.Username
 import org.coco.infra.spring.security.JwtTokenProvider.Companion.CLAIM_ID
 import org.coco.infra.spring.security.JwtTokenProvider.Companion.key
 import java.time.Duration
@@ -23,7 +23,7 @@ class JwtTokenProviderTest :
                         .map {
                             it.toString()
                         }.toSet(),
-                username = BasicUser.Username(this.key("username")),
+                username = Username(this.key("username")),
             )
         }
         val tokenProvider =
@@ -36,7 +36,7 @@ class JwtTokenProviderTest :
 
         test("DecodedJWT::payload(key: String)") {
             val id = BinaryId.new()
-            val username = BasicUser.Username("username")
+            val username = Username("username")
             val authToken =
                 tokenProvider.generateToken(
                     UserPrincipal(

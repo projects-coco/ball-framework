@@ -3,9 +3,8 @@ package org.coco.infra.jpa.model.user
 import io.hypersistence.utils.hibernate.type.json.JsonType
 import jakarta.persistence.*
 import org.coco.core.type.BinaryId
-import org.coco.domain.model.user.Agreement
 import org.coco.domain.model.user.BasicUser
-import org.coco.domain.model.user.BasicUser.*
+import org.coco.domain.model.user.vo.*
 import org.coco.infra.jpa.model.DataModel
 import org.hibernate.annotations.Type
 import org.hibernate.envers.Audited
@@ -18,7 +17,7 @@ abstract class BasicUserDataModel<T : BasicUser>(
     id: BinaryId,
     username: Username,
     rolesAsString: Set<String>,
-    name: Name,
+    legalName: LegalName,
     phoneNumber: PhoneNumber,
     passwordHash: PasswordHash,
     agreementOfTerms: Agreement,
@@ -39,7 +38,7 @@ abstract class BasicUserDataModel<T : BasicUser>(
         protected set
 
     @Column(columnDefinition = "varchar(64)")
-    var name: String = name.value
+    var name: String = legalName.value
 
     @Column(columnDefinition = "varchar(16)")
     var phoneNumber: String = phoneNumber.value
@@ -78,7 +77,7 @@ abstract class BasicUserDataModel<T : BasicUser>(
     protected fun update(entity: BasicUser) {
         this.username = entity.username.value
         this.rolesAsString = entity.rolesAsString
-        this.name = entity.name.value
+        this.name = entity.legalName.value
         this.phoneNumber = entity.phoneNumber.value
         this.passwordHash = entity.passwordHash.value
         this.agreementOfTerms = entity.agreementOfTerms

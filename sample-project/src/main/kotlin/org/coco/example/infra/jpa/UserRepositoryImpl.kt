@@ -8,8 +8,11 @@ import com.linecorp.kotlinjdsl.render.jpql.JpqlRenderContext
 import jakarta.persistence.EntityManager
 import org.coco.core.extension.bindOrNull
 import org.coco.core.type.BinaryId
-import org.coco.domain.model.user.BasicUser.*
 import org.coco.domain.model.user.BasicUserSearchDto
+import org.coco.domain.model.user.vo.LegalName
+import org.coco.domain.model.user.vo.PasswordHash
+import org.coco.domain.model.user.vo.PhoneNumber
+import org.coco.domain.model.user.vo.Username
 import org.coco.example.domain.model.user.User
 import org.coco.example.domain.model.user.UserRepository
 import org.coco.example.infra.jpa.model.user.UserDataModel
@@ -41,7 +44,7 @@ class UserRepositoryImpl(
             id = BinaryId(id),
             username = Username(username),
             roles = rolesAsString.map { User.Role.valueOf(it) }.toSet(),
-            name = Name(name),
+            legalName = LegalName(name),
             phoneNumber = PhoneNumber(phoneNumber),
             passwordHash = PasswordHash(passwordHash),
             agreementOfTerms = agreementOfTerms,

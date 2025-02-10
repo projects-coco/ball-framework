@@ -3,12 +3,12 @@ package org.coco.example.presentation
 import arrow.core.toOption
 import org.coco.application.lock.DistributedLockAspect
 import org.coco.domain.model.revision.BallRevisionDto
-import org.coco.domain.model.user.BasicUser
 import org.coco.domain.model.user.BasicUserSearchDto
+import org.coco.domain.model.user.vo.Password
+import org.coco.domain.model.user.vo.Username
 import org.coco.example.application.UserService
 import org.coco.example.domain.model.memo.Memo
 import org.coco.example.domain.model.memo.MemoRepository
-import org.coco.example.domain.model.user.User
 import org.coco.example.domain.model.user.UserRepository
 import org.coco.infra.auth.redis.EnableBallAuthRedisInfra
 import org.coco.infra.jpa.EnableJpaConfig
@@ -67,13 +67,13 @@ class SampleCommandLineRunner(
     private val memoRepository: MemoRepository,
 ) : CommandLineRunner {
     override fun run(vararg args: String?) {
-        userService.createUser(BasicUser.Username("coco-user"), User.Password("coco-password"))
-        userService.createUser(BasicUser.Username("coco-user-1"), User.Password("coco-password"))
-        userService.createUser(BasicUser.Username("coco-user-2"), User.Password("coco-password"))
-        userService.createUser(BasicUser.Username("coco-user-3"), User.Password("coco-password"))
-        userService.createUser(BasicUser.Username("coco-user-4"), User.Password("coco-password"))
+        userService.createUser(Username("coco-user"), Password("coco-password"))
+        userService.createUser(Username("coco-user-1"), Password("coco-password"))
+        userService.createUser(Username("coco-user-2"), Password("coco-password"))
+        userService.createUser(Username("coco-user-3"), Password("coco-password"))
+        userService.createUser(Username("coco-user-4"), Password("coco-password"))
 
-        val createdUser = userService.findUser(BasicUser.Username("coco-user"))
+        val createdUser = userService.findUser(Username("coco-user"))
         userRepository.findRevisions(createdUser.id).forEach {
             println(BallRevisionDto.of(it))
         }
