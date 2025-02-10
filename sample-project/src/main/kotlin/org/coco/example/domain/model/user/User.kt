@@ -2,15 +2,15 @@ package org.coco.example.domain.model.user
 
 import org.coco.core.type.BinaryId
 import org.coco.core.utils.currentClock
-import org.coco.domain.model.user.Agreement
 import org.coco.domain.model.user.BasicUser
+import org.coco.domain.model.user.vo.*
 import java.time.LocalDateTime
 
 class User(
     id: BinaryId = BinaryId.new(),
     username: Username,
     roles: Set<Role>,
-    name: Name,
+    legalName: LegalName,
     phoneNumber: PhoneNumber,
     passwordHash: PasswordHash,
     agreementOfTerms: Agreement = Agreement.agree(),
@@ -24,7 +24,7 @@ class User(
         id,
         username,
         roles.map { it.name }.toSet(),
-        name,
+        legalName,
         phoneNumber,
         passwordHash,
         agreementOfTerms,
@@ -58,7 +58,7 @@ class User(
         }
     }
 
-    fun updateName(name: Name) {
-        this.name = name
+    fun updateName(legalName: LegalName) {
+        this.legalName = legalName
     }
 }

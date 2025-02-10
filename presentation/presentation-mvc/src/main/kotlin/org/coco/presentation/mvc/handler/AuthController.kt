@@ -2,7 +2,8 @@ package org.coco.presentation.mvc.handler
 
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.coco.domain.model.user.BasicUser
+import org.coco.domain.model.user.vo.Password
+import org.coco.domain.model.user.vo.Username
 import org.coco.domain.service.auth.AuthService
 import org.coco.presentation.mvc.core.*
 import org.coco.presentation.mvc.middleware.BallAuthenticationToken
@@ -25,17 +26,19 @@ class AuthController(
 
     @GetMapping
     @IsAuthorized
-    fun auth(ballAuthenticationToken: BallAuthenticationToken): ResponseEntity<AuthResponse> {
-        return ResponseEntity
+    fun auth(ballAuthenticationToken: BallAuthenticationToken): ResponseEntity<AuthResponse> =
+        ResponseEntity
             .status(HttpStatus.OK)
             .body(
                 AuthResponse(
                     id = ballAuthenticationToken.userPrincipal.id.toString(),
-                    roles = ballAuthenticationToken.userPrincipal.roles.map { it.toString() }.toSet(),
+                    roles =
+                        ballAuthenticationToken.userPrincipal.roles
+                            .map { it.toString() }
+                            .toSet(),
                     username = ballAuthenticationToken.userPrincipal.username.value,
                 ),
             )
-    }
 
     data class LoginRequest(
         val username: String,
@@ -53,8 +56,8 @@ class AuthController(
             authService.login(
                 command =
                     AuthService.LoginCommand(
-                        username = BasicUser.Username(request.username),
-                        password = BasicUser.Password(request.password),
+                        username = Username(request.username),
+                        password = Password(request.password),
                         remoteIp = servletRequest.getRemoteIp(),
                     ),
             )

@@ -1,4 +1,4 @@
-package org.coco.domain.model.user
+package org.coco.domain.model.user.vo
 
 import org.coco.core.utils.ToStringBuilder
 import org.coco.core.utils.currentClock
@@ -26,12 +26,11 @@ open class Agreement(
         fun disagree() = Agreement(false, LocalDateTime.now(currentClock()))
     }
 
-    override fun toString(): String {
-        return ToStringBuilder(this)
+    override fun toString(): String =
+        ToStringBuilder(this)
             .append("status", status)
             .append("agreeAt", agreeAt)
             .toString()
-    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -42,7 +41,5 @@ open class Agreement(
         return true
     }
 
-    override fun hashCode(): Int {
-        return javaClass.hashCode()
-    }
+    override fun hashCode(): Int = javaClass.hashCode()
 }

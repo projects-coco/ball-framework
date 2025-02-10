@@ -1,6 +1,6 @@
 package org.coco.example.presentation.handler
 
-import org.coco.domain.model.user.BasicUser
+import org.coco.domain.model.user.vo.LegalName
 import org.coco.example.application.UserService
 import org.coco.example.domain.model.user.User
 import org.coco.presentation.mvc.core.IsAuthorized
@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestController
 class UserHandler(
     private val userService: UserService,
 ) {
-    @PatchMapping("/name/{name}")
+    @PatchMapping("/name/{legalName}")
     @IsAuthorized
     fun patchName(
         ballAuthenticationToken: BallAuthenticationToken,
-        @PathVariable name: BasicUser.Name,
+        @PathVariable legalName: LegalName,
     ): ResponseEntity<User> {
         val user = userService.findUser(ballAuthenticationToken.userPrincipal.username)
-        userService.updateName(user, name)
+        userService.updateName(user, legalName)
         val updatedUser = userService.findUser(ballAuthenticationToken.userPrincipal.username)
         return ResponseEntity
             .status(HttpStatus.OK)

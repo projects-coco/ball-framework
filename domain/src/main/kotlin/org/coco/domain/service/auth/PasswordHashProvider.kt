@@ -1,7 +1,7 @@
 package org.coco.domain.service.auth
 
-import org.coco.domain.model.user.BasicUser.IPassword
-import org.coco.domain.model.user.BasicUser.PasswordHash
+import org.coco.domain.model.user.vo.IPassword
+import org.coco.domain.model.user.vo.PasswordHash
 
 interface PasswordHashProvider {
     fun hash(password: IPassword): PasswordHash

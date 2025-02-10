@@ -1,7 +1,7 @@
 package org.coco.domain.model.revision
 
 import org.coco.core.type.BinaryId
-import org.coco.domain.model.user.BasicUser
+import org.coco.domain.model.user.vo.Username
 import java.time.Instant
 
 interface BallRevisionMetadata {
@@ -11,5 +11,5 @@ interface BallRevisionMetadata {
 
     fun getAuthorId(): BinaryId?
 
-    fun getAuthor(): BasicUser.Username?
+    fun getAuthor(): Username?
 }
