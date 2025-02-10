@@ -1,5 +1,6 @@
 package org.coco.presentation.mvc.config
 
+import org.coco.domain.model.auth.UserPrincipal
 import org.coco.domain.service.auth.TokenProvider
 import org.coco.infra.spring.security.JwtTokenProvider
 import org.coco.infra.spring.security.PrincipalBuilder
@@ -23,7 +24,7 @@ class JwtConfig(
     )
 
     @Bean("accessTokenProvider")
-    fun accessTokenProvider(authProperties: AuthProperties): TokenProvider =
+    fun accessTokenProvider(authProperties: AuthProperties): TokenProvider<UserPrincipal> =
         JwtTokenProvider(
             secret = authProperties.accessTokenSecret,
             issuer = authProperties.issuer,
@@ -32,7 +33,7 @@ class JwtConfig(
         )
 
     @Bean("refreshTokenProvider")
-    fun refreshTokenProvider(authProperties: AuthProperties): TokenProvider =
+    fun refreshTokenProvider(authProperties: AuthProperties): TokenProvider<UserPrincipal> =
         JwtTokenProvider(
             secret = authProperties.refreshTokenSecret,
             issuer = authProperties.issuer,

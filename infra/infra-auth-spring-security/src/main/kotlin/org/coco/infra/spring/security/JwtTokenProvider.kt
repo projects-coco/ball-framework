@@ -24,7 +24,7 @@ class JwtTokenProvider(
     private val issuer: String,
     private val expiry: Duration,
     private val toPrincipal: PrincipalBuilder,
-) : TokenProvider {
+) : TokenProvider<UserPrincipal> {
     companion object {
         const val CLAIM_ID = "id"
 
@@ -38,8 +38,8 @@ class JwtTokenProvider(
     private val algorithm: Algorithm = Algorithm.HMAC512(secret)
     private val verifier = JWT.require(algorithm).withIssuer(issuer).build()
 
-    override fun generateToken(payload: UserPrincipal): Token.Payload {
-        return Token.Payload(
+    override fun generateToken(payload: UserPrincipal): Token.Payload =
+        Token.Payload(
             JWT
                 .create()
                 .withExpiresAt(Date(System.currentTimeMillis() + expiry.toMillis()))
@@ -52,14 +52,14 @@ class JwtTokenProvider(
                 ).withClaim(CLAIM_ID, payload.name)
                 .sign(algorithm),
         )
-    }
 
     override fun verify(token: Token.Payload): Either<VerifyError, UserPrincipal> =
-        Either.catch {
-            verifier.verify(token.value).toPrincipal()
-        }.mapLeft {
-            mapVerifyError(it)
-        }
+        Either
+            .catch {
+                verifier.verify(token.value).toPrincipal()
+            }.mapLeft {
+                mapVerifyError(it)
+            }
 
     override fun getExpiredAt(token: Token.Payload): LocalDateTime {
         val decoded = JWT.decode(token.value)

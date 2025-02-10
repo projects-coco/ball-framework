@@ -8,7 +8,7 @@ import org.coco.domain.model.auth.Token
 import org.coco.domain.model.auth.UserPrincipal
 
 class RefreshTokenHandler(
-    private val refreshTokenProvider: TokenProvider,
+    private val refreshTokenProvider: TokenProvider<UserPrincipal>,
     private val refreshTokenRepository: RefreshTokenRepository,
 ) {
     fun issue(userPrincipal: UserPrincipal): RefreshToken {
