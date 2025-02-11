@@ -11,6 +11,7 @@ import java.time.LocalDateTime
 open class BasicUser(
     id: BinaryId = BinaryId.new(),
     username: Username,
+    email: Email? = null,
     roles: Set<String>,
     legalName: LegalName,
     phoneNumber: PhoneNumber,
@@ -24,6 +25,9 @@ open class BasicUser(
     updatedAt: LocalDateTime = LocalDateTime.now(currentClock()),
 ) : EntityBase(id, createdAt, updatedAt) {
     var username: Username = username
+        protected set
+
+    var email: Email? = email
         protected set
 
     @HidingToResponse

@@ -16,6 +16,7 @@ import java.time.LocalDateTime
 abstract class BasicUserDataModel<T : BasicUser>(
     id: BinaryId,
     username: Username,
+    email: Email?,
     rolesAsString: Set<String>,
     legalName: LegalName,
     phoneNumber: PhoneNumber,
@@ -30,6 +31,10 @@ abstract class BasicUserDataModel<T : BasicUser>(
 ) : DataModel<T>(id.value, createdAt, updatedAt) {
     @Column(columnDefinition = "varchar(32)", unique = true)
     var username: String = username.value
+        protected set
+
+    @Column(columnDefinition = "varchar(128)", unique = true, nullable = true)
+    var email: String? = email?.value
         protected set
 
     @Type(JsonType::class)
@@ -76,6 +81,7 @@ abstract class BasicUserDataModel<T : BasicUser>(
 
     protected fun update(entity: BasicUser) {
         this.username = entity.username.value
+        this.email = entity.email?.value
         this.rolesAsString = entity.rolesAsString
         this.legalName = entity.legalName.value
         this.phoneNumber = entity.phoneNumber.value
