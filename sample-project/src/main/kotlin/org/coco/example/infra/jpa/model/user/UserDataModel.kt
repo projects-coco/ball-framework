@@ -29,6 +29,7 @@ class UserDataModel(
 ) : BasicUserDataModel<User>(
         id,
         username,
+        null,
         rolesAsString,
         legalName,
         phoneNumber,

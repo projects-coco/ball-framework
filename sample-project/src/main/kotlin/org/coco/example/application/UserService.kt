@@ -32,6 +32,7 @@ class UserService(
         val user =
             User(
                 username = username,
+                email = null,
                 roles = setOf(User.Role.ROLE_USER),
                 legalName = LegalName(username.value),
                 phoneNumber = PhoneNumber("010-0000-0000"),

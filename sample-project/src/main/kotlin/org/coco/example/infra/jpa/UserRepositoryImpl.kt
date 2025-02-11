@@ -43,6 +43,7 @@ class UserRepositoryImpl(
         User(
             id = BinaryId(id),
             username = Username(username),
+            email = null,
             roles = rolesAsString.map { User.Role.valueOf(it) }.toSet(),
             legalName = LegalName(legalName),
             phoneNumber = PhoneNumber(phoneNumber),
