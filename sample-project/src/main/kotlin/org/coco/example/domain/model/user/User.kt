@@ -9,6 +9,7 @@ import java.time.LocalDateTime
 class User(
     id: BinaryId = BinaryId.new(),
     username: Username,
+    email: Email?,
     roles: Set<Role>,
     legalName: LegalName,
     phoneNumber: PhoneNumber,
@@ -23,6 +24,7 @@ class User(
 ) : BasicUser(
         id,
         username,
+        email,
         roles.map { it.name }.toSet(),
         legalName,
         phoneNumber,

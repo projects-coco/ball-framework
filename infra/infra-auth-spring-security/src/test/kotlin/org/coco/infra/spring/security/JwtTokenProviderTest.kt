@@ -7,6 +7,7 @@ import io.kotest.matchers.shouldBe
 import org.coco.core.type.BinaryId
 import org.coco.core.utils.JsonUtils
 import org.coco.domain.model.auth.UserPrincipal
+import org.coco.domain.model.user.vo.LegalName
 import org.coco.domain.model.user.vo.Username
 import org.coco.infra.spring.security.TokenProviderJwtHelper.Companion.CLAIM_ID
 import org.coco.infra.spring.security.TokenProviderJwtHelper.Companion.key
@@ -24,6 +25,7 @@ class JwtTokenProviderTest :
                             it.toString()
                         }.toSet(),
                 username = Username(this.key("username")),
+                legalName = LegalName(this.key("legalName")),
             )
         }
         val tokenProvider =
@@ -43,6 +45,7 @@ class JwtTokenProviderTest :
                         id = id,
                         roles = setOf("ROLE_USER"),
                         username = username,
+                        legalName = LegalName("legalName"),
                     ),
                 )
             val jwtString = authToken.value
