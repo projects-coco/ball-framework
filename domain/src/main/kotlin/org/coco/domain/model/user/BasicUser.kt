@@ -1,6 +1,7 @@
 package org.coco.domain.model.user
 
 import org.coco.core.type.BinaryId
+import org.coco.core.utils.HidingToResponse
 import org.coco.core.utils.ToStringBuilder
 import org.coco.core.utils.currentClock
 import org.coco.domain.model.EntityBase
@@ -25,6 +26,7 @@ open class BasicUser(
     var username: Username = username
         protected set
 
+    @HidingToResponse
     var rolesAsString: Set<String> = roles
         protected set
 
@@ -34,6 +36,7 @@ open class BasicUser(
     var phoneNumber: PhoneNumber = phoneNumber
         protected set
 
+    @HidingToResponse
     var passwordHash: PasswordHash = passwordHash
         protected set
 
