@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.SerializerProvider
 import org.coco.core.utils.HidingToResponse
 import org.coco.domain.model.EntityBase
 import kotlin.reflect.KProperty1
-import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.jvm.isAccessible
+import kotlin.reflect.jvm.javaField
 
 abstract class EntityJsonSerializer : JsonSerializer<EntityBase>() {
     override fun serialize(
@@ -19,7 +19,9 @@ abstract class EntityJsonSerializer : JsonSerializer<EntityBase>() {
 
         val visibleFields =
             getVisibleFields(value)
-                .filter { it.findAnnotation<HidingToResponse>() == null }
+                .filter {
+                    it.javaField?.getAnnotation(HidingToResponse::class.java) == null
+                }
 
         writeVisibleFields(gen, value, visibleFields)
 
