@@ -17,5 +17,6 @@ class UserPrincipalTokenProvider(
         mapOf(
             "roles" to JsonUtils.serialize(principal.roles),
             "username" to principal.username.value,
+            "legalName" to principal.legalName.value,
         )
 }
