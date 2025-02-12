@@ -11,7 +11,6 @@ import org.coco.domain.model.user.vo.Password
 import org.coco.domain.model.user.vo.Username
 
 open class AuthService(
-    private val authTokenGenerator: AuthTokenGenerator,
     private val refreshTokenRepository: RefreshTokenRepository,
     private val userRepository: BasicUserRepository<*, *>,
     private val passwordHashProvider: PasswordHashProvider,
@@ -28,24 +27,17 @@ open class AuthService(
         val remoteIp: String,
     )
 
-    fun login(command: LoginCommand): Pair<Token.Payload, Token.Payload> {
+    fun login(command: LoginCommand): UserPrincipal {
         val user = authenticate(command)
         userRepository.update(user.id) {
             it.loggingLogin()
         }
-
-        val userPrincipal = UserPrincipal.of(user)
-        return authTokenGenerator.generate(userPrincipal)
+        return UserPrincipal.of(user)
     }
 
-    data class LogoutCommand(
-        val refreshTokenPayload: Token.Payload,
-    )
-
-    fun logout(command: LogoutCommand) {
-        val (payload) = command
+    fun logout(refreshTokenPayload: Token.Payload) {
         val refreshToken =
-            refreshTokenRepository.findByPayload(payload).orElseThrow {
+            refreshTokenRepository.findByPayload(refreshTokenPayload).orElseThrow {
                 LogoutFailError
             }
         refreshTokenRepository.delete(refreshToken.id)
