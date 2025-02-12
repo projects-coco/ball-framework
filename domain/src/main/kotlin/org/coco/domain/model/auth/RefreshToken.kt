@@ -29,7 +29,7 @@ class RefreshToken(
         private set
 
     fun consume() {
-        if (used || expiredAt.isAfter(LocalDateTime.now(currentClock()))) {
+        if (used || expiredAt.isBefore(LocalDateTime.now(currentClock()))) {
             throw LogicError("이미 만료된 인증정보입니다.", ErrorType.BAD_REQUEST)
         }
         used = true
