@@ -8,9 +8,6 @@ object UserPrincipalContextHolder {
         private set(value) = context.set(value)
 
     fun set(userPrincipal: UserPrincipal) {
-        if (this.userPrincipal != null) {
-            throw IllegalStateException("Already authenticated")
-        }
         context.set(userPrincipal)
     }
 
