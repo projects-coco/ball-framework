@@ -56,7 +56,7 @@ abstract class BasicUserDataModel<T : BasicUser>(
         AttributeOverride(name = "status", column = Column(name = "agreement_of_terms_status")),
         AttributeOverride(name = "agreeAt", column = Column(name = "agreement_of_terms_agree_at")),
     )
-    var agreementOfTerms: Agreement = agreementOfTerms
+    var agreementOfTerms: AgreementModel = AgreementModel.from(agreementOfTerms)
         protected set
 
     @Embedded
@@ -64,7 +64,7 @@ abstract class BasicUserDataModel<T : BasicUser>(
         AttributeOverride(name = "status", column = Column(name = "agreement_of_privacy_status")),
         AttributeOverride(name = "agreeAt", column = Column(name = "agreement_of_privacy_agree_at")),
     )
-    var agreementOfPrivacy: Agreement = agreementOfPrivacy
+    var agreementOfPrivacy: AgreementModel = AgreementModel.from(agreementOfPrivacy)
         protected set
 
     @Column(columnDefinition = "boolean default true")
@@ -86,8 +86,8 @@ abstract class BasicUserDataModel<T : BasicUser>(
         this.legalName = entity.legalName.value
         this.phoneNumber = entity.phoneNumber.value
         this.passwordHash = entity.passwordHash.value
-        this.agreementOfTerms = entity.agreementOfTerms
-        this.agreementOfPrivacy = entity.agreementOfPrivacy
+        this.agreementOfTerms = AgreementModel.from(entity.agreementOfTerms)
+        this.agreementOfPrivacy = AgreementModel.from(entity.agreementOfPrivacy)
         this.active = entity.active
         this.lastLoginAt = entity.lastLoginAt
         this.loginCount = entity.loginCount
