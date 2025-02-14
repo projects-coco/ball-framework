@@ -40,7 +40,7 @@ fun HttpServletResponse.sendRefreshToken(payload: Token.Payload) {
     refreshTokenCookie.isHttpOnly = true
     refreshTokenCookie.secure = true
     this.addCookie(
-        Cookie(REFRESH_TOKEN_COOKIE_KEY, payload.value),
+        refreshTokenCookie,
     )
 }
 
