@@ -52,7 +52,7 @@ class EventBusTest :
             EventBus.receive<AnotherEvent> {
                 triggered = true
             }
-            EventBus.publish(TestEvent(timestamp, "coco"))
+            EventBus.publish(AnotherEvent(timestamp, "coco"))
 
             delay(1000)
 
