@@ -2,6 +2,7 @@ package org.coco.presentation.mvc.handler
 
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.coco.domain.model.auth.UserPrincipal
 import org.coco.domain.model.user.vo.Password
 import org.coco.domain.model.user.vo.Username
 import org.coco.domain.service.auth.AuthService
@@ -9,7 +10,6 @@ import org.coco.domain.service.auth.AuthTokenGenerator
 import org.coco.presentation.mvc.core.*
 import org.coco.presentation.mvc.middleware.BallAuthenticationToken
 import org.springframework.context.annotation.Import
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -21,27 +21,15 @@ import org.springframework.web.bind.annotation.*
 )
 class AuthController(
     private val authService: AuthService,
+    private val authTokenGenerator: AuthTokenGenerator,
 ) {
-    data class AuthResponse(
-        val id: String,
-        val roles: Set<String>,
-        val username: String,
-    )
-
     @GetMapping
     @IsAuthorized
-    fun auth(ballAuthenticationToken: BallAuthenticationToken): ResponseEntity<AuthResponse> =
+    fun auth(ballAuthenticationToken: BallAuthenticationToken): ResponseEntity<UserPrincipal> =
         ResponseEntity
-            .status(HttpStatus.OK)
+            .ok()
             .body(
-                AuthResponse(
-                    id = ballAuthenticationToken.userPrincipal.id.toString(),
-                    roles =
-                        ballAuthenticationToken.userPrincipal.roles
-                            .map { it.toString() }
-                            .toSet(),
-                    username = ballAuthenticationToken.userPrincipal.username.value,
-                ),
+                ballAuthenticationToken.userPrincipal,
             )
 
     data class LoginRequest(
@@ -55,8 +43,8 @@ class AuthController(
         @RequestBody request: LoginRequest,
         servletRequest: HttpServletRequest,
         servletResponse: HttpServletResponse,
-    ) {
-        val tokenPair =
+    ): ResponseEntity<UserPrincipal> {
+        val userPrincipal =
             authService.login(
                 command =
                     AuthService.LoginCommand(
@@ -65,7 +53,33 @@ class AuthController(
                         remoteIp = servletRequest.getRemoteIp(),
                     ),
             )
-        servletResponse.sendAccessToken(tokenPair.first)
-        servletResponse.sendRefreshToken(tokenPair.second)
+
+        val (accessToken, refreshToken) = authTokenGenerator.generate(userPrincipal)
+        servletResponse.sendAccessToken(accessToken)
+        servletResponse.sendRefreshToken(refreshToken)
+
+        return ResponseEntity
+            .ok()
+            .body(userPrincipal)
+    }
+
+    @PostMapping("/logout")
+    @IsAuthorized
+    fun logout(
+        servletRequest: HttpServletRequest,
+        servletResponse: HttpServletResponse,
+    ): ResponseEntity<Unit> {
+        val refreshToken =
+            servletRequest
+                .getRefreshToken()
+                .orElseThrow()
+        authService.logout(refreshToken)
+
+        servletResponse.clearAccessToken()
+        servletResponse.clearRefreshToken()
+
+        return ResponseEntity
+            .ok()
+            .build()
     }
 }

@@ -21,6 +21,8 @@ class JwtConfig(
         val issuer: String,
         val accessTokenSecret: String,
         val refreshTokenSecret: String,
+        val accessTokenExpiration: Duration = Duration.ofMinutes(30),
+        val refreshTokenExpiration: Duration = Duration.ofDays(14),
     )
 
     @Bean("accessTokenProvider")
@@ -28,7 +30,7 @@ class JwtConfig(
         UserPrincipalTokenProvider(
             secret = authProperties.accessTokenSecret,
             issuer = authProperties.issuer,
-            expiry = Duration.ofMinutes(30),
+            expiry = authProperties.accessTokenExpiration,
             toPrincipal = userPrincipalBuilder,
         )
 
@@ -37,7 +39,7 @@ class JwtConfig(
         UserPrincipalTokenProvider(
             secret = authProperties.refreshTokenSecret,
             issuer = authProperties.issuer,
-            expiry = Duration.ofDays(14),
+            expiry = authProperties.refreshTokenExpiration,
             toPrincipal = userPrincipalBuilder,
         )
 }

@@ -24,7 +24,9 @@ class RedisClientConfig(
             RedisStandaloneConfiguration(
                 redisHost,
                 redisPort,
-            ),
+            ).apply {
+                redisPassword.onSome { setPassword(it) }
+            },
         )
 
     @Bean
@@ -33,7 +35,7 @@ class RedisClientConfig(
         config
             .useSingleServer()
             .setAddress("redis://$redisHost:$redisPort")
-            .apply { redisPassword.onSome { setPassword(it) } }
+            .apply { redisPassword.onSome { password = it } }
             .setConnectionPoolSize(30)
         return Redisson.create(config)
     }

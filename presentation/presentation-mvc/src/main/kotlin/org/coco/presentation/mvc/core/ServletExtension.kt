@@ -12,23 +12,25 @@ import java.util.*
 
 fun HttpServletRequest.getRemoteIp(): String = getHeader("X-Forwarded-For") ?: remoteAddr
 
-fun HttpServletRequest.getAccessToken(): Optional<Token.Payload> {
-    return Optional
+fun HttpServletRequest.getAccessToken(): Optional<Token.Payload> =
+    Optional
         .ofNullable(this.getHeader(HttpHeaders.AUTHORIZATION)?.removePrefix(ACCESS_TOKEN_PREFIX))
         .map { Token.Payload(it) }
-}
 
-fun HttpServletRequest.getRefreshToken(): Optional<Token.Payload> {
-    return Optional
+fun HttpServletRequest.getRefreshToken(): Optional<Token.Payload> =
+    Optional
         .ofNullable(
             this.cookies?.let { cookies ->
                 cookies.find { it.name == REFRESH_TOKEN_COOKIE_KEY }
             },
         ).map { Token.Payload(it.value) }
-}
 
 fun HttpServletResponse.sendAccessToken(payload: Token.Payload) {
     this.addHeader(HttpHeaders.AUTHORIZATION, payload.value)
+}
+
+fun HttpServletResponse.clearAccessToken() {
+    this.addHeader(HttpHeaders.AUTHORIZATION, null)
 }
 
 fun HttpServletResponse.sendRefreshToken(payload: Token.Payload) {
@@ -38,6 +40,14 @@ fun HttpServletResponse.sendRefreshToken(payload: Token.Payload) {
     refreshTokenCookie.isHttpOnly = true
     refreshTokenCookie.secure = true
     this.addCookie(
-        Cookie(REFRESH_TOKEN_COOKIE_KEY, payload.value),
+        refreshTokenCookie,
     )
+}
+
+fun HttpServletResponse.clearRefreshToken() {
+    val refreshTokenCookie = Cookie(REFRESH_TOKEN_COOKIE_KEY, null)
+    refreshTokenCookie.maxAge = 0
+    refreshTokenCookie.path = "/"
+    refreshTokenCookie.isHttpOnly = true
+    refreshTokenCookie.secure = true
 }

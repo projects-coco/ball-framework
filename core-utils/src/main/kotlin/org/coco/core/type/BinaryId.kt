@@ -3,7 +3,9 @@ package org.coco.core.type
 import ulid.ULID
 
 @JvmInline
-value class BinaryId(val value: ByteArray) : Comparable<BinaryId> {
+value class BinaryId(
+    val value: ByteArray,
+) : Comparable<BinaryId> {
     companion object {
         fun new(): BinaryId = BinaryId(ULID.nextULID().toBytes())
 
@@ -17,9 +19,9 @@ value class BinaryId(val value: ByteArray) : Comparable<BinaryId> {
 
     override fun compareTo(other: BinaryId): Int = compareValuesBy(this, other)
 
-    override fun toString(): String {
-        return ULID.fromBytes(value).toString()
-    }
+    override fun toString(): String = ULID.fromBytes(value).toString()
+
+    fun contentEquals(other: BinaryId): Boolean = this.value.contentEquals(other.value)
 
     fun toHexString(): String = "0x${this.value.joinToString(separator = "") { eachByte -> "%02x".format(eachByte) }}"
 }
