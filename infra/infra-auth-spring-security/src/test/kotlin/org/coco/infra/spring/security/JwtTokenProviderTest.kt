@@ -1,7 +1,8 @@
 package org.coco.infra.spring.security
 
-import com.auth0.jwt.JWT
-import com.auth0.jwt.interfaces.DecodedJWT
+import io.jsonwebtoken.Claims
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import org.coco.core.type.BinaryId
@@ -9,23 +10,24 @@ import org.coco.core.utils.JsonUtils
 import org.coco.domain.model.auth.UserPrincipal
 import org.coco.domain.model.user.vo.LegalName
 import org.coco.domain.model.user.vo.Username
-import org.coco.infra.spring.security.TokenProviderJwtHelper.Companion.CLAIM_ID
-import org.coco.infra.spring.security.TokenProviderJwtHelper.Companion.key
+import org.coco.domain.service.auth.TokenProvider.VerifyError
+import java.time.Clock
 import java.time.Duration
+import java.time.Instant
+import java.time.ZoneId
 
 class JwtTokenProviderTest :
     FunSpec({
-        val toPrincipal: DecodedJWT.() -> UserPrincipal = {
+        val toPrincipal: Claims.() -> UserPrincipal = {
             UserPrincipal(
-                id = BinaryId.fromString(getClaim(CLAIM_ID).asString()),
+                id = BinaryId.fromString(this["id", String::class.java]),
                 roles =
-                    JsonUtils
-                        .deserialize(this.key("roles"), Set::class.java)
-                        .map {
-                            it.toString()
-                        }.toSet(),
-                username = Username(this.key("username")),
-                legalName = LegalName(this.key("legalName")),
+                JsonUtils
+                    .deserialize(this["roles", String::class.java], Set::class.java)
+                    .map { it.toString() }
+                    .toSet(),
+                username = Username(this["username", String::class.java]!!),
+                legalName = LegalName(this["legalName", String::class.java]!!),
             )
         }
         val tokenProvider =
@@ -48,13 +50,40 @@ class JwtTokenProviderTest :
                         legalName = LegalName("legalName"),
                     ),
                 )
-            val jwtString = authToken.value
 
-            val decoded = JWT.decode(jwtString)
-            val principal = decoded.toPrincipal()
+            val principal = tokenProvider.verify(authToken).shouldBeRight()
 
             principal.id.value shouldBe id.value
             principal.username shouldBe username
             principal.roles shouldBe setOf("ROLE_USER")
+        }
+
+        test("만료된 토큰 검증 시 VerifyError.Expired 반환") {
+            val id = BinaryId.new()
+            val username = Username("username")
+
+            val fixedClock = Clock.fixed(
+                Instant.now().minus(Duration.ofHours(2)),
+                ZoneId.of("Asia/Seoul")
+            )
+
+            val tokenProviderWithFixedClock = UserPrincipalTokenProvider(
+                issuer = "authProperties.issuer",
+                secret = "authProperties.accessTokenSecret",
+                expiry = Duration.ofMinutes(30),
+                toPrincipal = toPrincipal,
+                clock = fixedClock,
+            )
+
+            val authToken = tokenProviderWithFixedClock.generateToken(
+                UserPrincipal(
+                    id = id,
+                    roles = setOf("ROLE_USER"),
+                    username = username,
+                    legalName = LegalName("legalName"),
+                )
+            )
+
+            tokenProvider.verify(authToken).shouldBeLeft(VerifyError.Expired)
         }
     })

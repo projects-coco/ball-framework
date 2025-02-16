@@ -5,9 +5,6 @@ import org.coco.core.utils.JsonUtils
 import org.coco.domain.model.auth.UserPrincipal
 import org.coco.domain.model.user.vo.LegalName
 import org.coco.domain.model.user.vo.Username
-import org.coco.example.domain.model.user.User
-import org.coco.infra.spring.security.TokenProviderJwtHelper.Companion.CLAIM_ID
-import org.coco.infra.spring.security.TokenProviderJwtHelper.Companion.key
 import org.coco.infra.spring.security.UserPrincipalBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -18,15 +15,14 @@ class PrincipalConfig {
     fun principalBuilder(): UserPrincipalBuilder =
         {
             UserPrincipal(
-                id = BinaryId.fromString(getClaim(CLAIM_ID).asString()),
+                id = BinaryId.fromString(this["id", String::class.java]),
                 roles =
-                    JsonUtils
-                        .deserialize(this.key("roles"), Set::class.java)
-                        .map {
-                            User.Role.valueOf(it as String).name
-                        }.toSet(),
-                username = Username(this.key("username")),
-                legalName = LegalName(this.key("legalName")),
+                JsonUtils
+                    .deserialize(this["roles", String::class.java], Set::class.java)
+                    .map { it.toString() }
+                    .toSet(),
+                username = Username(this["username", String::class.java]!!),
+                legalName = LegalName(this["legalName", String::class.java]!!),
             )
         }
 }

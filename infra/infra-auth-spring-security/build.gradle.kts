@@ -9,5 +9,7 @@ dependencies {
     implementation(libs.spring.security.crypto) {
         implementation(libs.bouncycastle.crypto)
     }
-    api(libs.jwt)
+    api(libs.jjwt.api)
+    runtimeOnly(libs.jjwt.impl)
+    runtimeOnly(libs.jjwt.jackson)
 }

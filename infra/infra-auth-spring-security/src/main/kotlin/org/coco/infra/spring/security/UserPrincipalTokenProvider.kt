@@ -1,18 +1,21 @@
 package org.coco.infra.spring.security
 
-import com.auth0.jwt.interfaces.DecodedJWT
+import io.jsonwebtoken.Claims
 import org.coco.core.utils.JsonUtils
+import org.coco.core.utils.currentClock
 import org.coco.domain.model.auth.UserPrincipal
+import java.time.Clock
 import java.time.Duration
 
-typealias UserPrincipalBuilder = DecodedJWT.() -> UserPrincipal
+typealias UserPrincipalBuilder = Claims.() -> UserPrincipal
 
 class UserPrincipalTokenProvider(
     secret: String,
     issuer: String,
     expiry: Duration,
-    toPrincipal: UserPrincipalBuilder,
-) : TokenProviderJwtHelper<UserPrincipal>(secret, issuer, expiry, toPrincipal) {
+    toPrincipal: Claims.() -> UserPrincipal,
+    clock: Clock = currentClock()
+) : TokenProviderJwtHelper<UserPrincipal>(secret, issuer, expiry, toPrincipal, clock) {
     override fun generatePayload(principal: UserPrincipal): Map<String, String> =
         mapOf(
             "roles" to JsonUtils.serialize(principal.roles),
