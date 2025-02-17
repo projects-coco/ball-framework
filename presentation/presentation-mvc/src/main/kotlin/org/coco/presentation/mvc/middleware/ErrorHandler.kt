@@ -37,7 +37,7 @@ class ErrorHandler {
                 .body(
                     ErrorResponse(
                         error = it.reason,
-                        message = it.message,
+                        details = it.message,
                     ),
                 )
         }
@@ -53,8 +53,8 @@ class ErrorHandler {
             .body(
                 ErrorResponse(
                     error =
-                        "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.\n" +
-                            "문제가 지속되면 관리자에게 문의해주세요.",
+                        "로그인이 필요한 서비스입니다.",
+                    details = "",
                 ),
             )
     }
@@ -70,8 +70,9 @@ class ErrorHandler {
             .body(
                 ErrorResponse(
                     error =
-                        "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.\n" +
-                            "문제가 지속되면 관리자에게 문의해주세요.",
+                        "접근할 수 없습니다.",
+                    details = "현재 로그인 정보로는 접근할 수 없는 서비스입니다.",
+                    exception = exception,
                 ),
             )
     }
@@ -91,9 +92,9 @@ class ErrorHandler {
             .body(
                 ErrorResponse(
                     error =
-                        "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.\n" +
-                            "문제가 지속되면 관리자에게 문의해주세요.",
-                    message = exception.message,
+                        "알 수 없는 오류가 발생했습니다.",
+                    details = "잠시 후 다시 시도해주세요. 문제가 지속되면 고객센터로 문의하시기 바랍니다.",
+                    exception = exception,
                 ),
             )
     }
