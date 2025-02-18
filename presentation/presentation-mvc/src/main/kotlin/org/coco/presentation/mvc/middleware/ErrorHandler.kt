@@ -42,6 +42,16 @@ class ErrorHandler {
                 )
         }
 
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun handle(exception: IllegalArgumentException): ResponseEntity<ErrorResponse> =
+        ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(
+                ErrorResponse(
+                    error = exception.message ?: "Bad Request",
+                ),
+            )
+
     @ExceptionHandler(AuthorizationServiceException::class)
     fun handle(
         request: HttpServletRequest,

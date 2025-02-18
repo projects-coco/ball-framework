@@ -6,6 +6,7 @@ import org.coco.domain.model.auth.UserPrincipal
 import org.coco.domain.model.user.vo.Password
 import org.coco.domain.model.user.vo.Username
 import org.coco.domain.service.auth.AuthService
+import org.coco.domain.service.auth.AuthService.Companion.LoginFailError
 import org.coco.domain.service.auth.AuthTokenGenerator
 import org.coco.presentation.mvc.core.*
 import org.coco.presentation.mvc.middleware.BallAuthenticationToken
@@ -43,25 +44,28 @@ class AuthController(
         @RequestBody request: LoginRequest,
         servletRequest: HttpServletRequest,
         servletResponse: HttpServletResponse,
-    ): ResponseEntity<UserPrincipal> {
-        val userPrincipal =
-            authService.login(
-                command =
-                    AuthService.LoginCommand(
-                        username = Username(request.username),
-                        password = Password(request.password),
-                        remoteIp = servletRequest.getRemoteIp(),
-                    ),
-            )
+    ): ResponseEntity<UserPrincipal> =
+        runCatching {
+            val userPrincipal =
+                authService.login(
+                    command =
+                        AuthService.LoginCommand(
+                            username = Username(request.username),
+                            password = Password(request.password),
+                            remoteIp = servletRequest.getRemoteIp(),
+                        ),
+                )
 
-        val (accessToken, refreshToken) = authTokenGenerator.generate(userPrincipal)
-        servletResponse.sendAccessToken(accessToken)
-        servletResponse.sendRefreshToken(refreshToken)
+            val (accessToken, refreshToken) = authTokenGenerator.generate(userPrincipal)
+            servletResponse.sendAccessToken(accessToken)
+            servletResponse.sendRefreshToken(refreshToken)
 
-        return ResponseEntity
-            .ok()
-            .body(userPrincipal)
-    }
+            ResponseEntity
+                .ok()
+                .body(userPrincipal)
+        }.getOrElse {
+            throw LoginFailError
+        }
 
     @PostMapping("/logout")
     @IsAuthorized
