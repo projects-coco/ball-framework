@@ -3,20 +3,22 @@ package org.coco.infra.redis
 import org.redisson.Redisson
 import org.redisson.api.RedissonClient
 import org.redisson.config.Config
+import org.redisson.spring.data.connection.RedissonConnectionFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
 
 @Configuration
-class RedisClientConfig(
-    env: Environment,
-) {
-    val redisHost = env.getProperty("app.redis.host") ?: "localhost"
-    val redisPort = (env.getProperty("app.redis.port") ?: "6379").toInt()
-    val redisPassword: String? = env.getProperty("app.redis.password")
-
+class RedisClientConfig {
     @Bean
-    fun redissonClient(): RedissonClient {
+    fun redissonConnectionFactory(redisson: RedissonClient): RedissonConnectionFactory = RedissonConnectionFactory(redisson)
+
+    @Bean(destroyMethod = "shutdown")
+    fun redisson(env: Environment): RedissonClient {
+        val redisHost = env.getRequiredProperty("spring.data.redis.host")
+        val redisPort = env.getRequiredProperty("spring.data.redis.port", Int::class.java)
+        val redisPassword: String? = env.getProperty("spring.data.redis.password")
+
         val config = Config()
         config
             .useSingleServer()
