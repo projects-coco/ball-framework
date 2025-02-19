@@ -1,6 +1,5 @@
 package org.coco.infra.redis
 
-import arrow.core.toOption
 import org.redisson.Redisson
 import org.redisson.api.RedissonClient
 import org.redisson.config.Config
@@ -16,7 +15,7 @@ class RedisClientConfig(
 ) {
     val redisHost = env.getProperty("app.redis.host") ?: "localhost"
     val redisPort = (env.getProperty("app.redis.port") ?: "6379").toInt()
-    val redisPassword = env.getProperty("app.redis.password").toOption()
+    val redisPassword: String? = env.getProperty("app.redis.password")
 
     @Bean
     fun redisLettuceConnectionFactory(): LettuceConnectionFactory =
@@ -25,7 +24,7 @@ class RedisClientConfig(
                 redisHost,
                 redisPort,
             ).apply {
-                redisPassword.onSome { setPassword(it) }
+                if (redisPassword.isNullOrEmpty()) setPassword(redisPassword)
             },
         )
 
@@ -35,8 +34,9 @@ class RedisClientConfig(
         config
             .useSingleServer()
             .setAddress("redis://$redisHost:$redisPort")
-            .apply { redisPassword.onSome { password = it } }
-            .setConnectionPoolSize(30)
+            .apply {
+                if (redisPassword != null) password = redisPassword
+            }.setConnectionPoolSize(30)
         return Redisson.create(config)
     }
 }
