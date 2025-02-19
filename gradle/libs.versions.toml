@@ -29,6 +29,7 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 # Base library
 apache-commons-logging = { group = "commons-logging", name = "commons-logging", version = "1.2" }
 arrow-core = { group = "io.arrow-kt", name = "arrow-core", version.ref = "arrow" }
+arrow-jackson-module = { group = "io.arrow-kt", name = "arrow-integrations-jackson-module", version = "0.15.1" }
 jwt = { group = "com.auth0", name = "java-jwt", version = "4.5.0" }
 slf4j = { group = "org.slf4j", name = "slf4j-api", version = "2.0.3" }
 logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.4.14" }
