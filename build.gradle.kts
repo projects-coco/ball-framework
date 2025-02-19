@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.github.project-coco"
-version = "1.0.30-RELEASE"
+version = "1.0.45-RELEASE"
 
 repositories {
     mavenCentral()
@@ -58,7 +58,7 @@ allprojects {
         }
         compileKotlin {
             compilerOptions {
-                freeCompilerArgs = listOf("-Xjsr305=strict", "-Xcontext-receivers")
+                freeCompilerArgs = listOf("-Xjsr305=strict", "-Xcontext-receivers", "-opt-in=kotlin.ExperimentalValueClassApi")
                 jvmTarget.set(JvmTarget.JVM_21)
             }
         }

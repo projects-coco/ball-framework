@@ -3,10 +3,11 @@ package org.coco.presentation.mvc.handler
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.coco.domain.model.auth.UserPrincipal
-import org.coco.domain.model.user.vo.Password
+import org.coco.domain.model.user.vo.PasswordWithoutValidation
 import org.coco.domain.model.user.vo.Username
-import org.coco.domain.service.auth.AuthService
 import org.coco.domain.service.auth.AuthTokenGenerator
+import org.coco.domain.service.auth.Authenticator
+import org.coco.domain.service.auth.RefreshTokenDeleter
 import org.coco.presentation.mvc.core.*
 import org.coco.presentation.mvc.middleware.BallAuthenticationToken
 import org.springframework.context.annotation.Import
@@ -16,12 +17,14 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v1/auth")
 @Import(
-    AuthService::class,
+    Authenticator::class,
     AuthTokenGenerator::class,
+    RefreshTokenDeleter::class,
 )
 class AuthController(
-    private val authService: AuthService,
+    private val authenticator: Authenticator,
     private val authTokenGenerator: AuthTokenGenerator,
+    private val refreshTokenDeleter: RefreshTokenDeleter,
 ) {
     @GetMapping
     @IsAuthorized
@@ -45,13 +48,9 @@ class AuthController(
         servletResponse: HttpServletResponse,
     ): ResponseEntity<UserPrincipal> {
         val userPrincipal =
-            authService.login(
-                command =
-                    AuthService.LoginCommand(
-                        username = Username(request.username),
-                        password = Password(request.password),
-                        remoteIp = servletRequest.getRemoteIp(),
-                    ),
+            authenticator.login(
+                username = Username(request.username),
+                password = PasswordWithoutValidation(request.password),
             )
 
         val (accessToken, refreshToken) = authTokenGenerator.generate(userPrincipal)
@@ -64,16 +63,17 @@ class AuthController(
     }
 
     @PostMapping("/logout")
-    @IsAuthorized
     fun logout(
         servletRequest: HttpServletRequest,
         servletResponse: HttpServletResponse,
     ): ResponseEntity<Unit> {
-        val refreshToken =
-            servletRequest
-                .getRefreshToken()
-                .orElseThrow()
-        authService.logout(refreshToken)
+        runCatching {
+            val refreshToken =
+                servletRequest
+                    .getRefreshToken()
+                    .orElseThrow()
+            refreshTokenDeleter.execute(refreshToken)
+        }
 
         servletResponse.clearAccessToken()
         servletResponse.clearRefreshToken()

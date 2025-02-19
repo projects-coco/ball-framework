@@ -1,11 +1,13 @@
 package org.coco.core.type
 
 import ulid.ULID
+import java.io.Serializable
 
 @JvmInline
 value class BinaryId(
     val value: ByteArray,
-) : Comparable<BinaryId> {
+) : Comparable<BinaryId>,
+    Serializable {
     companion object {
         fun new(): BinaryId = BinaryId(ULID.nextULID().toBytes())
 
