@@ -40,18 +40,33 @@ class RequestLogger {
         return runCatching {
             joinPoint.proceed()
         }.onFailure {
-            val endAt = LocalDateTime.now(currentClock())
-            log.error(
-                "# REQUEST | REQ_ID = {} | CONTROLLER = {} | METHOD = {} | PATH = {} | IN_PARAMS = {} | DURATION: {} | REMOTE_ADDR = {} | Exception:",
-                BallRequestContextHolder.requestId,
-                controller,
-                request.method,
-                request.requestURI,
-                args,
-                Duration.between(startAt, endAt).toMillis(),
-                request.getRemoteIp(),
-                it,
-            )
+            if (it !is IllegalArgumentException) {
+                val endAt = LocalDateTime.now(currentClock())
+                log.error(
+                    "# REQUEST | REQ_ID = {} | CONTROLLER = {} | METHOD = {} | PATH = {} | IN_PARAMS = {} | DURATION: {} | REMOTE_ADDR = {} | Exception:",
+                    BallRequestContextHolder.requestId,
+                    controller,
+                    request.method,
+                    request.requestURI,
+                    args,
+                    Duration.between(startAt, endAt).toMillis(),
+                    request.getRemoteIp(),
+                    it,
+                )
+            } else {
+                val endAt = LocalDateTime.now(currentClock())
+                log.error(
+                    "# REQUEST | REQ_ID = {} | CONTROLLER = {} | METHOD = {} | PATH = {} | IN_PARAMS = {} | DURATION: {} | REMOTE_ADDR = {} | IllegalArgumentException: {}",
+                    BallRequestContextHolder.requestId,
+                    controller,
+                    request.method,
+                    request.requestURI,
+                    args,
+                    Duration.between(startAt, endAt).toMillis(),
+                    request.getRemoteIp(),
+                    it.message,
+                )
+            }
             throw it
         }.onSuccess {
             val endAt = LocalDateTime.now(currentClock())
