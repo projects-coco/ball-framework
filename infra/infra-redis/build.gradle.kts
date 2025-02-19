@@ -11,8 +11,7 @@ allOpen {
 dependencies {
     api(project(":domain"))
     api(project(":application"))
-    api(libs.spring.boot.data.redis) {
-        implementation(libs.redis.lettuce)
-    }
+    api(libs.spring.boot.data.redis)
     api(libs.redis.redisson)
+    api(libs.redis.redisson.spring.boot.starter)
 }

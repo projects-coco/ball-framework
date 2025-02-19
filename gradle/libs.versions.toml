@@ -93,7 +93,8 @@ r2dbc-pool = { module = "io.r2dbc:r2dbc-pool", version.ref = "r2dbc" }
 
 redis = { module = "org.springframework.boot:spring-boot-starter-data-redis", version = "3.2.4" }
 redis-lettuce = { module = "io.lettuce:lettuce-core", version = "6.5.1.RELEASE" }
-redis-redisson = { module = "org.redisson:redisson", version = "3.35.0" }
+redis-redisson = { module = "org.redisson:redisson", version = "3.44.0" }
+redis-redisson-spring-boot-starter = { module = "org.redisson:redisson-spring-boot-starter", version = "3.44.0" }
 
 jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
 jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }

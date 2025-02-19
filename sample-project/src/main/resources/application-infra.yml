@@ -1,7 +1,12 @@
 spring:
-  data.mongodb:
-    uri: ${MONGODB_URI}
-    database: ${MONGODB_DATABASE}
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+      database: ${MONGODB_DATABASE}
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD}
   datasource:
     url: ${DATASOURCE_URL}
     username: ${DATASOURCE_USERNAME}
@@ -11,3 +16,10 @@ spring:
     hibernate:
       ddl-auto: create-drop
     open-in-view: false
+app:
+  auth:
+    issuer: ${ACCESS_TOKEN_ISSUER:project-coco}
+    access-token-secret: ${ACCESS_TOKEN_SECRET:access-token-secret}
+    refresh-token-secret: ${REFRESH_TOKEN_SECRET:refresh-token-secret}
+    access-token-expiration: 2h
+    refresh-token-expiration: 14d
