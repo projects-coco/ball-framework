@@ -1,12 +1,15 @@
-package org.coco.core.event
+package org.coco.application.event
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay
+import org.coco.core.event.Event
 import org.coco.core.utils.currentTimestamp
 
 class EventBusTest :
     FunSpec({
+        val eventBus = LocalEventBus()
+
         data class TestEvent(
             override val timestamp: Long,
             val name: String,
@@ -25,13 +28,13 @@ class EventBusTest :
             val testEvent = TestEvent(timestamp, "coco")
 
             // when
-            LocalEventBus.consume(TestEvent::class) {
+            eventBus.consume(TestEvent::class) {
                 triggered = true
                 it shouldBe testEvent
                 it.timestamp shouldBe timestamp
                 it.name shouldBe "coco"
             }
-            LocalEventBus.publish(testEvent)
+            eventBus.publish(testEvent)
 
             // then
             delay(500)
@@ -46,13 +49,13 @@ class EventBusTest :
             val testEvent = TestEvent(timestamp, "coco")
 
             // when
-            LocalEventBus.consume(AnotherEvent::class) {
+            eventBus.consume(AnotherEvent::class) {
                 triggered = true
                 it shouldBe testEvent
                 it.timestamp shouldBe timestamp
                 it.name shouldBe "coco"
             }
-            LocalEventBus.publish(testEvent)
+            eventBus.publish(testEvent)
 
             // then
             delay(500)
@@ -63,18 +66,18 @@ class EventBusTest :
 
             val timestamp = currentTimestamp()
 
-            LocalEventBus.consume(TestEvent::class) {
+            eventBus.consume(TestEvent::class) {
                 throw Exception()
             }
-            LocalEventBus.publish(TestEvent(timestamp, "coco"))
+            eventBus.publish(TestEvent(timestamp, "coco"))
             delay(500)
 
             var triggered = false
             // when
-            LocalEventBus.consume(AnotherEvent::class) {
+            eventBus.consume(AnotherEvent::class) {
                 triggered = true
             }
-            LocalEventBus.publish(AnotherEvent(timestamp, "coco"))
+            eventBus.publish(AnotherEvent(timestamp, "coco"))
 
             delay(1000)
 

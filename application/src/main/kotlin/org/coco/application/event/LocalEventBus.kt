@@ -1,11 +1,17 @@
-package org.coco.core.event
+package org.coco.application.event
 
+import org.coco.core.event.Event
+import org.coco.core.event.EventConsumer
+import org.coco.core.event.EventPublisher
+import org.springframework.core.Ordered
+import org.springframework.core.annotation.Order
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Sinks
 import reactor.core.scheduler.Schedulers
 import kotlin.reflect.KClass
 
-object LocalEventBus : EventPublisher, EventConsumer {
+@Order(Ordered.LOWEST_PRECEDENCE)
+class LocalEventBus : EventPublisher, EventConsumer {
     private val eventSinks: Sinks.Many<Event> = Sinks.many().replay().latest()
 
     fun events(): Flux<Event> = eventSinks.asFlux()
