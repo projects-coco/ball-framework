@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 @Primary
 class RedissonLockProvider(
     txAdvice: TxAdvice,
-    val redissonClient: RedissonClient,
+    private val redissonClient: RedissonClient,
 ) : LockProvider(txAdvice = txAdvice) {
     override fun tryLock(
         key: String,

@@ -63,6 +63,7 @@ bouncycastle-crypto = { group = "org.bouncycastle", name = "bcpkix-jdk18on", ver
 # Spring Framework
 spring-aspects = { group = "org.springframework", name = "spring-aspects", version.ref = "spring" }
 spring-tx = { group = "org.springframework", name = "spring-tx", version.ref = "spring" }
+spring-kafka = { group = "org.springframework.kafka", name = "spring-kafka" }
 
 # Spring Etc
 spring-mockk = { group = "com.ninja-squad", name = "springmockk", version = "4.0.2" }
@@ -96,10 +97,6 @@ redis-lettuce = { module = "io.lettuce:lettuce-core", version = "6.5.1.RELEASE" 
 redis-redisson = { module = "org.redisson:redisson", version = "3.44.0" }
 redis-redisson-spring-boot-starter = { module = "org.redisson:redisson-spring-boot-starter", version = "3.44.0" }
 
-jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
-jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
-jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
-
 # Utils
 ulid = { module = "com.aallam.ulid:ulid-kotlin", version = "1.3.0" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
@@ -110,6 +107,10 @@ apache-commons-compress = { module = "org.apache.commons:commons-compress", vers
 apache-poi = { module = "org.apache.poi:poi", version.ref = "apache-poi" }
 apache-poi-ooxml = { module = "org.apache.poi:poi-ooxml", version.ref = "apache-poi" }
 prometheus = { group = "io.micrometer", name = "micrometer-registry-prometheus" }
+
+jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
+jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
+jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
 
 # Test
 kotest-framework-datatest = { group = "io.kotest", name = "kotest-framework-datatest", version.ref = "kotest" }

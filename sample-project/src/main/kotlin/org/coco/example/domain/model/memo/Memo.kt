@@ -4,13 +4,12 @@ import org.coco.core.type.BinaryId
 import org.coco.core.utils.ToStringBuilder
 import org.coco.core.utils.currentClock
 import org.coco.domain.model.EntityBase
-import org.coco.example.domain.model.user.User
 import java.time.LocalDateTime
 
 class Memo(
     id: BinaryId = BinaryId.new(),
     targetId: BinaryId,
-    writer: User,
+    writerId: BinaryId,
     content: String,
     createdAt: LocalDateTime = LocalDateTime.now(currentClock()),
     updatedAt: LocalDateTime = LocalDateTime.now(currentClock()),
@@ -18,7 +17,7 @@ class Memo(
     var targetId: BinaryId = targetId
         private set
 
-    var writer: User = writer
+    var writerId: BinaryId = writerId
         private set
 
     var content: String = content
@@ -28,7 +27,7 @@ class Memo(
         ToStringBuilder(this)
             .append("id", id)
             .append("targetId", targetId)
-            .append("writer", writer)
+            .append("writerId", writerId)
             .append("content", content)
             .append("createdAt", createdAt)
             .append("updatedAt", updatedAt)

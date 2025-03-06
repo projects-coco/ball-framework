@@ -25,7 +25,7 @@ class MemoDocumentModel(
 
     override fun update(entity: Memo) {
         this.targetId = entity.targetId.toString()
-        this.writerId = entity.writer.id.toString()
+        this.writerId = entity.writerId.toString()
         this.content = entity.content
         this.createdAt = entity.createdAt
         this.updatedAt = entity.updatedAt

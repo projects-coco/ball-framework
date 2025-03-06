@@ -34,6 +34,9 @@ findProject(":infra:infra-auth-jpa")?.name = "infra-auth-jpa"
 include("infra:infra-auth-redis")
 findProject(":infra:infra-auth-redis")?.name = "infra-auth-redis"
 
+include("infra:infra-kafka")
+findProject(":infra:infra-kafka")?.name = "infra-kafka"
+
 // CORE
 include("core-utils")
 

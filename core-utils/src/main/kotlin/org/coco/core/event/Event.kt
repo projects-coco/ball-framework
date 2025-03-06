@@ -12,5 +12,8 @@ interface EventPublisher {
 }
 
 interface EventConsumer {
-    fun <T : Event> consume(type: KClass<T>, action: (T) -> Unit)
+    fun <T : Event> consume(
+        type: KClass<T>,
+        action: (T) -> Unit,
+    )
 }

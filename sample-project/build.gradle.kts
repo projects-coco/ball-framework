@@ -20,5 +20,6 @@ dependencies {
     implementation(project(":infra:infra-mongodb"))
     implementation(project(":infra:infra-redis"))
     implementation(project(":infra:infra-auth-redis"))
+    implementation(project(":infra:infra-kafka"))
     runtimeOnly(libs.mariadb.client)
 }

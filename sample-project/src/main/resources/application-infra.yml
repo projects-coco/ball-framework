@@ -14,8 +14,15 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     open-in-view: false
+  kafka:
+    producer:
+      bootstrap-servers: localhost:10001,localhost:10002,localhost:10003
+    consumer:
+      group-id: ball-consumer-1
+      bootstrap-servers: localhost:10001,localhost:10002,localhost:10003
+      auto-offset-reset: earliest
 app:
   auth:
     issuer: ${ACCESS_TOKEN_ISSUER:project-coco}
