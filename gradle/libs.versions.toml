@@ -45,7 +45,6 @@ spring-boot-batch = { group = "org.springframework.boot", name = "spring-boot-st
 spring-boot-webflux = { group = "org.springframework.boot", name = "spring-boot-starter-webflux", version.ref = "spring-boot" }
 spring-boot-aop = { group = "org.springframework.boot", name = "spring-boot-starter-aop", version.ref = "spring-boot" }
 spring-boot-mvc = { group = "org.springframework.boot", name = "spring-boot-starter-web", version.ref = "spring-boot" }
-spring-boot-kafka = { group = "org.springframework.kafka", name = "spring-kafka" }
 spring-boot-security = { group = "org.springframework.boot", name = "spring-boot-starter-security", version.ref = "spring-boot" }
 spring-boot-devtools = { group = "org.springframework.boot", name = "spring-boot-devtools", version.ref = "spring-boot" }
 spring-boot-data-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa", version.ref = "spring-boot" }
@@ -64,6 +63,7 @@ bouncycastle-crypto = { group = "org.bouncycastle", name = "bcpkix-jdk18on", ver
 # Spring Framework
 spring-aspects = { group = "org.springframework", name = "spring-aspects", version.ref = "spring" }
 spring-tx = { group = "org.springframework", name = "spring-tx", version.ref = "spring" }
+spring-kafka = { group = "org.springframework.kafka", name = "spring-kafka" }
 
 # Spring Etc
 spring-mockk = { group = "com.ninja-squad", name = "springmockk", version = "4.0.2" }

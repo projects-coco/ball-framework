@@ -9,5 +9,5 @@ plugins {
 dependencies {
     api(project(":domain"))
     implementation(libs.spring.boot.core)
-    implementation(libs.spring.boot.kafka)
+    implementation(libs.spring.kafka)
 }
