@@ -36,8 +36,8 @@ class KafkaConfig {
     @Bean
     fun kafkaTaskExecutor(): TaskExecutor =
         ThreadPoolTaskExecutor().apply {
-            corePoolSize = 1
-            maxPoolSize = 1
-            queueCapacity = 1
+            corePoolSize = 5
+            maxPoolSize = 10
+            queueCapacity = 30
         }
 }

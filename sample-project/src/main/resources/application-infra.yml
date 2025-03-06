@@ -20,7 +20,7 @@ spring:
     producer:
       bootstrap-servers: localhost:10001,localhost:10002,localhost:10003
     consumer:
-      group-id: ball-consumer
+      group-id: ball-consumer-1
       bootstrap-servers: localhost:10001,localhost:10002,localhost:10003
       auto-offset-reset: earliest
 app:
