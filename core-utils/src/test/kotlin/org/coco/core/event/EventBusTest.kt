@@ -12,6 +12,11 @@ class EventBusTest :
             val name: String,
         ) : Event()
 
+        data class AnotherEvent(
+            override val timestamp: Long,
+            val name: String,
+        ) : Event()
+
         test("EventBus#publish(Event)") {
             // given
             var triggered = false
@@ -20,39 +25,56 @@ class EventBusTest :
             val testEvent = TestEvent(timestamp, "coco")
 
             // when
-            EventBus.receive<TestEvent> {
+            LocalEventBus.consume(TestEvent::class) {
                 triggered = true
                 it shouldBe testEvent
                 it.timestamp shouldBe timestamp
                 it.name shouldBe "coco"
             }
-            EventBus.publish(testEvent)
+            LocalEventBus.publish(testEvent)
 
             // then
             delay(500)
             triggered shouldBe true
         }
 
-        test("이벤트 버스 후처리 로직이 예외를 던지더라도, 다른 이벤트는 계속 후처리 가능해야함").config(enabled = false) {
-            data class AnotherEvent(
-                override val timestamp: Long,
-                val name: String,
-            ) : Event()
+        test("EventBus#publish(Event) - 다른 종류의 이벤트는 필터링 되어야 함") {
+            // given
+            var triggered = false
+            val timestamp = currentTimestamp()
+
+            val testEvent = TestEvent(timestamp, "coco")
+
+            // when
+            LocalEventBus.consume(AnotherEvent::class) {
+                triggered = true
+                it shouldBe testEvent
+                it.timestamp shouldBe timestamp
+                it.name shouldBe "coco"
+            }
+            LocalEventBus.publish(testEvent)
+
+            // then
+            delay(500)
+            triggered shouldBe false
+        }
+
+        test("이벤트 버스 후처리 로직이 예외를 던지더라도, 다른 이벤트는 계속 후처리 가능해야함") {
 
             val timestamp = currentTimestamp()
 
-            EventBus.receive<TestEvent> {
+            LocalEventBus.consume(TestEvent::class) {
                 throw Exception()
             }
-            EventBus.publish(TestEvent(timestamp, "coco"))
+            LocalEventBus.publish(TestEvent(timestamp, "coco"))
             delay(500)
 
             var triggered = false
             // when
-            EventBus.receive<AnotherEvent> {
+            LocalEventBus.consume(AnotherEvent::class) {
                 triggered = true
             }
-            EventBus.publish(AnotherEvent(timestamp, "coco"))
+            LocalEventBus.publish(AnotherEvent(timestamp, "coco"))
 
             delay(1000)
 
