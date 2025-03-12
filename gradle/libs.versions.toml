@@ -4,8 +4,9 @@ kotlinx-json = "1.7.2"
 kotlinx-coroutines = "1.9.0"
 kotlinx-datetime = "0.6.1"
 kotest = "5.9.1"
-spring-boot = "3.4.0"
 spring = "6.2.0"
+spring-boot = "3.4.0"
+spring-kafka = "3.3.3"
 kotlinter = "4.1.1"
 arrow = "1.2.4"
 kotlin-jdsl = "3.5.3"
@@ -15,7 +16,7 @@ test-container = "1.20.4"
 mockk = "1.13.10"
 r2dbc = "1.0.1.RELEASE"
 jjwt = "0.12.6"
-apache-poi = "5.2.5"
+apache-poi = "5.4.0"
 jackson = "2.18.2"
 
 [libraries]
@@ -63,7 +64,8 @@ bouncycastle-crypto = { group = "org.bouncycastle", name = "bcpkix-jdk18on", ver
 # Spring Framework
 spring-aspects = { group = "org.springframework", name = "spring-aspects", version.ref = "spring" }
 spring-tx = { group = "org.springframework", name = "spring-tx", version.ref = "spring" }
-spring-kafka = { group = "org.springframework.kafka", name = "spring-kafka" }
+spring-web = { group = "org.springframework", name = "spring-web", version.ref = "spring" }
+spring-kafka = { group = "org.springframework.kafka", name = "spring-kafka", version.ref="spring-kafka" }
 
 # Spring Etc
 spring-mockk = { group = "com.ninja-squad", name = "springmockk", version = "4.0.2" }
