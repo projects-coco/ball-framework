@@ -21,10 +21,8 @@ abstract class EntityBase(
         if (this === other) return true
         if (this.javaClass != other?.javaClass) return false
         other as EntityBase
-        return id == other.id
+        return id.contentEquals(other.id)
     }
 
-    override fun hashCode(): Int {
-        return javaClass.hashCode()
-    }
+    override fun hashCode(): Int = javaClass.hashCode()
 }
