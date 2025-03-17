@@ -45,8 +45,8 @@ object JsonUtils {
                     .allowIfBaseType(Map::class.java)
                     .allowIfSubType(Any::class.java)
                     .build(),
-                ObjectMapper.DefaultTyping.NON_FINAL,
-                JsonTypeInfo.As.PROPERTY,
+                ObjectMapper.DefaultTyping.JAVA_LANG_OBJECT,
+                JsonTypeInfo.As.WRAPPER_ARRAY,
             )
         }
 
