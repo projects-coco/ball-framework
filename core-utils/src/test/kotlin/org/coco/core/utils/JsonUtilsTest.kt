@@ -118,4 +118,26 @@ class JsonUtilsTest :
             }
             deserialized.t shouldBe "t".toOption()
         }
+
+        test("JsonUtils#serialize() with BinaryId") {
+            data class Sample(
+                val id: BinaryId = BinaryId.new(),
+            )
+
+            val sample = Sample()
+
+            JsonUtils.serialize(sample) shouldBe """{"id":"${sample.id}"}"""
+        }
+
+        test("JsonUtils#deserialize() with BinaryId") {
+            val id = BinaryId.new()
+
+            data class Sample(
+                val id: BinaryId,
+            )
+
+            val sample = """{"id":"$id"}"""
+
+            JsonUtils.deserialize(sample, Sample::class).id.contentEquals(id) shouldBe true
+        }
     })

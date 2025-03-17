@@ -38,7 +38,7 @@ abstract class BasicUserDataModel<T : BasicUser>(
         protected set
 
     @Type(JsonType::class)
-    @Column(columnDefinition = "json")
+    @Column(columnDefinition = "longtext")
     var rolesAsString: Set<String> = rolesAsString
         protected set
 
