@@ -96,6 +96,7 @@ class KafkaEventConsumer(
         val kClass = consumers.keys.find { it.topic() == topic } ?: return
         val eventConsumers = consumers[kClass] ?: return
         val event = JsonUtils.deserialize(record.value(), kClass) as Event
+        logger().info("Received event: {}", event)
         eventConsumers.forEach { action ->
             try {
                 transactionTemplate.execute {
