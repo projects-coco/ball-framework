@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 group = "org.coco.ball-framework"
 
 plugins {
@@ -10,4 +12,10 @@ dependencies {
     api(project(":domain"))
     implementation(libs.spring.boot.core)
     implementation(libs.spring.kafka)
+}
+
+tasks {
+    named<BootJar>("bootJar") {
+        enabled = false
+    }
 }
