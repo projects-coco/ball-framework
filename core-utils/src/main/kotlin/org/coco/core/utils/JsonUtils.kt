@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.addDeserializer
+import com.fasterxml.jackson.module.kotlin.addSerializer
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.coco.core.type.BinaryId
@@ -27,6 +28,7 @@ object JsonUtils {
             registerArrowModule()
             registerModule(
                 SimpleModule().apply {
+                    addSerializer(BinaryId::class, BinaryIdSerializer())
                     addDeserializer(BinaryId::class, BinaryIdDeserializer())
                 },
             )
@@ -35,7 +37,7 @@ object JsonUtils {
             setSerializationInclusion(JsonInclude.Include.NON_NULL)
         }
 
-    val objectMapper: ObjectMapper =
+    private val objectMapper: ObjectMapper =
         simpleObjectMapper.copy().apply {
             activateDefaultTyping(
                 BasicPolymorphicTypeValidator
@@ -43,8 +45,8 @@ object JsonUtils {
                     .allowIfBaseType(Map::class.java)
                     .allowIfSubType(Any::class.java)
                     .build(),
-                ObjectMapper.DefaultTyping.NON_FINAL,
-                JsonTypeInfo.As.PROPERTY,
+                ObjectMapper.DefaultTyping.JAVA_LANG_OBJECT,
+                JsonTypeInfo.As.WRAPPER_ARRAY,
             )
         }
 

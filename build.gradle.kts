@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.github.project-coco"
-version = "1.0.50-RELEASE"
+version = "1.0.54-RELEASE"
 
 repositories {
     mavenCentral()
