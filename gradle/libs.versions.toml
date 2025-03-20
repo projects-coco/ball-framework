@@ -35,6 +35,7 @@ jwt = { group = "com.auth0", name = "java-jwt", version = "4.5.0" }
 slf4j = { group = "org.slf4j", name = "slf4j-api", version = "2.0.3" }
 logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.4.14" }
 logback-core = { group = "ch.qos.logback", name = "logback-core", version = "1.4.14" }
+javers = { group = "org.javers", name = "javers-core", version = "7.8.0" }
 
 # Spring Boot
 spring-boot-core = { group = "org.springframework.boot", name = "spring-boot-starter", version.ref = "spring-boot" }
@@ -65,7 +66,7 @@ bouncycastle-crypto = { group = "org.bouncycastle", name = "bcpkix-jdk18on", ver
 spring-aspects = { group = "org.springframework", name = "spring-aspects", version.ref = "spring" }
 spring-tx = { group = "org.springframework", name = "spring-tx", version.ref = "spring" }
 spring-web = { group = "org.springframework", name = "spring-web", version.ref = "spring" }
-spring-kafka = { group = "org.springframework.kafka", name = "spring-kafka", version.ref="spring-kafka" }
+spring-kafka = { group = "org.springframework.kafka", name = "spring-kafka", version.ref = "spring-kafka" }
 
 # Spring Etc
 spring-mockk = { group = "com.ninja-squad", name = "springmockk", version = "4.0.2" }

@@ -6,6 +6,7 @@ dependencies {
     api(libs.kotlinx.coroutines.reactor)
     api(libs.arrow.core)
     api(libs.slf4j)
+    api(libs.javers)
     implementation(libs.jackson.databind)
     implementation(libs.jackson.datatype.jdk8)
     implementation(libs.jackson.datatype.jsr310)
