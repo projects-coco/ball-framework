@@ -61,24 +61,38 @@ class KafkaEventConsumer(
     }
 
     fun startPolling() {
-        try {
-            while (running) {
+        while (running) {
+            try {
                 updateSubscriptionIfNeeded()
                 if (kafkaConsumer.subscription().isEmpty()) continue
+
                 val records = kafkaConsumer.poll(Duration.ofMillis(1000))
                 for (record in records) {
-                    processRecord(record)
+                    try {
+                        processRecord(record)
+                    } catch (e: Exception) {
+                        logger().error("Error processing record: $record", e)
+                    }
+                }
+            } catch (we: WakeupException) {
+                if (running) {
+                    throw we
+                }
+            } catch (ie: InterruptedException) {
+                Thread.currentThread().interrupt()
+                logger().warn("Polling thread was interrupted.", ie)
+                break
+            } catch (e: Exception) {
+                logger().error("Error in polling loop", e)
+                try {
+                    Thread.sleep(1000)
+                } catch (ie: InterruptedException) {
+                    Thread.currentThread().interrupt()
+                    break
                 }
             }
-        } catch (e: WakeupException) {
-            if (running) {
-                throw e
-            }
-        } catch (e: Exception) {
-            logger().error("Error in KafkaConsumer", e)
-        } finally {
-            kafkaConsumer.close()
         }
+        kafkaConsumer.close()
     }
 
     private fun updateSubscriptionIfNeeded() {
