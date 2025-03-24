@@ -4,7 +4,9 @@ import org.coco.core.utils.currentTimestamp
 import kotlin.reflect.KClass
 
 abstract class Event(
+    open val key: String = "",
     open val timestamp: Long = currentTimestamp(),
+    open val source: String = "",
 )
 
 interface EventPublisher {
