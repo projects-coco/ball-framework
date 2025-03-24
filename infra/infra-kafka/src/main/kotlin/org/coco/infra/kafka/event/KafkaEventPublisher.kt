@@ -13,6 +13,11 @@ class KafkaEventPublisher(
     private val kafkaTemplate: KafkaTemplate<String, String>,
 ) : EventPublisher {
     override fun publish(event: Event) {
-        kafkaTemplate.send(event.topic(), JsonUtils.serialize(event))
+        if (event.key != "") {
+            kafkaTemplate.send(event.topic(), event.key, JsonUtils.serialize(event))
+            return
+        } else {
+            kafkaTemplate.send(event.topic(), JsonUtils.serialize(event))
+        }
     }
 }

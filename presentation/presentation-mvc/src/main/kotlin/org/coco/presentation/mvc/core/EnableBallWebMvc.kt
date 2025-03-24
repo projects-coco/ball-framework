@@ -4,10 +4,7 @@ import org.coco.application.EnableBallApplication
 import org.coco.presentation.mvc.config.JwtConfig
 import org.coco.presentation.mvc.config.SecurityConfig
 import org.coco.presentation.mvc.handler.AuthController
-import org.coco.presentation.mvc.middleware.BallRequestFilter
-import org.coco.presentation.mvc.middleware.ErrorHandler
-import org.coco.presentation.mvc.middleware.JwtAuthenticationFilter
-import org.coco.presentation.mvc.middleware.RequestLogger
+import org.coco.presentation.mvc.middleware.*
 import org.springframework.context.annotation.Import
 
 @EnableBallApplication
@@ -20,6 +17,7 @@ import org.springframework.context.annotation.Import
     ErrorHandler::class,
     JwtAuthenticationFilter::class,
     RequestLogger::class,
+    SpringBinaryIdSerializerConfig::class,
     // handler
     AuthController::class,
 )
